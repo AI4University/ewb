@@ -1,0 +1,87 @@
+<div class="row m-0 pt-3">
+	<div class="col-2 col-xl-4"></div>
+	<div class="col-8 col-xl-4">
+		<div>{{ 'APP.EWB-COMPONENT.SIMILARITIES-COMPONENT.OPTION-LABEL' | translate }}</div>
+		<mat-form-field class="w-100">
+			<mat-select (selectionChange)="onSelectionChange($event)">
+				<mat-option value="1">
+					{{ 'APP.EWB-COMPONENT.SIMILARITIES-COMPONENT.SIMILAR-DOC' | translate }}
+				</mat-option>
+				<mat-option value="2">
+					{{ 'APP.EWB-COMPONENT.SIMILARITIES-COMPONENT.SIMILAR-TEXT' | translate }}
+				</mat-option>
+				<mat-option value="3">
+					{{ 'APP.EWB-COMPONENT.SIMILARITIES-COMPONENT.SIMILAR-BETWEEN' | translate }}
+				</mat-option>
+			</mat-select>
+		</mat-form-field>
+	</div>
+	<div class="col-2 col-xl-4"></div>
+</div>
+
+<div *ngIf="selectedMode">
+	<ng-container [ngSwitch]="selectedMode">
+		<ng-container *ngSwitchCase="1">
+			<div class="row m-0 pb-3">
+				<div class="col-2 col-xl-4"></div>
+				<div class="col-8 col-xl-4">
+					<app-document-search [corpus]="corpus" (selectedDoc)="onDocSelected($event)"></app-document-search>
+				</div>
+				<div class="col-2 col-xl-4"></div>
+			</div>
+			<div *ngIf="selectedDoc" class="row m-0">
+				<span class="document-label">Documents related to: </span><a class="interactive"
+					(click)="onActiveRow([selectedDoc])">{{ selectedDoc.title }}</a>
+			</div>
+		</ng-container>
+		<ng-container *ngSwitchCase="2">
+			<div class="row m-0 pb-3 pl-3">
+				<div class="col-3 col-xl-3 text-search-title">Document Text to search similars to</div>
+				<textarea class="col-6 col-xl-7 text-area-style" #simArea></textarea>
+				<div class="col-3 col-xl-2 d-flex align-items-center">
+					<button class="text-search-button" mat-raised-button color="accent"
+						(click)="onTextInputed(simArea.value)">Find Similar Documents</button>
+				</div>
+			</div>
+		</ng-container>
+		<ng-container *ngSwitchCase="3">
+			<div class="row m-0 pb-3 pl-3" [formGroup]="queryForm">
+					<div class="col-1 col-xl-1 number-title">Low Percent</div>
+					<input type="number" min="0" max="100" (change)="sanitizeValue($event)" class="col-1 col-xl-1 number-input-style" formControlName="lowerLimit">
+					<div class="col-1 col-xl-1 number-title">High Percent</div>
+					<input type="number" min="0" max="100" (change)="sanitizeValue($event)" class="col-1 col-xl-1 number-input-style" formControlName="upperLimit">
+					<div class="col-1 col-xl-1 number-title">Result Limit</div>
+					<input type="number" min="1" (change)="sanitizeValue($event)" class="col-1 col-xl-1 number-input-style" formControlName="records">
+					<div class="col-1 col-xl-1 number-title">Centered on year</div>
+					<input type="number" class="col-1 col-xl-1 number-input-style" formControlName="year">
+					<div class="col-3 col-xl-2 d-flex align-items-center">
+						<button class="text-search-button" mat-raised-button color="accent" type="submit"
+							(click)="onSimilarities()">Find Similarities</button>
+					</div>
+				</div>
+			<div *ngIf="hasPairs()" class="row m-0 pb-3 pl-3">
+				<div class="col-1 col-xl-1 number-title">Found Similarities</div>
+				<mat-select class="col-3 col-xl-3 number-input-style" (selectionChange)="onPairSelected($event)">
+					<mat-option [value]="null" selected></mat-option>
+					<mat-option *ngFor="let pair of pairs" [value]="pair">{{ pair.id1 + '-' + pair.id2 + '(' + pair.score + '%)'}}</mat-option>
+				</mat-select>
+			</div>
+			<div *ngIf="pairSelected()" class="row m-0 pb-3 pl-3">
+				<app-document-view [selectedDoc]="pairDocs[0]"
+			class="mb-3 col-6 col-xl-6"></app-document-view>
+			<app-document-view [selectedDoc]="pairDocs[1]"
+			class="mb-3 col-6 col-xl-6"></app-document-view>
+			</div>
+		</ng-container>
+	</ng-container>
+	<div *ngIf="dataFound()" class="row m-0">
+		<app-listing class="mb-3 col-12 col-xl-6" [rows]="relevantDocs" [columns]="columns" [count]="maxValues"
+			selectionType="single" (rowSelected)="onActiveRow($event)" (pageLoad)="onPageLoad($event)"></app-listing>
+		<app-document-view *ngIf="selectedRelativeDoc" [selectedDoc]="selectedRelativeDoc"
+			class="mb-3 col-12 col-xl-6"></app-document-view>
+	</div>
+</div>
+
+<ng-template #textWrapTemplate ngx-datatable-cell-template let-row="row" let-value="value" let-column="column">
+	<div class="title-style">{{value}}</div>
+</ng-template>

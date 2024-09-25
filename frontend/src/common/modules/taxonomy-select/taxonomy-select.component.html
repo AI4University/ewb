@@ -1,0 +1,16 @@
+<div class="row pt-3 pb-3 pl-3 taxonomy-selection-row">
+  <div class="col-1 col-xl-4"></div>
+  <div class="col-10 col-xl-4" *ngIf="taxonomyList.length > 0">
+      <div class="row pb-0">
+          <span class="title-span col-3">{{ 'APP.CLASSIFICATION-COMPONENT.TAXONOMY' | translate }}</span>
+          <mat-form-field class="mat-form-field-no-padding col-9">
+              <mat-select (selectionChange)="valueChanged($event)" [(value)]="selectedTaxonomy">
+                  <mat-option *ngFor="let taxonomy of taxonomyList" [value]="taxonomy">
+                      {{taxonomy}}
+                  </mat-option>
+              </mat-select>
+          </mat-form-field>
+      </div>
+  </div>
+  <div class="col-1 col-xl-4"></div>
+</div>

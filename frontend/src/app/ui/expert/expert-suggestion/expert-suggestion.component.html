@@ -1,0 +1,18 @@
+<div class="row m-0 pb-3 pl-3">
+	<div class="col-3 col-xl-3 text-search-title">Document Text to search similars to</div>
+	<textarea class="col-6 col-xl-7 text-area-style" #simArea></textarea>
+	<div class="col-3 col-xl-2 d-flex align-items-center">
+		<button class="text-search-button" mat-raised-button color="accent"
+			(click)="onTextInputed(simArea.value)">Find Similar Documents</button>
+	</div>
+</div>
+
+<div *ngIf="dataFound()" class="row m-0">
+	<app-listing class="mb-3 col-12 col-xl-6" [rows]="relevantDocs" [columns]="columns" [count]="maxValues" selectionType="single" (rowSelected)="onActiveRow($event)" hideFooter></app-listing>
+	<app-expert-view *ngIf="selectedRelativeDoc" [selectedDoc]="selectedRelativeDoc"
+		class="mb-3 col-12 col-xl-6"></app-expert-view>
+</div>
+
+<ng-template #textWrapTemplate ngx-datatable-cell-template let-row="row" let-value="value" let-column="column">
+	<div class="title-style">{{value}}</div>
+</ng-template>

@@ -1,0 +1,20 @@
+debug: true
+spring:
+  config:
+    import: optional:classpath:config/app.env[.properties], optional:file:../config/app.env[.properties],
+      optional:classpath:config/db-test.yml[.yml], optional:file:../config/db-test.yml[.yml],
+      optional:classpath:config/permissions-test.yml[.yml], optional:file:../config/permissions-test.yml[.yml],
+      optional:classpath:config/errors-test.yml[.yml], optional:file:../config/errors-test.yml[.yml],
+      optional:classpath:config/security-test.yml[.yml], optional:file:../config/security-test.yml[.yml],
+      optional:classpath:config/server-test.yml[.yml], optional:file:../config/server-test.yml[.yml],
+      optional:classpath:config/logging-test.yml[.yml], optional:file:../config/logging-test.yml[.yml],
+      optional:classpath:config/idpclaims-test.yml[.yml], optional:file:../config/idpclaims-test.yml[.yml],
+      optional:classpath:config/cache-test.yml[.yml], optional:file:../config/cache-test.yml[.yml],
+      optional:classpath:config/locale-test.yml[.yml], optional:file:../config/locale-test.yml[.yml],
+      optional:classpath:config/cors-test.yml[.yml], optional:file:../config/cors-test.yml[.yml],
+      optional:classpath:config/kubernetes-test.yml[.yml], optional:file:../config/kubernetes-test.yml[.yml],
+      optional:classpath:config/services-test.yml[.yml], optional:file:../config/services-test.yml[.yml],
+      optional:classpath:config/docker-test.yml[.yml], optional:file:../config/docker-test.yml[.yml],
+      optional:classpath:config/event-scheduler-test.yml[.yml], optional:file:../config/event-scheduler-test.yml[.yml],
+      optional:classpath:config/validation-test.yml[.yml], optional:file:../config/validation-test.yml[.yml],
+      optional:classpath:config/ewb-test.yml[.yml], optional:file:../config/ewb-test.yml[.yml]

@@ -1,0 +1,10 @@
+<app-expert-collection (valuesSelected)="registerValues($event)"></app-expert-collection>
+
+<div>
+<mat-tab-group *ngIf="selectedCollection">
+
+	<mat-tab label="{{ 'APP.EXPERT-COMPONENT.PROFILE' | translate }}"><app-expert-overview [corpus]="selectedCollection" [model]="selectedModel"></app-expert-overview></mat-tab>
+	<mat-tab label="{{ 'APP.EXPERT-COMPONENT.SUGGESTION' | translate }}"><app-expert-suggestion [corpus]="selectedCollection" [model]="selectedModel"></app-expert-suggestion></mat-tab>
+</mat-tab-group>
+
+</div>

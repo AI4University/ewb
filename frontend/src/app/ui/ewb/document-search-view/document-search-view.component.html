@@ -1,0 +1,12 @@
+<div class="row mt-3 mb-3 ml-0 mr-0">
+	<div class="col-2 col-xl-3"></div>
+	<app-document-search class="col-8 col-xl-6" [corpus]="corpus" (selectedDoc)="onSelectedDoc($event)"></app-document-search>
+	<div class="col-2 col-xl-3"></div>
+</div>
+<div class="row m-0">
+	<app-document-view *ngIf="selectedDoc" [selectedDoc]="selectedDoc" class="mb-3 col-12 col-xl-8"></app-document-view>
+	<div class="mb-3 col-12 col-xl-4">
+		<div *ngIf="chartOptions" [options]="chartOptions" echarts @fadeIn>
+		</div>
+	</div>
+</div>

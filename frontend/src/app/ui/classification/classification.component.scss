@@ -1,0 +1,25 @@
+.text-area-style {
+	height: 120px;
+	border: solid rgb(214, 214, 214);
+	border-radius: 0px 5px 5px 0px;
+}
+
+.text-search-title {
+	background-color: rgb(243, 243, 243);
+	white-space: break-spaces;
+	border: solid rgb(214, 214, 214);
+	border-right: none;
+	border-radius: 5px 0px 0px 5px;
+	align-content: center;
+	display: grid;
+}
+
+::ng-deep .decorated-style {
+	border-bottom: solid rgb(214, 214, 214);
+}
+
+.text-search-button {
+	white-space: break-spaces;
+	flex-grow: 1;
+	background-color: #38260edc !important;
+}

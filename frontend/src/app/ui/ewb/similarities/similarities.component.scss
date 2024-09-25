@@ -1,0 +1,53 @@
+.title-style {
+	white-space: break-spaces;
+	cursor: pointer;
+}
+
+.document-label {
+    margin-left: 1%;
+    font-weight: bold;
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-bottom: 5px;
+}
+
+.interactive {
+	cursor: pointer;
+}
+
+.text-area-style {
+	height: 120px;
+	border: solid rgb(214, 214, 214);
+	border-radius: 0px 5px 5px 0px;
+}
+
+.number-input-style {
+	margin-right: 5px;
+	border: solid rgb(214, 214, 214);
+	border-radius: 0px 5px 5px 0px;
+}
+
+.text-search-title {
+	background-color: rgb(243, 243, 243);
+	white-space: break-spaces;
+	border: solid rgb(214, 214, 214);
+	border-right: none;
+	border-radius: 5px 0px 0px 5px;
+	align-content: center;
+	display: grid;
+}
+
+.number-title {
+	background-color: rgb(243, 243, 243);
+	border: solid rgb(214, 214, 214);
+	border-right: none;
+	border-radius: 5px 0px 0px 5px;
+	align-content: center;
+	display: grid;
+	font-size: smaller;
+}
+
+.text-search-button {
+	flex-grow: 1;
+	background-color: #38260edc !important;
+}

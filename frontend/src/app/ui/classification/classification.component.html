@@ -1,0 +1,24 @@
+<app-taxonomy-select (valueSelected)="registerValues($event)"></app-taxonomy-select>
+<div *ngIf="selectedTaxonomy" class="row m-0 pt-3 pb-3 pl-3">
+	<div class="col-3 col-xl-3 text-search-title">Text to Classify</div>
+	<textarea class="col-6 col-xl-7 text-area-style" (input)="onTextChange($event)"></textarea>
+	<div class="col-3 col-xl-2 d-flex align-items-center">
+		<button class="text-search-button" mat-raised-button color="accent"
+			(click)="onClassify()" [disabled]="!text || runningClassification">Classify</button>
+	</div>
+</div>
+<div *ngIf="dataCount">
+	<div class="row">
+		<div class="col-2 col-xl-3"></div>
+		<div class="col-8 col-xl-6">
+			<div class="row">
+				Results:
+			</div>
+			<div class="row">
+				<app-listing class="w-100" [columns]="columns" [rows]="data" [count]="dataCount" rowClass="decorated-style"
+					hideFooter></app-listing>
+			</div>
+		</div>
+		<div class="col-2 col-xl-3"></div>
+	</div>
+</div>

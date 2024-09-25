@@ -1,0 +1,82 @@
+<div class="container-div">
+
+	<div class="row">
+	<h4 class="col-auto fixed-top-navbar">
+		<span>{{ topicName }}</span>
+	</h4>
+	<div class="col-auto">
+		<button mat-button matTooltip="Add Topic to Relevants" *ngIf="!isRelevant" (click)="addRelevant()">
+			<mat-icon>add</mat-icon>
+		</button>
+		<button mat-button matTooltip="Remove Topic from Relevants" *ngIf="isRelevant" (click)="removeRelevant()">
+			<mat-icon>remove</mat-icon>
+		</button>
+	</div>
+	</div>
+
+	<div class="row" *ngIf="topicMetadata">
+		<div class="col-12 col-xl-5">
+			<div class="row">
+				<div class="element-div p-2">{{'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.TOP-WORDS' | translate}}</div>
+			</div>
+			<div *ngIf="words.length > 0" class="row">
+				<div class="element-div w-100">
+					<app-listing [rows]="words" [columns]="topWordColumns" [count]="words.length" [selected]="selectedWords" [selectionType]="selectionType.checkbox" (rowSelected)="selectWord($event)" hideFooter></app-listing>
+				</div>
+			</div>
+		</div>
+		<div class="col-12 col-xl-7">
+			<div class="row">
+				<div class="element-div p-2">{{'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.TOPIC-STATISTICS' | translate}}</div>
+			</div>
+			<div class="row">
+				<div class="element-div w-100">
+					<table class="table">
+						<tr>
+							<th>{{'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.LISTING.ID' | translate}}</th>
+							<th>{{'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.LISTING.SIZE' | translate}}</th>
+							<th>{{'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.LISTING.NUM-ACTIVE-DOCS' | translate}}</th>
+							<th>{{'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.LISTING.RELEVANCE' | translate}}</th>
+							<th>{{'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.LISTING.COHERENCE' | translate}}</th>
+							<th>{{'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.LISTING.LABEL' | translate}}</th>
+						</tr>
+						<tr>
+							<td>{{ topicMetadata.id }}</td>
+							<td>{{ topicMetadata.alphas.toFixed(4) }}</td>
+							<td>{{ topicMetadata.ndocs_active }}</td>
+							<td>{{ topicMetadata.topic_entropy.toFixed(4) }}</td>
+							<td>{{ topicMetadata.topic_coherence.toFixed(4) }}</td>
+							<td>{{ topicMetadata.tpc_labels }}</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="row">
+				<div class="element-div p-2">{{'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.TOP-DOCUMENTS' | translate}}</div>
+			</div>
+			<div *ngIf="topDocuments.length > 0" class="row">
+				<div class="element-div w-100">
+					<app-listing [rows]="topDocuments" [columns]="topDocColumns" [count]="topDocuments.length" [selectionType]="selectionType.single" (columnSort)="sortRows($event)" (rowSelected)="showDocument($event)" hideFooter></app-listing>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<ng-template #textWrapTemplate ngx-datatable-cell-template let-row="row" let-value="value" let-column="column">
+	<div class="title-style">{{value}}</div>
+</ng-template>
+
+<ng-template #percentageBar ngx-datatable-cell-template let-row="row" let-value="value" let-column="column">
+	<div class="progress">
+		<!-- <div class="progress-bar empty-bar" role="progressbar" [attr.aria-valuenow]="emptyValue(value)"
+			[style]="'width: ' + emptyValue(value) + '%'" aria-valuemin="0" aria-valuemax="100"></div> -->
+		<div class="progress-bar percent-bar" role="progressbar" [attr.aria-valuenow]="value"
+			[style]="'width: ' + value + '%'" aria-valuemin="0" aria-valuemax="100">
+			<!-- {{(value < 100 && value > 0) ? value : ''}} -->
+			<span *ngIf="value > 25">{{value | number: '1.0-2' }}%</span>
+		</div>
+		<span class="progress-value" *ngIf="value <= 25">{{value | number: '1.0-2' }}%</span>
+	</div>
+</ng-template>

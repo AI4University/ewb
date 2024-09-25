@@ -1,0 +1,39 @@
+.circle-div {
+	border-radius: 90px;
+	width: 94px;
+	height: 94px;
+	border-style: none;
+	text-align: center;
+	font-size: 12px;
+	cursor: pointer;
+	display: table-cell;
+}
+
+.wrapper {
+	display: grid;
+	overflow-wrap: break-word;
+	overflow: clip;
+}
+
+.radio-style {
+	background: aliceblue;
+	padding: .3rem;
+}
+
+.chart {
+	min-height: 60vh !important;
+	overflow: visible;
+	margin: .5rem;
+}
+
+.topic-style .mat-dialog-container .mat-dialog-content {
+	overflow-x: hidden;
+}
+
+.view-selection-row {
+	border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+mat-button-toggle-group {
+	border-top: 0 !important;
+}

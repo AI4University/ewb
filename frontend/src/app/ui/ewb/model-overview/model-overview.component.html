@@ -1,0 +1,39 @@
+<div *ngIf="topics.length > 0" class="wrapper">
+	<mat-radio-group class="radio-style view-selection-row" (change)="onRadioChange($event)" [value]="selectedView">
+		<mat-radio-button class="radio-style" value="1">{{ 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.DEFAULT' | translate }}</mat-radio-button>
+		<!-- <mat-radio-button class="radio-style" value="3">{{ 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.HIERARCHICAL' | translate }}</mat-radio-button> -->
+		<mat-radio-button class="radio-style" value="2">{{ 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TEMPORAL' | translate }}</mat-radio-button>
+	</mat-radio-group>
+	<!-- <mat-button-toggle-group *ngIf="selectedView === '1'" class="row" [value]="useRelation" (change)="onOverViewChange($event)">
+		<mat-button-toggle mat-button class="col-2" value="1">{{ 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.SCALE' | translate }}</mat-button-toggle>
+		<mat-button-toggle mat-button class="col-2" value="0">{{ 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.GRID' | translate }}</mat-button-toggle>
+	</mat-button-toggle-group> -->
+	<div class="chart">
+		<div
+		*ngIf="chartOptions else loading"
+		[options]="chartOptions"
+		echarts
+		@fadeIn
+		class="col-12 chart"
+		(chartClick)="openDialog($event)"
+
+		>
+	</div>
+	<ng-template #loading>
+		<div class="loading-container col-12" [@fadeOut]>
+			<ng-container *ngIf="topics.length > 0 else noDataFoundTemplate">
+				<mat-spinner *ngIf="!errorLoading else errorLoadingTemplate" ></mat-spinner>
+				<ng-template #errorLoadingTemplate>
+					{{'COMMONS.ERRORS.DEFAULT' | translate}}
+				</ng-template>
+			</ng-container>
+			<ng-template #noDataFoundTemplate>
+				{{
+					'COMMONS.LISTING-COMPONENT.MESSAGE.EMPTY' | translate
+				}}
+			</ng-template>
+		</div>
+
+	</ng-template>
+	</div>
+</div>

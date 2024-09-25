@@ -1,0 +1,28 @@
+<div class="row pt-3 pb-3 pl-3 model-selection-row">
+    <div class="col-1 col-xl-3"></div>
+    <div class="col-5 col-xl-3" *ngIf="expertCollectionList.length > 0">
+        <div class="row pb-0">
+            <span class="title-span col-3">{{ 'APP.EXPERT-COMPONENT.COLLECTION' | translate }}</span>
+            <mat-form-field class="mat-form-field-no-padding col-9">
+                <mat-select (selectionChange)="onCollectionSelected($event)" [(value)]="selectedCollection">
+                    <mat-option *ngFor="let corpus of expertCollectionList" [value]="corpus">
+                        {{corpus}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+    <!-- <div class="col-5 col-xl-3" *ngIf="modelList.length > 0">
+        <div class="row pb-0">
+            <span class="title-span col-3">{{ 'APP.EWB-COMPONENT.MODEL' | translate }}</span>
+            <mat-form-field class="mat-form-field-no-padding col-9">
+                <mat-select (selectionChange)="onModelSelection($event)" [(value)]="selectedModel">
+                    <mat-option *ngFor="let model of modelList" [value]="model">
+                        {{model}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div> -->
+    <div class="col-1 col-xl-3"></div>
+</div>

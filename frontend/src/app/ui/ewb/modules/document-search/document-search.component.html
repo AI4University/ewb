@@ -1,0 +1,15 @@
+<div class="pb-0">
+	<mat-form-field class="w-100">
+		<button mat-button matSuffix mat-icon-button disabled="true" class="search-icon">
+			<mat-icon>search</mat-icon>
+		</button>
+		<input class="col-4" type="text" matInput [matAutocomplete]="auto" (input)="onChange($event)"
+			(click)="onChange($event)" [(value)]="searchInput">
+		<mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSelected($event)"
+			(optionActivated)="onActivated($event)" cdkScrollable (optionsScroll)="onScroll()">
+			<mat-option *ngFor="let doc of docs; index as i" [value]="doc.id" [id]="i">
+				{{doc.title}}
+			</mat-option>
+		</mat-autocomplete>
+	</mat-form-field>
+</div>

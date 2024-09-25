@@ -1,0 +1,8 @@
+ewb:
+  client:
+      tm:
+        host-url: ${EWB_TM_HOST}
+        max-memory: 524288000
+      classification:
+        host-url: ${EWB_CLASSIFICATION_HOST}
+        max-memory: 524288000

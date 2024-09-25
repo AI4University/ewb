@@ -1,0 +1,19 @@
+.text-search-button {
+	flex-grow: 1;
+	background-color: #38260edc !important;
+}
+
+.text-search-title {
+	background-color: rgb(243, 243, 243);
+	white-space: break-spaces;
+	border: solid rgb(214, 214, 214);
+	border-right: none;
+	border-radius: 5px 0px 0px 5px;
+	align-content: center;
+	display: grid;
+}
+
+.title-style {
+	white-space: break-spaces;
+	cursor: pointer;
+}
