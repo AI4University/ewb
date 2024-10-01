@@ -1,11 +1,14 @@
 ## Deployment
-- This deployment resolves on host.docker.internal (ports 45000 and 52000), so if you cannot resolve that in your browser after deploying it, try assigning host.docker.internal to 127.0.0.1 in your hosts file.
+!!! - This deployment resolves on host.docker.internal (ports 45000 and 52000), so if you cannot resolve that in your browser after deploying it, try assigning host.docker.internal to 127.0.0.1 in your hosts file.
 
 ### Using Docker Compose
 
-First you want to deploy the database, so navigate to `deployment/postgres`.
+First you need to pull the current folder locally..
 
-1. **Edit the `.env` file:**
+### Deploy the database
+1. **Navigate to `postgres` directory**
+
+2. **Edit the `.env` file:**
 ```txt
    POSTGRES_TAG=16-alpine              # The version of PostgreSQL
    DBPORT=45432                        # External port in which the postgres server will be deployed
@@ -17,7 +20,7 @@ First you want to deploy the database, so navigate to `deployment/postgres`.
    DOCKER_USER=                        # The UID for the user that will deploy the container (cat /etc/passwd)
    DOCKER_GROUP=                       # The GID for the user that will deploy the container (cat /etc/passwd)
 ```
-2. **Deploy PostgreSQL:**
+3. **Deploy PostgreSQL:**
 - Create the two necessary docker external networks by running
 ```bash
    docker network create ewb-postgres-shared-network
@@ -29,13 +32,14 @@ First you want to deploy the database, so navigate to `deployment/postgres`.
    docker-compose up -d
 ```
 
-3. **Initialize databases:**
+4. **Initialize databases:**
    - Login as admin in the database
    - Run the `/db/00.00.01.seed.sql` script on the ewb database to initialize it
 
-Next, you need to deploy keycloak, so navigate to `deployment/keycloak`.
+### Deploy Keycloak
 
-4. **Edit the `.env` file:**
+1. **Navigate to `keycloak` directory**
+2. **Edit the `.env` file:**
 ```txt
    MAINPATH=.                          # The base location for the Keycloak mounts
    KEYCLOAK_TAG=25.0.6                 # The version of Keycloak
@@ -44,7 +48,7 @@ Next, you need to deploy keycloak, so navigate to `deployment/keycloak`.
    DOCKER_GROUP=                       # The GID for the user that will deploy the container (cat /etc/passwd)
 ```
 
-5. **Edit the `keycloak.env` file:**
+3. **Edit the `keycloak.env` file:**
 ```txt
    ######################### DB Configuration ############################
 
@@ -69,19 +73,21 @@ Next, you need to deploy keycloak, so navigate to `deployment/keycloak`.
    KC_HOSTNAME_BACKCHANNEL_DYNAMIC=false                 # Enables dynamic resolving of backchannel URLs, including hostname, scheme, port and context path.
    KC_HTTP_ENABLED=true                                  # Enable HTTP (since we are deploying the dev version of keycloak... for production this must be set to false)
 ```
-6. **Deploy Keycloak:**
+4. **Deploy Keycloak:**
 - Run the following command to start all services defined in the Docker Compose file:
 ```bash
    docker-compose up -d
 ```
 
-7. **Initialize Keycloak**
+5. **Initialize Keycloak**
 - Follow the Instructions of [Setting up Keycloak](/README.md#setting-up-keycloak) in order to be able to run EWB.
 - After that you can modify your keycloak however you like to access the UI. (At least a User that can login to the service and has access to all the components).
 
-Finally, you need to deploy EWB, so navigate to `deployment/ewb`.
+### Deploy EWB
 
-8.  **Edit the `.env` file:**
+1. **Navigate to `ewb` directory**
+
+2.  **Edit the `.env` file:**
 ```txt
    DOCKER_REGISTRY=citesa/            # The Docker registry that is used to pull the EWB images
    MAINPATH=.                          # The base location for the EWB mounts
@@ -90,7 +96,7 @@ Finally, you need to deploy EWB, so navigate to `deployment/ewb`.
    PROFILE=test                       # The environment used for this deployment 
 ```
 
-9. **Start the services:**
+3. **Start the services:**
 - Run the following command to start all services defined in the Docker Compose file:
 ```bash
    docker-compose up -d
@@ -98,7 +104,7 @@ Finally, you need to deploy EWB, so navigate to `deployment/ewb`.
 
    This command will start both the backend and frontend services as defined in the Docker Compose configurations. Ensure that Docker is running on your machine before executing this command.
 
-10. **Access URLs:**
+4. **Access URLs:**
 - EWB: http://host.docker.internal:45000/
 - Keycloak: http://host.docker.internal:52000/
 
