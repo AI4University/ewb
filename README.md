@@ -12,7 +12,7 @@ Welcome to the Evaluation Workbench repository! This project consists of a compr
 
 ## Deployment
 
-Deployment instructions and Docker Compose files are provided to simplify the deployment process. All necessary files and instructions can be found in the [deployment](deployment/deployment.md) folder of this repository.
+Deployment instructions and Docker Compose files are provided to simplify the deployment process. All necessary files and instructions can be found in the [deployment](deployment/README.md) folder of this repository.
 
 ## Development
 
