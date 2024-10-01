@@ -1,5 +1,5 @@
 ## Deployment
-!!! - This deployment resolves on host.docker.internal (ports 45000 and 52000), so if you cannot resolve that in your browser after deploying it, try assigning host.docker.internal to 127.0.0.1 in your hosts file.
+- This deployment resolves on host.docker.internal (ports 45000 and 52000), so if you cannot resolve that in your browser after deploying it, try assigning host.docker.internal to 127.0.0.1 in your hosts file.
 
 ### Using Docker Compose
 
