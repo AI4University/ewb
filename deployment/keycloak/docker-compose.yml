@@ -1,0 +1,63 @@
+services:
+  ewb-keycloak:
+    container_name: ewb-keycloak
+    image: quay.io/keycloak/keycloak:${KEYCLOAK_TAG}
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 1024M
+          cpus: '1'
+        reservations:
+          memory: 512M
+          cpus: '0.5'
+    memswap_limit: 2048M
+    command: ['start-dev', '--log=console,file']
+    security_opt:
+       - seccomp:unconfined
+    env_file:
+      - keycloak.env
+      - .env
+    environment:
+      - JAVA_OPTS_APPEND="-Djava.net.preferIPv4Stack=true"
+    volumes:
+      - ${MAINPATH}/logs/keycloak:/tmp/logs
+#      - ${MAINPATH}/certs/keycloak-selfsigned.crt:/tmp/keycloak-selfsigned.crt
+#      - ${MAINPATH}/certs/keycloak-selfsigned.key:/tmp/keycloak-selfsigned.key
+    networks:
+      ewb-keycloak-proxy-network:
+      ewb-postgres-shared-network:
+      ewb-keycloak-shared-network:
+        aliases:
+          - keycloak
+
+  ewb-keycloak-proxy:
+    container_name: ewb-keycloak-proxy
+    image: nginxinc/nginx-unprivileged:mainline-alpine
+    restart: unless-stopped
+    user: ${DOCKER_USER}:${DOCKER_GROUP}
+    env_file:
+      - .env
+    ports:
+      - "0.0.0.0:52000:52000"
+    volumes:
+      - ${MAINPATH}/proxy/nginx.conf:/etc/nginx/nginx.conf
+      - ${MAINPATH}/proxy/ProxyNginx.conf:/etc/nginx/conf.d/default.conf
+#      - ${MAINPATH}/proxy/nginx-selfsigned.crt:/certifcates/cert.crt
+#      - ${MAINPATH}/proxy/nginx-selfsigned.key:/certifcates/key.key
+      - ${MAINPATH}/logs/proxy:/tmp/logs
+    depends_on:
+      - ewb-keycloak
+    networks:
+      - ewb-keycloak-proxy-network
+
+
+networks:
+  ewb-keycloak-proxy-network:
+    name: ewb-keycloak-proxy-network
+  ewb-postgres-shared-network:
+    external: true
+    name: ewb-postgres-shared-network
+  ewb-keycloak-shared-network:
+    external: true
+    name: ewb-keycloak-shared-network

@@ -10,6 +10,10 @@ Welcome to the Evaluation Workbench repository! This project consists of a compr
 - **Database:** Utilizes PostgreSQL for reliable data persistence and management.
 - **Authentication:** Secured with Keycloak to ensure protected access and user management.
 
+## Simple Deployment
+
+Deployment instructions and Docker Compose files are provided to simplify the deployment process. All necessary files and instructions can be found in the [deployment](deployment/deployment.md) folder of this repository.
+
 ## Prerequisites
 
 Before you start, make sure you have the following installed:
@@ -36,7 +40,23 @@ psql -d ewb -U your_username -f db/00.00.01.seed.sql
 ### Setting Up Keycloak
 
 1. Install and run Keycloak.
-2. Configure the realm, client, and roles according to your authentication needs.
+2. Login with the admin user.
+3. Create a new realm with the name `EWB`.
+4. Inside the EWB realm, go to **Clients** and create a new client.
+   - *Client Type*: `OpenID CONNECT`
+   - *Client ID*: `ewb_frontend`
+   - *Name*: `ewb_frontend`
+   - *Always display in UI*: `Off`
+   - *Client authentication*: `Off`
+   - *Standard flow*: `On`
+   - *Implicit flow*: `On`
+   - *Direct access grants*: `On`
+   - *Home URL*: `http://<APP_URL>:<APP_PORT>`
+   - *Valid redirect URIs*: `http://<APP_URL>:<APP_PORT>/*`
+   - *Valid post logout redirect URIs*: `+`
+   - *Web origins*: `http://<APP_URL>:<APP_PORT>`
+5. Click **Save**.
+6. Configure the realm, client, and roles according to your authentication needs.
 
 ## Running the Backend
 
@@ -118,39 +138,17 @@ Visit `http://localhost:4200` in your browser to view the application.
 The Docker images for the Evaluation Workbench project are available on Docker Hub. You can pull the images using the following commands:
 
 - For the backend API:
-  ```bash
+```bash
   docker pull citesa/ai4university-evaluation-workbench-api
-  ```
+```
 
 - For the frontend Webapp:
-  ```bash
+```bash
   docker pull citesa/ai4university-evaluation-workbench-webapp
-  ```
-
-## Deployment
-
-Deployment instructions and Docker Compose files are provided to simplify the deployment process. All necessary files and instructions can be found in the `deployment` folder of this repository.
-
-### Using Docker Compose
-
-Navigate to the `deployment` directory and follow these steps:
-
-1. **Edit the `.env` file:**
-   - Open `.env`.
-   - ...
-
-2. **Start the services:**
-   - Run the following command to start all services defined in the Docker Compose file:
-   ```bash
-   docker-compose up
-   ```
-
-   This command will start both the backend and frontend services as defined in the Docker Compose configurations. Ensure that Docker is running on your machine before executing this command.
-
-For detailed instructions, refer to the README files located within the `deployment` folder.
+```
 
 
 ## License
 
-This project is licensed under the European Union Public Licence (EUPL) v1.2. Please see the [LICENSE](LICENSE) file for more details.
+This project is licensed under the European Union Public Licence (EUPL) v1.2. Please see the [LICENSE](LICENSE.md) file for more details.
 

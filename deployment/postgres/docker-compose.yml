@@ -1,0 +1,36 @@
+services:
+  ewb-postgres:
+    container_name: ewb-postgres
+    image: postgres:${POSTGRES_TAG}
+    user: ${DOCKER_USER}:${DOCKER_GROUP}
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 2048M
+          cpus: '1'
+        reservations:
+          memory: 1024M
+          cpus: '0.5'
+    memswap_limit: 4096M
+    env_file:
+      - .env
+    ports:
+      - "0.0.0.0:${DBPORT}:5432"
+    volumes:
+      - ${MAINPATH}/storage/data:/var/lib/postgresql/data
+      - ${MAINPATH}/db_init.sql:/docker-entrypoint-initdb.d/db_init.sql
+    environment:
+      POSTGRES_USER: ${DBUSER}
+      POSTGRES_PASSWORD: ${DBPASS}
+    networks:
+      - ewb-keycloak-shared-network
+      - ewb-postgres-shared-network
+
+networks:
+  ewb-keycloak-shared-network:
+    external: true
+    name: ewb-keycloak-shared-network
+  ewb-postgres-shared-network:
+    external: true
+    name: ewb-postgres-shared-network

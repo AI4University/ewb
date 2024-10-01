@@ -1,0 +1,40 @@
+{
+	"production": true,
+	"version": "-dev",
+	"defaultTheme": 2,
+	"defaultLanguage": 0,
+	"defaultCulture": "en-US",
+	"defaultTimezone": "UTC",
+	"inAppNotificationsCountInterval": "30",
+	"userSettingsVersion": "1",
+	"idp_service": {
+		"enabled": true,
+		"address": "http://host.docker.internal:52000",
+		"realm": "EWB",		
+		"flow": "hybrid",
+		"clientId": "ewb_frontend",
+		"redirectUri": "http://host.docker.internal:45000/login/post",
+		"scope": "openid profile email address phone"
+	},
+	"notification_service": {
+		"enabled": false
+	},
+	"app_service": {
+		"enabled": true,
+		"address": "http://host.docker.internal:45000/api/"
+	},
+	"logging": {
+		"enabled": true,
+		"logLevels": ["warning", "error"]
+	},
+	"globalErrorHandling": {
+		"transmitLogs": true,
+		"appName": "coreApp"
+	},
+	"footerUrls":{
+		"twitter":"#",
+		"facebook":"#",
+		"termsOfUse":"#",
+		"privacyPolicy":"#"
+	}
+}

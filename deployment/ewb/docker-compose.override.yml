@@ -1,0 +1,84 @@
+services:
+
+  ewb-proxy:
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '1'
+        reservations:
+          memory: 256M
+          cpus: '0.5'
+    memswap_limit: 1024M
+    env_file:
+      - .env
+    ports:
+      - "0.0.0.0:45000:8080"
+    volumes:
+      - ${MAINPATH}/config-files/proxy/nginx.conf:/etc/nginx/nginx.conf
+      - ${MAINPATH}/config-files/proxy/ProxyNginx.conf:/etc/nginx/conf.d/default.conf
+      - ${MAINPATH}/logs/proxy:/tmp/logs
+    networks:
+      - ewb-proxy-network
+
+  ewb-backend-apis:
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 4096M
+          cpus: '1'
+        reservations:
+          memory: 2048M
+          cpus: '0.5'
+    memswap_limit: 8192M
+    env_file:
+      - .env
+    expose:
+      - "8080"
+    environment:
+      - PROFILE=${PROFILE}
+    volumes:
+      - ${MAINPATH}/config-files/api/config:/config
+      - ${MAINPATH}/logs/api:/logs
+    networks:
+      - ewb-proxy-network
+      - ewb-backend-network
+      - ewb-keycloak-shared-network
+      - ewb-postgres-shared-network
+
+  ewb-frontend:
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 2048M
+          cpus: '1'
+        reservations:
+          memory: 1024M
+          cpus: '0.5'
+    memswap_limit: 4096M
+    env_file:
+      - .env
+    expose:
+      - "8080"
+    volumes:
+      - ${MAINPATH}/config-files/webapp/config.json:/usr/share/nginx/html/assets/config.json
+      - ${MAINPATH}/config-files/webapp/nginx.conf:/etc/nginx/nginx.conf
+      - ${MAINPATH}/config-files/webapp/WebAppNginx.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - ewb-proxy-network
+      - ewb-keycloak-shared-network
+
+networks:
+  ewb-proxy-network:
+    name: ewb-proxy-network
+  ewb-backend-network:
+    name: ewb-backend-network
+  ewb-keycloak-shared-network:
+    external: true
+    name: ewb-keycloak-shared-network
+  ewb-postgres-shared-network:
+    external: true
+    name: ewb-postgres-shared-network
