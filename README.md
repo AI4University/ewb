@@ -10,11 +10,13 @@ Welcome to the Evaluation Workbench repository! This project consists of a compr
 - **Database:** Utilizes PostgreSQL for reliable data persistence and management.
 - **Authentication:** Secured with Keycloak to ensure protected access and user management.
 
-## Simple Deployment
+## Deployment
 
 Deployment instructions and Docker Compose files are provided to simplify the deployment process. All necessary files and instructions can be found in the [deployment](deployment/deployment.md) folder of this repository.
 
-## Prerequisites
+## Development
+
+### Prerequisites
 
 Before you start, make sure you have the following installed:
 - Java JDK 21 or newer
@@ -23,9 +25,8 @@ Before you start, make sure you have the following installed:
 - PostgreSQL
 - Keycloak 25
 
-## Getting Started
 
-## Setting Up the Database
+### Setting Up the Database
 
 1. **Install PostgreSQL** and create a database named `ewb`.
 2. **Initialize the database:**
@@ -58,9 +59,9 @@ psql -d ewb -U your_username -f db/00.00.01.seed.sql
 5. Click **Save**.
 6. Configure the realm, client, and roles according to your authentication needs.
 
-## Running the Backend
+### Running the Backend
 
-### Setup in IntelliJ IDEA
+#### Setup in IntelliJ IDEA
 
 1. **Open the project in IntelliJ IDEA:**
    - Choose `File > Open` and navigate to the backend project directory.
