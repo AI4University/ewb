@@ -11,6 +11,5 @@ import { CommonUiModule } from '@common/ui/common-ui.module';
 	declarations: [
 		UnauthorizedComponent
 	],
-	entryComponents: []
 })
 export class UnauthorizedModule { }

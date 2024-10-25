@@ -10,7 +10,6 @@ import { ColumnDefinition } from '@common/modules/listing/listing.component';
 import { takeUntil } from 'rxjs/operators';
 import { nameof } from 'ts-simple-nameof';
 import { DocumentViewComponent } from '../../modules/document-view/document-view.component';
-import { Dialog } from '@angular/cdk/dialog';
 import { SelectionType } from '@swimlane/ngx-datatable';
 
 @Component({
@@ -198,8 +197,10 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
   showDocument(event: any) {
 	this.ewbService.getDocument(this.data.corpus, event[0].id).subscribe((doc: any) => {
 		this.dialog.open(DocumentViewComponent, {
-			width: '85vw',
-			height: '80vh',
+			minWidth: '80vw',
+			minHeight: '80vh',
+			maxWidth: '80vw',
+			maxHeight: '80vh',
 			panelClass: 'topic-style',
 			data: {
 				selectedDoc: doc

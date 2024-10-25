@@ -24,9 +24,6 @@ import { FilterEditorComponent } from './filter-editor/filter-editor.component';
 		ListingComponent,
 		FilterEditorComponent
 	],
-	entryComponents: [
-		ListingSettingsDialogComponent
-	],
 	providers: [
 		DataTableHeaderFormattingService
 	]

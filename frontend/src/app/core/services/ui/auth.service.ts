@@ -210,25 +210,24 @@ export class AuthService extends BaseService {
 	}
 
 	public authenticate(returnUrl: string) {
-		this.keycloakService.isLoggedIn().then(isLoggedIn => {
-			console.debug('isLoggedIn -> ', isLoggedIn);
-			if (!isLoggedIn) {
-				this.keycloakService.login({}).then(() => {
-					console.debug('Keycloak Login');
-					this.keycloakService.keycloakEvents$.subscribe({
-						next: (e) => {
-							if (e.type == KeycloakEventType.OnTokenExpired) {
-								this.refreshToken({});
-							}
+		const isLoggedIn = this.keycloakService.isLoggedIn();
+		console.debug('isLoggedIn -> ', isLoggedIn);
+		if (!isLoggedIn) {
+			this.keycloakService.login({}).then(() => {
+				console.debug('Keycloak Login');
+				this.keycloakService.keycloakEvents$.subscribe({
+					next: (e) => {
+						if (e.type == KeycloakEventType.OnTokenExpired) {
+							this.refreshToken({});
 						}
-					});
-					this.onAuthenticateSuccess(returnUrl);
-				}).catch((error) => this.onAuthenticateError(error));
-			} else {
-				this.router.navigate(['/login/post']);
-				//this.prepareAuthRequest(from(this.keycloakService.getToken()), {}).pipe(takeUntil(this._destroyed)).subscribe(() => this.onAuthenticateSuccess(returnUrl), (error) => this.onAuthenticateError(error));
-			}
-		});
+					}
+				});
+				this.onAuthenticateSuccess(returnUrl);
+			}).catch((error) => this.onAuthenticateError(error));
+		} else {
+			this.router.navigate(['/login/post']);
+			//this.prepareAuthRequest(from(this.keycloakService.getToken()), {}).pipe(takeUntil(this._destroyed)).subscribe(() => this.onAuthenticateSuccess(returnUrl), (error) => this.onAuthenticateError(error));
+		}
 	}
 
 	public refreshToken(httpParams?: Object): Promise<boolean> {

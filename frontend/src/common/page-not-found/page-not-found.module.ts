@@ -7,7 +7,6 @@ import { CommonUiModule } from '@common/ui/common-ui.module';
 	],
 	declarations: [
 		PageNotFoundComponent
-	],
-	entryComponents: []
+	]
 })
 export class PageNotFoundModule { }

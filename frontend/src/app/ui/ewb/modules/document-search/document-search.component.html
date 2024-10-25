@@ -1,8 +1,6 @@
 <div class="pb-0">
 	<mat-form-field class="w-100">
-		<button mat-button matSuffix mat-icon-button disabled="true" class="search-icon">
-			<mat-icon>search</mat-icon>
-		</button>
+		<mat-icon matPrefix>search</mat-icon>
 		<input class="col-4" type="text" matInput [matAutocomplete]="auto" (input)="onChange($event)"
 			(click)="onChange($event)" [(value)]="searchInput">
 		<mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSelected($event)"

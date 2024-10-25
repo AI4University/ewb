@@ -8,7 +8,7 @@ import { from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable()
-export class PendingChangesGuard implements CanDeactivate<BasePendingChangesComponent>   {
+export class PendingChangesGuard    {
 
 	constructor(
 		private dialog: MatDialog,

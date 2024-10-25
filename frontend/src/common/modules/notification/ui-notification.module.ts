@@ -15,10 +15,6 @@ import { CommonUiModule } from '@common/ui/common-ui.module';
 	],
 	exports: [
 		UiNotificationComponent
-	],
-	entryComponents: [
-		SnackBarNotificationComponent,
-		PopupNotificationDialogComponent,
 	]
 })
 export class UiNotificationModule {

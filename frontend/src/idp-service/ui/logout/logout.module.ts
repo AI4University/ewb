@@ -10,7 +10,6 @@ import { LogoutComponent } from '@idp-service/ui/logout/logout.component';
 	],
 	declarations: [
 		LogoutComponent
-	],
-	entryComponents: []
+	]
 })
 export class LogoutModule { }

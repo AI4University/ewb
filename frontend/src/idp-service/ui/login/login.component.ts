@@ -38,17 +38,14 @@ export class LoginComponent extends BaseComponent implements OnInit {
 
 		// TODO CLEAN LOGIN-POST IF NOT USED
 		this.returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') || '/';
-		this.keycloakService.isLoggedIn().then(isLoggedIn => {
-			if (!isLoggedIn) {
-				this.authService.authenticate('/login/post');
-			} else {
-				this.authService.prepareAuthRequest(from(this.keycloakService.getToken())).pipe(takeUntil(this._destroyed)).subscribe(
-							() => { this.zone.run(() => this.router.navigate([this.returnUrl])); },
-							(error) => this.authService.authenticate('/login/post') );
+		if (!this.keycloakService.isLoggedIn()) {
+			this.authService.authenticate('/login/post');
+		} else {
+			this.authService.prepareAuthRequest(from(this.keycloakService.getToken())).pipe(takeUntil(this._destroyed)).subscribe(
+						() => { this.zone.run(() => this.router.navigate([this.returnUrl])); },
+						(error) => this.authService.authenticate('/login/post') );
 
-			}
-
-		});
+		}
 	}
 }
 

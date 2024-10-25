@@ -84,22 +84,22 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "cite.intelcomp.evaluation-workbench.webapp:build",
             "port": 40000,
             "ssl": false,
             "sslKey": "src/assets/ssl/iis-express-10.key",
-            "sslCert": "src/assets/ssl/iis-express-10.crt"
+            "sslCert": "src/assets/ssl/iis-express-10.crt",
+            "buildTarget": "cite.intelcomp.evaluation-workbench.webapp:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "cite.intelcomp.evaluation-workbench.webapp:build:production"
+              "buildTarget": "cite.intelcomp.evaluation-workbench.webapp:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "cite.intelcomp.evaluation-workbench.webapp:build"
+            "buildTarget": "cite.intelcomp.evaluation-workbench.webapp:build"
           }
         },
         "test": {

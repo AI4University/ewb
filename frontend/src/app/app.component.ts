@@ -1,6 +1,5 @@
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { AfterViewInit, Component, HostBinding, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { ThemeType } from '@app/core/enum/theme-type.enum';
 import { AuthService, LoginStatus } from '@app/core/services/ui/auth.service';
 import { ThemingService } from '@app/core/services/ui/theming.service';
@@ -34,7 +33,6 @@ export class AppComponent extends BaseComponent implements OnInit, AfterViewInit
 		private cultureService: CultureService,
 		private timezoneService: TimezoneService,
 		private logger: LoggingService,
-		private dialog: MatDialog,
 		private principalService: PrincipalService
 	) {
 		super();
