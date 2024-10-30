@@ -1,5 +1,5 @@
 ####################################### Build stage #######################################
-FROM maven:3.9-eclipse-temurin-17-alpine AS build-stage
+FROM maven:3.9-eclipse-temurin-21-alpine AS build-stage
 
 COPY pom.xml /build/
 COPY evaluation-workbench /build/evaluation-workbench/
@@ -17,7 +17,7 @@ RUN mvn dependency:go-offline
 RUN mvn -DskipTests clean package
 
 ######################################## Run Stage ########################################
-FROM eclipse-temurin:17-jre-ubi9-minimal
+FROM eclipse-temurin:21-jre-ubi9-minimal
 
 ENV SERVER_PORT=8080
 EXPOSE ${SERVER_PORT}

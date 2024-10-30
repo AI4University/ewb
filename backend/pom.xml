@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.1.0</version>
+		<version>3.3.3</version>
 	</parent>
 
 	<groupId>gr.cite</groupId>
@@ -17,8 +17,8 @@
 	<name>Evaluation Workbench Parent</name>
 
 	<properties>
-		<maven.compiler.source>11</maven.compiler.source>
-		<maven.compiler.target>11</maven.compiler.target>
+		<maven.compiler.source>21</maven.compiler.source>
+		<maven.compiler.target>21</maven.compiler.target>
 		<cite-lib.version>2.1.0</cite-lib.version>
 	</properties>
 
@@ -33,47 +33,47 @@
 			<dependency>
 				<groupId>gr.cite</groupId>
 				<artifactId>cache</artifactId>
-				<version>${cite-lib.version}</version>
+				<version>2.2.0</version>
 			</dependency>
 			<dependency>
 				<groupId>gr.cite</groupId>
 				<artifactId>cors-web</artifactId>
-				<version>${cite-lib.version}</version>
+				<version>2.1.0</version>
 			</dependency>
 			<dependency>
 				<groupId>gr.cite</groupId>
 				<artifactId>data-tools</artifactId>
-				<version>${cite-lib.version}</version>
+				<version>2.1.5</version>
 			</dependency>
 			<dependency>
 				<groupId>gr.cite</groupId>
 				<artifactId>exceptions</artifactId>
-				<version>${cite-lib.version}</version>
+				<version>2.2.0</version>
 			</dependency>
 			<dependency>
 				<groupId>gr.cite</groupId>
 				<artifactId>exceptions-web</artifactId>
-				<version>${cite-lib.version}</version>
+				<version>2.2.0</version>
 			</dependency>
 			<dependency>
 				<groupId>gr.cite</groupId>
 				<artifactId>field-set</artifactId>
-				<version>${cite-lib.version}</version>
+				<version>2.1.0</version>
 			</dependency>
 			<dependency>
 				<groupId>gr.cite</groupId>
 				<artifactId>logging</artifactId>
-				<version>${cite-lib.version}</version>
+				<version>2.2.0</version>
 			</dependency>
 			<dependency>
 				<groupId>gr.cite</groupId>
 				<artifactId>oidc-authn</artifactId>
-				<version>${cite-lib.version}</version>
+				<version>2.2.2</version>
 			</dependency>
 			<dependency>
 				<groupId>gr.cite</groupId>
 				<artifactId>oidc-authz</artifactId>
-				<version>${cite-lib.version}</version>
+				<version>2.1.0</version>
 			</dependency>
 			<dependency>
 				<groupId>gr.cite.intelcomp</groupId>
