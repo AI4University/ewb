@@ -106,7 +106,7 @@ export class UserRoleEditorComponent extends BaseComponent implements OnInit, On
 	onCallbackSuccess() {
 		this.nowEditing = false;
 		this.formGroup.disable();
-		this.uiNotificationService.snackBarNotification(this.language.instant('APP.COMMONS.SNACK-BAR.SUCCESSFUL-UPDATE'), SnackBarNotificationLevel.Success);
+		this.uiNotificationService.snackBarNotification(this.language.instant('COMMONS.SNACK-BAR.SUCCESSFUL-UPDATE'), SnackBarNotificationLevel.Success);
 	}
 
 	onCallbackError(errorResponse: HttpErrorResponse) {

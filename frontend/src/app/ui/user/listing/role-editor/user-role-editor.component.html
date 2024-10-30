@@ -18,7 +18,7 @@
 						<mat-option [value]="appRole.Admin">{{enumUtils.toAppRoleString(appRole.Admin)}}</mat-option>
 						<mat-option [value]="appRole.User">{{enumUtils.toAppRoleString(appRole.User)}}</mat-option>
 					</mat-select>
-					<mat-error *ngIf="formGroup.get('roles').hasError('required')">{{'APP.COMMONS.VALIDATION.REQUIRED' | translate}}</mat-error>
+					<mat-error *ngIf="formGroup.get('roles').hasError('required')">{{'COMMONS.VALIDATION.REQUIRED' | translate}}</mat-error>
 				</mat-form-field>
 			</div>
 
