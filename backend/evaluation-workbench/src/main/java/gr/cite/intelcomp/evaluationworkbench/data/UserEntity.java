@@ -2,6 +2,7 @@ package gr.cite.intelcomp.evaluationworkbench.data;
 
 import gr.cite.intelcomp.evaluationworkbench.common.enums.IsActive;
 
+import gr.cite.intelcomp.evaluationworkbench.data.conventers.enums.IsActiveConverter;
 import jakarta.persistence.*;
 import java.time.Instant;
 import java.util.UUID;
@@ -14,34 +15,39 @@ public class UserEntity {
 	private UUID id;
 	public final static String _id = "id";
 
-	@Column(name = "first_name", length = 200, nullable = false)
+	@Column(name = "first_name", length = _firstNameLength, nullable = false)
 	private String firstName;
 	public final static String _firstName = "firstName";
+	public final static int _firstNameLength = 200;
 
-	@Column(name = "last_name", length = 200, nullable = false)
+	@Column(name = "last_name", length = _lastNameLength, nullable = false)
 	private String lastName;
 	public final static String _lastName = "lastName";
+	public final static int _lastNameLength = 200;
 
 
-	@Column(name = "timezone", length = 200, nullable = false)
+	@Column(name = "timezone", length = _timezoneLength, nullable = false)
 	private String timezone;
 	public final static String _timezone = "timezone";
+	public final static int _timezoneLength = 200;
 
-	@Column(name = "culture", length = 200, nullable = false)
+	@Column(name = "culture", length = _cultureLength, nullable = false)
 	private String culture;
 	public final static String _culture = "culture";
+	public final static int _cultureLength = 200;
 
-	@Column(name = "language", length = 200, nullable = false)
+	@Column(name = "language", length = _languageLength, nullable = false)
 	private String language;
 	public final static String _language = "language";
+	public final static int _languageLength = 200;
 
-	@Column(name = "subject_id", length = 150, nullable = false)
+	@Column(name = "subject_id", length = _subjectIdLength, nullable = false)
 	private String subjectId;
 	public final static String _subjectId = "subjectId";
+	public final static int _subjectIdLength = 150;
 
-	//TODO: as integer
-	@Column(name = "is_active", length = 100, nullable = false)
-	@Enumerated(EnumType.STRING)
+	@Column(name = "is_active", nullable = false)
+	@Convert(converter = IsActiveConverter.class)
 	private IsActive isActive;
 	public final static String _isActive = "isActive";
 

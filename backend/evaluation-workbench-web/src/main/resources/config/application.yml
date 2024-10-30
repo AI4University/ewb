@@ -15,4 +15,6 @@ spring:
       optional:classpath:config/cors.yml[.yml], optional:classpath:config/cors-${spring.profiles.active}.yml[.yml], optional:file:../config/cors-${spring.profiles.active}.yml[.yml],
       optional:classpath:config/event-scheduler.yml[.yml], optional:classpath:config/event-scheduler-${spring.profiles.active}.yml[.yml], optional:file:../config/event-scheduler-${spring.profiles.active}.yml[.yml],
       optional:classpath:config/ewb.yml[.yml], optional:classpath:config/ewb-${spring.profiles.active}.yml[.yml], optional:file:../config/ewb-${spring.profiles.active}.yml[.yml],
-      optional:classpath:config/help.yml[.yml], optional:classpath:config/help-${spring.profiles.active}.yml[.yml], optional:file:../config/help-${spring.profiles.active}.yml[.yml]
+      optional:classpath:config/help.yml[.yml], optional:classpath:config/help-${spring.profiles.active}.yml[.yml], optional:file:../config/help-${spring.profiles.active}.yml[.yml],
+      optional:classpath:config/authorization.yml[.yml], optional:classpath:config/authorization-${spring.profiles.active}.yml[.yml], optional:file:../config/authorization-${spring.profiles.active}.yml[.yml],
+      optional:classpath:config/keycloak.yml[.yml], optional:classpath:config/keycloak-${spring.profiles.active}.yml[.yml], optional:file:../config/keycloak-${spring.profiles.active}.yml[.yml]

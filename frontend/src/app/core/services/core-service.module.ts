@@ -19,6 +19,9 @@ import { TopicRelevanceService } from './ui/topic-relevance.service';
 import { CultureService } from './ui/culture.service';
 import { LanguageService } from './ui/language.service';
 import { TimezoneService } from './ui/timezone.service';
+import { UserService } from './http/user.service';
+import { UserSettingsService } from './http/user-settings/user-settings.service';
+import { UserSettingsHttpService } from './http/user-settings/user-settings-http.service';
 
 //
 //
@@ -57,7 +60,10 @@ export class CoreAppServiceModule {
 				AppPrincipalService,
 				QueryParamsService,
 				SnackBarCommonNotificationsService,
-				TopicRelevanceService
+				TopicRelevanceService,
+				UserService,
+				UserSettingsService,
+				UserSettingsHttpService,
 			],
 		};
 	}

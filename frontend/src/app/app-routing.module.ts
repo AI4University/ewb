@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from '@app/core/auth-guard.service';
 import { AppPermission } from '@app/core/enum/permission.enum';
 
 const appRoutes: Routes = [
@@ -8,13 +7,21 @@ const appRoutes: Routes = [
 	{ path: '', redirectTo: 'home', pathMatch: 'full' },
 	{
 		path: 'home',
-		canLoad: [AuthGuard],
-		loadChildren: () => import('@app/ui/home/home.module').then(m => m.HomeModule)
+		loadChildren: () => import('@app/ui/home/home.module').then(m => m.HomeModule),
+		data: {
+			authContext: {
+				permissions: [AppPermission.ViewHomePage]
+			}
+		},
 	},
 	{
 		path: 'ewb',
-		canLoad: [AuthGuard],
-		loadChildren: () => import('@app/ui/ewb/ewb.module').then(m => m.EwbModule)
+		loadChildren: () => import('@app/ui/ewb/ewb.module').then(m => m.EwbModule),
+		data: {
+			authContext: {
+				permissions: [AppPermission.ViewEwbPage]
+			}
+		},
 	},
 //	{
 //		path: 'expert',
@@ -23,8 +30,12 @@ const appRoutes: Routes = [
 //	},
 	{
 		path: 'classify',
-		canLoad: [AuthGuard],
-		loadChildren: () => import('@app/ui/classification/classification.module').then(m => m.ClassificationModule)
+		loadChildren: () => import('@app/ui/classification/classification.module').then(m => m.ClassificationModule),
+		data: {
+			authContext: {
+				permissions: [AppPermission.ViewClassifyPage]
+			}
+		},
 	},
 	// {
 	// 	path: 'manual',
@@ -33,8 +44,21 @@ const appRoutes: Routes = [
 	// },
 	{
 		path: 'faq',
-		canLoad: [AuthGuard],
-		loadChildren: () => import('@app/ui/faq/faq.module').then(m => m.FaqModule)
+		loadChildren: () => import('@app/ui/faq/faq.module').then(m => m.FaqModule),
+		data: {
+			authContext: {
+				permissions: [AppPermission.ViewFaqPage]
+			}
+		},
+	},
+	{
+		path: 'users',
+		loadChildren: () => import('./ui/user/user.module').then(m => m.UserModule),
+		data: {
+			authContext: {
+				permissions: [AppPermission.ViewUserPage]
+			}
+		},
 	},
 	{
 		path: 'login',

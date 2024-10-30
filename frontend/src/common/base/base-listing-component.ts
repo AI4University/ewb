@@ -8,7 +8,7 @@ import { QueryResult } from '@common/model/query-result';
 import { HttpError, HttpErrorHandlingService } from '@common/modules/errors/error-handling/http-error-handling.service';
 import { ColumnDefinition, ColumnSortEvent, PageLoadEvent, RowActivateEvent, SortDirection, TableColumnProp } from '@common/modules/listing/listing.component';
 import { SnackBarNotificationLevel, UiNotificationService } from '@common/modules/notification/ui-notification-service';
-import { UserSettingsKey } from '@user-service/core/model/user-settings.model';
+import { UserSettingsKey } from '@app/core/model/user-settings/user-settings.model';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { switchMap, takeUntil, tap } from 'rxjs/operators';
 
@@ -142,6 +142,9 @@ export abstract class BaseListingComponent<ItemModel, LookupModel extends Lookup
 			this.lookup.page.offset = event.offset * this.lookup.page.size;
 		}
 		this.loadingPipe$.next();
+	}
+	refresh() {
+		this.onPageLoad({ offset: 0 } as PageLoadEvent);
 	}
 	alterPage(event: PageLoadEvent){
 		if (event) {

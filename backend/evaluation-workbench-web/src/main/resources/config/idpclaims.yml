@@ -16,7 +16,11 @@ idpclient:
       ExpiresAt:
         - type: exp
       Roles:
-        - type: role
+        - type: resource_access
+          path: ewb_web.roles
+      GlobalRoles:
+        - type: resource_access
+          path: ewb_web.roles
       Scope:
         - type: scope
       AccessToken:

@@ -1,0 +1,9 @@
+authorization:
+  globalAdminRoles:
+    - User
+    - Admin
+  allowedTenantRoles:
+    - tenantadmin
+  allowedGlobalRoles:
+    - User
+    - Admin

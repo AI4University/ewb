@@ -6,7 +6,7 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       naming:
-        physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+        physical-strategy:  gr.cite.intelcomp.evaluationworkbench.data.namingstrategy.PrefixPhysicalNamingStrategy
         implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
   datasource:
     url: ${DB_CONNECTION_STRING}

@@ -4,26 +4,21 @@ import { BlueprintTemplateKey } from '@app/core/enum/blueprint-template-key.enum
 import { BlueprintTemplateType } from '@app/core/enum/blueprint-template-type.enum';
 import { IsActive } from '@app/core/enum/is-active.enum';
 import { LanguageType } from '@app/core/enum/language-type.enum';
-import { RoleType } from '@app/core/enum/role-type.enum';
 import { BaseEnumUtilsService } from '@common/base/base-enum-utils.service';
 import { TranslateService } from '@ngx-translate/core';
 import { CorpusValidFor } from '../enum/corpus-valid-for.enum';
 import { TopicModelSubtype } from '../enum/topic-model-subtype.enum';
 import { TopicModelType } from '../enum/topic-model.-type.enum';
+import { AppRole } from '../enum/app-role';
 
 @Injectable()
 export class AppEnumUtils extends BaseEnumUtilsService {
 	constructor(private language: TranslateService) { super(); }
 
-	public toRoleTypeString(value: RoleType): string {
-		switch (value) {
-			case RoleType.Admin: return this.language.instant('APP.TYPES.APP-ROLE.ADMIN');
-			case RoleType.User: return this.language.instant('APP.TYPES.APP-ROLE.USER');
-			case RoleType.DatasetAdmin: return this.language.instant('APP.TYPES.APP-ROLE.DATASET-ADMIN');
-			case RoleType.DatasetViewer: return this.language.instant('APP.TYPES.APP-ROLE.DATASET-VIEWER');
-			case RoleType.AccessAdmin: return this.language.instant('APP.TYPES.APP-ROLE.ACCESS-ADMIN');
-			case RoleType.AccessViewer: return this.language.instant('APP.TYPES.APP-ROLE.ACCESS-VIEWER');
-			default: return '';
+	public toAppRoleString(status: AppRole): string {
+		switch (status) {
+			case AppRole.Admin: return this.language.instant('APP.TYPES.APP-ROLE.ADMIN');
+			case AppRole.User: return this.language.instant('APP.TYPES.APP-ROLE.USER');
 		}
 	}
 

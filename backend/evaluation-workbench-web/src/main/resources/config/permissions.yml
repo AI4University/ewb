@@ -4,36 +4,61 @@ permissions:
     # Users
     BrowseUser:
       roles:
-        - superuser
-        - tenantadmin
+        - Admin
       clients: [ ]
       allowAnonymous: true
       allowAuthenticated: false
     EditUser:
       roles:
-        - admin
-        - superuser
+        - Admin
       clients: [ ]
       allowAnonymous: false
       allowAuthenticated: false
     DeleteUser:
       roles:
-        - superuser
+        - Admin
       claims: [ ]
       clients: [ ]
       allowAnonymous: false
       allowAuthenticated: false
 
     # ViewPage Permissions
+    ViewHomePage:
+      roles: [ ]
+      clients: [ ]
+      allowAnonymous: true
+      allowAuthenticated: true
+    ViewFaqPage:
+      roles:
+        - User
+        - Admin
+      clients: [ ]
+      allowAnonymous: false
+      allowAuthenticated: false
+    ViewEwbPage:
+      roles:
+        - User
+        - Admin
+      clients: [ ]
+      allowAnonymous: false
+      allowAuthenticated: false
+    ViewClassifyPage:
+      roles:
+        - User
+        - Admin
+      clients: [ ]
+      allowAnonymous: false
+      allowAuthenticated: false
     ViewUsersPage:
       roles:
-        - superuser
+        - Admin
       clients: [ ]
       allowAnonymous: false
       allowAuthenticated: false
     DownloadReport:
       roles:
-        - superuser
+        - User
+        - Admin
       clients: [ ]
       allowAnonymous: false
       allowAuthenticated: false

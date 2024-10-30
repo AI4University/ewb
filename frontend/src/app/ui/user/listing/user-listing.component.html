@@ -1,0 +1,57 @@
+<div class="container-fluid">
+	<div class="row user-listing">
+		<div class="col-md-10 offset-md-1">
+
+			<app-hybrid-listing [rows]="gridRows" [columns]="gridColumns" [visibleColumns]="visibleColumns" [count]="totalElements" [offset]="currentPageNumber" [limit]="lookup.page.size" [defaultSort]="lookup.order?.items" [externalSorting]="true" (rowActivated)="onUserRowActivated($event)" (pageLoad)="alterPage($event)" (columnSort)="onColumnSort($event)" (columnsChanged)="onColumnsChanged($event)" [listItemTemplate]="listItemTemplate">
+
+				<app-user-listing-filters hybrid-listing-filters [(filter)]="lookup" (filterChange)="filterChanged($event)"/>
+			</app-hybrid-listing>
+		</div>
+	</div>
+</div>
+
+<ng-template #listItemTemplate let-item="item" let-isColumnSelected="isColumnSelected">
+
+	<div class="d-flex align-items-center p-3 gap-1-rem">
+		<div class="row">
+			<ng-container *ngIf="isColumnSelected('name')">
+				<a class="buttonLinkClass" [routerLink]="routerUtils.generateUrl('./' + item?.id)" class="col-12" (click)="$event.stopPropagation()">{{item?.fristName | nullifyValue}}</a>
+				<br />
+			</ng-container>
+
+			<ng-container *ngIf="isColumnSelected('createdAt')">
+				<span class="col-12">
+					{{'USER-LISTING.FIELDS.CREATED-AT' | translate}}:
+					<small>
+						{{item?.createdAt | dateTimeFormatter : 'short' | nullifyValue}}
+					</small>
+				</span>
+				<br>
+			</ng-container>
+			<ng-container *ngIf="isColumnSelected('updatedAt')">
+				<span class="col-12">
+					{{'USER-LISTING.FIELDS.UPDATED-AT' | translate}}:
+					<small>
+						{{item?.updatedAt | dateTimeFormatter : 'short' | nullifyValue}}
+					</small>
+				</span>
+			</ng-container>
+		</div>
+	</div>
+</ng-template>
+
+<ng-template #roleCellTemplate let-row="row" let-item>
+	<div class="row">
+		<app-user-role-editor-component style="width: 100%;" [item]="row"></app-user-role-editor-component>
+	</div>
+</ng-template>
+
+<ng-template #nameCellTemplate let-row="row" let-item>
+	<div class="row align-items-center">
+		<div class="col-auto">
+			<img class="user-avatar" [src]="'assets/images/profile-placeholder.png'" aria-hidden>
+		</div>
+		<div class="col">{{row.firstName}}</div>
+
+	</div>
+</ng-template>

@@ -14,12 +14,10 @@ import { ConfirmationDialogModule } from '@common/modules/confirmation-dialog/co
 		ConfirmationDialogModule
 	],
 	declarations: [
-		UserSettingsSelectorComponent
+		UserSettingsSelectorComponent,
 	],
 	exports: [
-		UserSettingsSelectorComponent
-	],
-	entryComponents: [
+		UserSettingsSelectorComponent,
 		FilterNameDialogComponent
 	]
 })

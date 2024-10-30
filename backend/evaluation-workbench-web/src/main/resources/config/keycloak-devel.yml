@@ -1,0 +1,6 @@
+keycloak-resources:
+  authorities:
+    User:
+      groupId: 0d3fecee-6dcc-4b1b-92ec-8410ed7dd780
+    Admin:
+      groupId: dd91fd2a-ba4f-491e-8953-2d2bfc4e4aa5

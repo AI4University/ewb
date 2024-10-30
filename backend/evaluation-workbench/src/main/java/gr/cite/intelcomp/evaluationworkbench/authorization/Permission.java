@@ -6,7 +6,12 @@ public final class Permission {
 	public static String EditUser = "EditUser";
 	public static String DeleteUser = "DeleteUser";
 
-	// UI Pages
-	public static String ViewUsersPage = "ViewUsersPage";
 	public static String DownloadReport = "DownloadReport";
+
+	// UI Pages
+	public static String ViewHomePage = "ViewHomePage";
+	public static String ViewFaqPage = "ViewFaqPage";
+	public static String ViewEwbPage = "ViewEwbPage";
+	public static String ViewClassifyPage = "ViewClassifyPage";
+	public static String ViewUsersPage = "ViewUsersPage";
 }

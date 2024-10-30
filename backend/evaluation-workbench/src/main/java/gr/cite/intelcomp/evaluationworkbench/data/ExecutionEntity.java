@@ -3,6 +3,8 @@ package gr.cite.intelcomp.evaluationworkbench.data;
 import gr.cite.intelcomp.evaluationworkbench.common.enums.CommandType;
 import gr.cite.intelcomp.evaluationworkbench.common.enums.Status;
 
+import gr.cite.intelcomp.evaluationworkbench.data.conventers.enums.CommandTypeConverter;
+import gr.cite.intelcomp.evaluationworkbench.data.conventers.enums.StatusConverter;
 import jakarta.persistence.*;
 import java.time.Instant;
 import java.util.UUID;
@@ -19,21 +21,23 @@ public class ExecutionEntity {
     private UUID userId;
     public static final String _userId = "userId";
 
-    @Column(name = "type", nullable = false, length = 100)
-    @Enumerated(EnumType.STRING)
+    @Column(name = "type", nullable = false)
+    @Convert(converter = CommandTypeConverter.class)
     private CommandType type;
     public final static String _type = "type";
 
-    @Column(name = "command", nullable = false, length = 200)
+    @Column(name = "command", nullable = false, length = _commandLength)
     private String command;
     public static final String _command = "command";
+    public final static int _commandLength = 200;
 
-    @Column(name = "result", length = 200)
+    @Column(name = "result", length = _resultLength)
     private String result;
     public static final String _result = "result";
+    public final static int _resultLength = 200;
 
-    @Column(name = "status", nullable = false, length = 100)
-    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    @Convert(converter = StatusConverter.class)
     private Status status;
     public final static String _status = "status";
 

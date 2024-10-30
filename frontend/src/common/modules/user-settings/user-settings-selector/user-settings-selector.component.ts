@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { FilterNameDialogComponent } from '@app/ui/filter-name-dialog/filter-name-dialog.component';
 import { BaseComponent } from '@common/base/base.component';
 import { Lookup } from '@common/model/lookup';
-import { UserSetting, UserSettingsService } from '@user-service/services/user-settings.service';
+import { UserSetting, UserSettingsService } from '@app/core/services/http/user-settings/user-settings.service';
 import { takeUntil, filter } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmationDialogComponent } from '@common/modules/confirmation-dialog/confirmation-dialog.component';

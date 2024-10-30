@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LanguageType } from '@app/core/enum/language-type.enum';
+import { AppPermission } from '@app/core/enum/permission.enum';
 import { ThemeType } from '@app/core/enum/theme-type.enum';
 import { AppEnumUtils } from '@app/core/formatting/enum-utils.service';
 import { AuthService } from '@app/core/services/ui/auth.service';
@@ -21,8 +22,7 @@ export class NavigationComponent extends BaseComponent implements OnInit {
 	themeTypes = ThemeType;
 	languageTypes = LanguageType;
 	inAppNotificationCount = 0;
-
-
+	appPermission = AppPermission;
 
 	languageSelected$: Observable<string>;
 	languageFlag$: Observable<string>;

@@ -14,6 +14,7 @@ public class AuditableAction {
 	public static final EventId User_Lookup = new EventId(3001, "User_Lookup");
 	public static final EventId User_Persist = new EventId(3002, "User_Persist");
 	public static final EventId User_Delete = new EventId(3003, "User_Delete");
+	public static final EventId User_PersistRoles = new EventId(3004, "User_PersistRoles");
 
 	public static final EventId Scheduled_Event_Persist = new EventId(4000, "Scheduled_Event_Persist");
 	public static final EventId Scheduled_Event_Canceled = new EventId(4001, "Scheduled_Event_Canceled");

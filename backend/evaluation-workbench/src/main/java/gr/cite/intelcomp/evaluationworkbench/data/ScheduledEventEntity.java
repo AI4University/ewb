@@ -4,6 +4,9 @@ import gr.cite.intelcomp.evaluationworkbench.common.enums.IsActive;
 import gr.cite.intelcomp.evaluationworkbench.common.enums.ScheduledEventStatus;
 import gr.cite.intelcomp.evaluationworkbench.common.enums.ScheduledEventType;
 
+import gr.cite.intelcomp.evaluationworkbench.data.conventers.enums.IsActiveConverter;
+import gr.cite.intelcomp.evaluationworkbench.data.conventers.enums.ScheduledEventStatusConverter;
+import gr.cite.intelcomp.evaluationworkbench.data.conventers.enums.ScheduledEventTypeConverter;
 import jakarta.persistence.*;
 import java.time.Instant;
 import java.util.UUID;
@@ -16,12 +19,13 @@ public class ScheduledEventEntity {
 	private UUID id;
 	public final static String _id = "id";
 
-	@Column(name = "key", nullable = false, length = 200)
+	@Column(name = "key", nullable = false, length = _keyLength)
 	private String key;
 	public final static String _key = "key";
+	public final static int _keyLength = 200;
 
-	@Column(name = "event_type", nullable = false, length = 200)
-	@Enumerated(EnumType.STRING)
+	@Column(name = "event_type", nullable = false)
+	@Convert(converter = ScheduledEventTypeConverter.class)
 	private ScheduledEventType eventType;
 	public final static String _eventType = "eventType";
 
@@ -33,9 +37,10 @@ public class ScheduledEventEntity {
 	private UUID creatorId;
 	public final static String _creatorId = "creatorId";
 
-	@Column(name = "key_type", nullable = false, length = 200)
+	@Column(name = "key_type", nullable = false, length = _keyTypeLength)
 	private String keyType;
 	public final static String _keyType = "keyType";
+	public final static int _keyTypeLength = 200;
 
 	@Column(name = "data", columnDefinition = "json")
 	private String data;
@@ -45,15 +50,13 @@ public class ScheduledEventEntity {
 	private Integer retryCount;
 	public final static String _retryCount = "retryCount";
 
-	//TODO: as integer
-	@Column(name = "is_active", length = 20, nullable = false)
-	@Enumerated(EnumType.STRING)
+	@Column(name = "is_active", nullable = false)
+	@Convert(converter = IsActiveConverter.class)
 	private IsActive isActive;
-	public final static String _isActive = "isActive";
+	public static final String _isActive = "isActive";
 
-	//TODO: as integer
-	@Column(name = "status", length = 100, nullable = false)
-	@Enumerated(EnumType.STRING)
+	@Column(name = "status", nullable = false)
+	@Convert(converter = ScheduledEventStatusConverter.class)
 	private ScheduledEventStatus status;
 	public final static String _status = "status";
 

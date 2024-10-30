@@ -1,0 +1,62 @@
+.user-role-editor {
+	align-items: center;
+	justify-content: space-between;
+
+	.roles {
+		min-width: 90px;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.roles-width-180 {
+		width: 180px;
+		margin-right: 8px;
+	}
+
+	.user-role{
+		text-align: center;
+		width: auto;
+		padding-top: 0.2em;
+		padding-left: 1em;
+		padding-right: 1em;
+		display: inline-block;
+	}
+	.user {
+		min-width: 67px;
+		min-height: 28px;
+		color: #00c4ff;
+		background: #d3f5ff 0% 0% no-repeat padding-box;
+		border-radius: 44px;
+		letter-spacing: 0.11px;
+		font-weight: 400;
+		opacity: 1;
+		margin-top: 0.5em;
+		margin-bottom: 0.5em;
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+
+	.admin {
+		min-width: 77px;
+		min-height: 28px;
+		color: #ff3d33;
+		background: #ffd5d3 0% 0% no-repeat padding-box;
+		border-radius: 44px;
+		letter-spacing: 0.11px;
+		font-weight: 400;
+		opacity: 1;
+		margin-top: 0.5em;
+		margin-bottom: 0.5em;
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+}
+
+:host ::ng-deep .mat-form-field-wrapper {
+	background-color: white !important;
+	padding-bottom: 0 !important;
+}
+
+:host ::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
+	padding: 0.3rem 0rem 0.6rem 0rem !important;
+}

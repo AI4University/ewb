@@ -73,6 +73,7 @@
 			"VIEW-PROFILE": "View Profile",
 			"SETTINGS": "Settings",
 			"LOGOUT": "Logout",
+			"LOGIN": "Login",
 			"MANUAL": "Manual",
 			"FAQ": "FAQ"
 		},
@@ -1900,6 +1901,9 @@
 				"APPLY": "Apply",
 				"CLOSE": "Close"
 			},
+			"SEARCH-FILTER-BTN": "Filter Results",
+			"CLEAR-ALL-FILTERS": "clear all filters",
+			"FILTERS-SAVE-AS": "Save as",
 			"MESSAGE": {
 				"EMPTY": "No data to display",
 				"TOTAL": "Total",
@@ -1949,6 +1953,28 @@
 		},
 		"ERRORS": {
 			"DEFAULT": "An Unexpected Error Occurred"
+		}
+	},
+	"USER-LISTING": {
+		"FIELDS": {
+			"CONTACT-INFO": "Email",
+			"ROLES": "Roles",
+			"FIRST-NAME": "First Name",
+			"LAST-NAME": "Last Name",
+			"UPDATED-AT": "Updated",
+			"CREATED-AT": "Created",
+			"IS-ACTIVE": "Is Active"
+		},
+		"FILTER": {
+			"TITLE": "Filters",
+			"IS-ACTIVE": "Is Active",
+			"ROLES": "Roles",
+			"CANCEL": "Cancel",
+			"APPLY-FILTERS": "Apply filters"
+		},
+		"ACTIONS": {
+			"EDIT": "Edit",
+			"SAVE": "Save"
 		}
 	}
 }

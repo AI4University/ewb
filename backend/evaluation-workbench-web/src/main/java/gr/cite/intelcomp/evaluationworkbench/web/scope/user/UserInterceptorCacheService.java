@@ -8,6 +8,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -24,6 +25,9 @@ public class UserInterceptorCacheService extends CacheService<UserInterceptorCac
 		}
 
 		private String subjectId;
+		private UUID userId;
+		private List<String> roles;
+		private String providerEmail;
 
 		public String getSubjectId() {
 			return subjectId;
@@ -33,8 +37,6 @@ public class UserInterceptorCacheService extends CacheService<UserInterceptorCac
 			this.subjectId = subjectId;
 		}
 
-		private UUID userId;
-
 		public UUID getUserId() {
 			return userId;
 		}
@@ -42,6 +44,23 @@ public class UserInterceptorCacheService extends CacheService<UserInterceptorCac
 		public void setUserId(UUID userId) {
 			this.userId = userId;
 		}
+
+		public List<String> getRoles() {
+			return roles;
+		}
+
+		public void setRoles(List<String> roles) {
+			this.roles = roles;
+		}
+
+		public String getProviderEmail() {
+			return providerEmail;
+		}
+
+		public void setProviderEmail(String providerEmail) {
+			this.providerEmail = providerEmail;
+		}
+
 	}
 
 	private final ConventionService conventionService;

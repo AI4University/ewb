@@ -6,20 +6,23 @@
 				<li class="navigation-group-item cursor-pointer" routerLink="/home" routerLinkActive="background-gray">
 					{{'APP.NAVIGATION.HOME' | translate}}
 				</li>
-				<li class="navigation-group-item cursor-pointer" routerLink="/ewb" routerLinkActive="background-gray">
+				<li *ngIf="authService.hasPermission(appPermission.ViewEwbPage)" class="navigation-group-item cursor-pointer" routerLink="/ewb" routerLinkActive="background-gray">
 					{{'APP.NAVIGATION.EWB' | translate}}
 				</li>
 				<!-- <li class="navigation-group-item cursor-pointer" routerLink="/expert" routerLinkActive="background-gray">
 					{{'APP.NAVIGATION.EXPERT' | translate}}
 				</li> -->
-				<li class="navigation-group-item cursor-pointer" routerLink="/classify" routerLinkActive="background-gray">
+				<li *ngIf="authService.hasPermission(appPermission.ViewClassifyPage)" class="navigation-group-item cursor-pointer" routerLink="/classify" routerLinkActive="background-gray">
 					{{'APP.NAVIGATION.CLASSIFY' | translate}}
 				</li>
 				<!-- <li class="navigation-group-item cursor-pointer" routerLink="/manual" routerLinkActive="background-gray">
 					{{'APP.NAVIGATION.MANUAL' | translate}}
 				</li> -->
-				<li class="navigation-group-item cursor-pointer" routerLink="/faq" routerLinkActive="background-gray">
+				<li *ngIf="authService.hasPermission(appPermission.ViewFaqPage)" class="navigation-group-item cursor-pointer" routerLink="/faq" routerLinkActive="background-gray">
 					{{'APP.NAVIGATION.FAQ' | translate}}
+				</li>
+				<li *ngIf="authService.hasPermission(appPermission.ViewUserPage)" class="navigation-group-item cursor-pointer" routerLink="/users" routerLinkActive="background-gray">
+					{{'APP.NAVIGATION.USERS' | translate}}
 				</li>
 
 			</ul>
@@ -65,7 +68,7 @@
 	<div *ngIf="isAuthenticated()" class="col-auto">
 
 		<button mat-button [matMenuTriggerFor]="menu" class="rounded-button background-gray">
-			<img *ngIf="authService.getUserProfilePictureRef() else namePlaceholder" class="profile-picture"
+			<!-- TODO <img *ngIf="authService.getUserProfilePictureRef() else namePlaceholder" class="profile-picture"
 						[src]="getProfilePicture() | secureImage | async">
 			<ng-template #namePlaceholder>
 				<div class="profile-picture d-flex background-blue justify-content-center align-items-center">
@@ -73,7 +76,7 @@
 						{{getPrincipalName()?.[0]}}
 					</small>
 				</div>
-			</ng-template>
+			</ng-template> -->
 			<span class="d-inline-block pl-3">
 				{{this.getPrincipalName()}}
 			</span>
@@ -82,6 +85,11 @@
 			<button mat-menu-item><mat-icon>settings</mat-icon>{{'APP.NAVIGATION.SETTINGS' | translate}}</button>
 			<button mat-menu-item (click)="logout()"><mat-icon>exit_to_app</mat-icon>{{'APP.NAVIGATION.LOGOUT' | translate}}</button>
 		</mat-menu>
+	</div>
+	<div *ngIf="!isAuthenticated()" class="col-auto">
+		<button mat-button [routerLink]=" ['/login'] ">
+			<span class="d-inline-block pl-3">{{'APP.NAVIGATION.LOGIN' | translate}}</span>
+		</button>
 	</div>
 	<div *ngIf="progressIndication" class="progress-bar" style="z-index: -1;">
 		<mat-progress-bar color="accent" mode="indeterminate"></mat-progress-bar>

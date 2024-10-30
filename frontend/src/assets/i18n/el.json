@@ -36,6 +36,7 @@
 			"SEARCH": "Search...",
 			"VIEW-PROFILE": "View Profile",
 			"LOGOUT":"Logout",
+			"LOGIN":"Login",
 			"MANUAL": "Manual",
 			"FAQ": "FAQ"
 		},
@@ -1467,6 +1468,9 @@
 				"APPLY": "Εφαρμογή",
 				"CLOSE": "Κλείσιμο"
 			},
+			"SEARCH-FILTER-BTN": "Filter Results",
+			"CLEAR-ALL-FILTERS": "clear all filters",
+			"FILTERS-SAVE-AS": "Save as",
 			"MESSAGE": {
 				"EMPTY": "Δεν υπάρχουν δεδομένα προς εμφάνιση",
 				"TOTAL": "Σύνολο",
@@ -1516,6 +1520,28 @@
 		},
 		"ERRORS": {
 			"DEFAULT": "Παρουσιάστηκε απροσδόκητο σφάλμα"
+		}
+	},
+	"USER-LISTING": {
+		"FIELDS": {
+			"CONTACT-INFO": "Email",
+			"ROLES": "Roles",
+			"FIRST-NAME": "First Name",
+			"LAST-NAME": "Last Name",
+			"UPDATED-AT": "Updated",
+			"CREATED-AT": "Created",
+			"IS-ACTIVE": "Is Active"
+		},
+		"FILTER": {
+			"TITLE": "Filters",
+			"IS-ACTIVE": "Is Active",
+			"ROLES": "Roles",
+			"CANCEL": "Cancel",
+			"APPLY-FILTERS": "Apply filters"
+		},
+		"ACTIONS": {
+			"EDIT": "Edit",
+			"SAVE": "Save"
 		}
 	}
 }

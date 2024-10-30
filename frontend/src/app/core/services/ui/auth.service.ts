@@ -3,7 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable, NgZone } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppPermission } from '@app/core/enum/permission.enum';
-import { RoleType } from '@app/core/enum/role-type.enum';
+import { AppRole } from '@app/core/enum/app-role';
 import { AppAccount } from '@app/core/model/auth/principal.model';
 import { PrincipalService as AppPrincipalService, PrincipalService } from '@app/core/services/http/principal.service';
 import { BaseService } from '@common/base/base.service';
@@ -18,7 +18,7 @@ import { forkJoin, from, Observable, of, Subject } from 'rxjs';
 import { exhaustMap, map, takeUntil } from 'rxjs/operators';
 
 export interface ResolutionContext {
-	roles: RoleType[];
+	roles: AppRole[];
 	permissions: AppPermission[];
 }
 
@@ -178,7 +178,7 @@ export class AuthService extends BaseService {
 	}
 
 	public isAdmin(): boolean {
-		return this.hasRole(RoleType.Admin);
+		return this.hasRole(AppRole.Admin);
 	}
 
 	public getUserProfilePictureRef(): string {
@@ -279,16 +279,16 @@ export class AuthService extends BaseService {
 
 	private evaluatePermission(availablePermissions: string[], permissionToCheck: string): boolean {
 		if (!permissionToCheck) { return false; }
-		if (this.hasRole(RoleType.Admin)) { return true; }
+		if (this.hasRole(AppRole.Admin)) { return true; }
 		return availablePermissions.map(x => x.toLowerCase()).includes(permissionToCheck.toLowerCase());
 	}
 
-	public hasAnyRole(roles: RoleType[]): boolean {
+	public hasAnyRole(roles: AppRole[]): boolean {
 		if (!roles) { return false; }
 		return roles.filter((r) => this.hasRole(r)).length > 0;
 	}
 
-	public hasRole(role: RoleType): boolean {
+	public hasRole(role: AppRole): boolean {
 		if (role === undefined) { return false; }
 		if (this.appAccount?.principal?.more && this.appAccount?.principal?.more['Roles']?.length === 0) { return false; }
 		return this.appAccount?.principal?.more['Roles']?.map(x => x.toLowerCase()).includes(role.toLowerCase());
@@ -301,7 +301,7 @@ export class AuthService extends BaseService {
 
 	public authorize(context: ResolutionContext): boolean {
 
-		if (!context || this.hasRole(RoleType.Admin)) { return true; }
+		if (!context || this.hasRole(AppRole.Admin)) { return true; }
 
 		let roleAuthorized = false;
 		if (context.roles && context.roles.length > 0) {

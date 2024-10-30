@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TextFilterComponent } from '@common/modules/text-filter/text-filter.component';
 import { CommonUiModule } from '@common/ui/common-ui.module';
+import { ExpandableSearchFieldComponent } from './expandable-search-field/expandable-search-field.component';
 
 @NgModule({
 	imports: [
@@ -9,10 +10,12 @@ import { CommonUiModule } from '@common/ui/common-ui.module';
 		FormsModule
 	],
 	declarations: [
-		TextFilterComponent
+		TextFilterComponent,
+		ExpandableSearchFieldComponent
 	],
 	exports: [
-		TextFilterComponent
+		TextFilterComponent,
+		ExpandableSearchFieldComponent
 	]
 })
 export class TextFilterModule {
