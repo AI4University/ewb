@@ -17,16 +17,6 @@ export class PrincipalService {
 	) { }
 
 	public me(options?: Object): Observable<AppAccount> {
-		const params = new BaseHttpParams();
-		params.interceptorContext = {
-			excludedInterceptors: [InterceptorType.ProgressIndication]
-		};
-		if (options) options['params'] = params;
-		else {
-			options = new Object();
-			options['params'] = params;
-		}
-
 		const url = `${this.apiBase}/me`;
 		return this.http.get<AppAccount>(url, options);
 	}
