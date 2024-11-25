@@ -1,0 +1,25 @@
+<div class="funding-call-view">
+	<div class="row mt-3 mb-3 ml-0 mr-0">
+		<div class="col-2 col-xl-1"></div>
+		<app-document-search class="col-1 col-xl-5" [corpus]="corpus" (selectedDoc)="onSelectedDoc($event)"></app-document-search>
+		<div class="col-2 col-xl-1"></div>
+		<div *ngIf="selectedDoc" class="col-1 col-xl-5">
+			<div class="pb-0">
+				<mat-form-field class="w-100">
+					<mat-label>{{'APP.RECOMMENDATION-TOOL-COMPONENT.CRITERIA' | translate}}</mat-label>
+					<mat-select [(ngModel)]="selectedCriteria" (selectionChange)="selectedCriteriaChange()">
+						<mat-option *ngFor="let criteria of criteriaList" [value]="criteria">{{criteria}}</mat-option>
+					</mat-select>
+				</mat-form-field>
+			</div>
+			<app-research-view *ngIf="selectedCriteria.length > 0" [similarResearchers]="similarResearchers" [similarResearcherGroups]="similarResearcherGroups"></app-research-view>
+		</div> 
+	</div>
+	<div class="mb-3 col-12 col-xl-4">
+		<div *ngIf="chartOptions" [options]="chartOptions" echarts>
+		</div>
+	</div>
+	<div class="row m-0">
+		<app-document-view *ngIf="selectedDoc" [selectedDoc]="selectedDoc" class="mb-3 col-12 col-xl-8"></app-document-view>
+	</div>
+</div> 

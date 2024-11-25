@@ -1,0 +1,11 @@
+<div *ngIf="echartsOptions?.length > 0">
+    <div *ngFor="let echartOption of echartsOptions" class="container">
+      <div
+        class="body"
+        echarts
+        [options]="echartOption"
+      ></div>
+    </div>
+</div>
+
+  

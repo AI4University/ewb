@@ -1,16 +1,7 @@
 <app-corpus-model (valuesSelected)="registerValues($event)"></app-corpus-model>
 
-<div>
-<mat-tab-group *ngIf="selectedModel" [(selectedIndex)]="selectedTab">
-
-	<mat-tab label="{{ 'APP.EWB-COMPONENT.MODEL-OVERVIEW' | translate }}"></mat-tab>
-	<mat-tab label="{{ 'APP.EWB-COMPONENT.SIMILARITIES' | translate }}"></mat-tab>
-	<mat-tab label="{{ 'APP.EWB-COMPONENT.DOCUMENT-SEARCH' | translate }}"></mat-tab>
-</mat-tab-group>
-
-<app-topic-relevance *ngIf="selectedModel && selectedTab == 0" [model]="selectedModel"></app-topic-relevance>
-<app-model-overview *ngIf="selectedModel && selectedTab == 0" [corpus]="selectedCorpus" [model]="selectedModel"></app-model-overview>
-<app-similarities *ngIf="selectedModel && selectedTab == 1" [corpus]="selectedCorpus" [model]="selectedModel"></app-similarities>
-<app-document-search-view *ngIf="selectedModel && selectedTab == 2" [corpus]="selectedCorpus" [model]="selectedModel"></app-document-search-view>
+<div *ngIf="selectedModel">
+<app-topic-relevance [model]="selectedModel"></app-topic-relevance>
+<app-model-overview [corpus]="selectedCorpus" [model]="selectedModel"></app-model-overview>
 
 </div>

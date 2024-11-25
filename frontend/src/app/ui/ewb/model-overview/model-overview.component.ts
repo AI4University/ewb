@@ -531,8 +531,8 @@ export class ModelOverviewComponent extends BaseComponent implements OnInit {
 	switch(this.selectedView) {
 		case '1': {
 			this.dialog.open(TopicViewComponent, {
-				maxWidth: '80vw',
-				maxHeight: '80vh',
+				maxHeight: '90vh',
+				minWidth: '90vw',
 				panelClass: 'topic-style',
 				data: {
 					corpus: this.corpus,
@@ -546,8 +546,8 @@ export class ModelOverviewComponent extends BaseComponent implements OnInit {
 		case '3': {
 			if (event.data.depth === 1) {
 				this.dialog.open(TopicViewComponent, {
-					width: '85vw',
-					height: '80vh',
+					maxHeight: '90vh',
+					minWidth: '90vw',
 					panelClass: 'topic-style',
 					data: {
 						corpus: this.corpus,
@@ -559,8 +559,8 @@ export class ModelOverviewComponent extends BaseComponent implements OnInit {
 			} else if (event.data.depth === 2) {
 				this.ewbService.getDocument(this.corpus, (event.data.id as string).split('.')[1]).subscribe((doc: any) => {
 				this.dialog.open(DocumentViewComponent, {
-					width: '85vw',
-					height: '80vh',
+					maxHeight: '90vh',
+					minWidth: '90vw',
 					panelClass: 'topic-style',
 					data: {
 						selectedDoc: doc

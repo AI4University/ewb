@@ -2,6 +2,7 @@ package gr.cite.intelcomp.evaluationworkbench.web.controllers;
 
 import gr.cite.intelcomp.evaluationworkbench.model.*;
 import gr.cite.intelcomp.evaluationworkbench.query.*;
+import gr.cite.intelcomp.evaluationworkbench.query.lookup.*;
 import gr.cite.intelcomp.evaluationworkbench.service.ewb.EWBService;
 import gr.cite.intelcomp.evaluationworkbench.web.model.QueryResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -196,6 +197,74 @@ public class EWBController {
     public QueryResult<ExpertModel> suggestExperts(@RequestBody ExpertSuggestionQuery query) {
         List<ExpertModel> expertModels = service.suggestExperts(query);
         return new QueryResult<>(expertModels, expertModels.size());
+    }
+
+    @GetMapping("topics/statistics")
+    public Map<String, Object> getTopicStatistics(@RequestParam String corpusCollection, @RequestParam String model, @RequestParam String topicId) {
+        return this.service.getTopicStatistics(corpusCollection, model, topicId);
+    }
+
+    @PostMapping("topics/top-researchers")
+    public List<EWBTopResearcher> getTopResearchers(@RequestBody TopicTopResearcherLookup topicTopResearcherLookup) {
+        return this.service.getTopicTopResearcher(topicTopResearcherLookup);
+    }
+
+    @PostMapping("topics/top-research-groups")
+    public List<EWBTopResearchGroup> getTopResearchGroups(@RequestBody TopicTopResearchGroupLookup topicTopResearchGroupLookup) {
+        return this.service.getTopicTopResearchGroups(topicTopResearchGroupLookup);
+    }
+
+    @GetMapping("topics/evolution")
+    public List<Map<String, Object>> getTopicEvolution(@RequestParam String corpusCollection, @RequestParam String model, @RequestParam String topicId) {
+        return this.service.getTopicEvolution(corpusCollection, model, topicId);
+    }
+
+    @GetMapping("metadata-ag-by-id")
+    public Map<String, Object> getMetadataAGByID(@RequestParam String id, @RequestParam String aggregatedCollectionName ) {
+        return this.service.getMetadataAGByID(id, aggregatedCollectionName);
+    }
+
+    @GetMapping("similarity-criteria-list")
+    public List<String> getSimilarityCriteriaList() {
+        return this.service.getSimilarityCriteriaList();
+    }
+
+    @PostMapping("researchers-similar-to-call")
+    public List<EWBSimilarResearcher> getResearchersSimilarToCall(@RequestBody ResearchSimilarToCallLookup lookup) {
+        return this.service.getResearchersSimilarToCall(lookup);
+    }
+
+    @PostMapping("researchers-similar-to-text")
+    public List<EWBSimilarResearcher> getResearchersSimilarToText(@RequestBody ResearchSimilarToTextLookup lookup) {
+        return this.service.getResearchersSimilarToText(lookup);
+    }
+
+    @PostMapping("research-groups-similar-to-call")
+    public List<EWBSimilarResearchGroup> getResearchGroupsSimilarToCall(@RequestBody ResearchSimilarToCallLookup lookup) {
+        return this.service.getResearchGroupsSimilarToCall(lookup);
+    }
+
+    @PostMapping("research-groups-similar-to-text")
+    public List<EWBSimilarResearchGroup> getResearchGroupsSimilarToText(@RequestBody ResearchSimilarToTextLookup lookup) {
+        return this.service.getResearchGroupsSimilarToText(lookup);
+    }
+
+    @PostMapping("ag-docs-with-string")
+    public QueryResult<EWBDocAG> getAGDocsWithString(@RequestBody AGDocsLookup lookup) {
+        List<EWBDocAG> docs = this.service.getAGDocsWithString(lookup);
+        return new QueryResult<>(docs, docs.size());
+    }
+
+    @PostMapping("calls-similar-to-researcher")
+    public QueryResult<EWBSimilarResearcher> getCallsSimilarToResearcher(@RequestBody CallsSimilarToResearcherLookup lookup) {
+        List<EWBSimilarResearcher> results = this.service.getCallsSimilarToResearcher(lookup);
+        return new QueryResult<>(results, results.size());
+    }
+
+    @PostMapping("thetas-researcher")
+    public QueryResult<EWBPrettyTheta> getThetasResearcherByID(@RequestBody ThetasResearcherLookup lookup) {
+        List<EWBPrettyTheta> thetas = service.getThetasResearcherByID(lookup);
+        return new QueryResult<>(thetas);
     }
 
 }

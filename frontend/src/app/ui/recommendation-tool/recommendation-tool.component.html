@@ -1,0 +1,12 @@
+<div>
+    <mat-tab-group [(selectedIndex)]="selectedTab">
+    
+        <mat-tab label="{{ 'APP.RECOMMENDATION-TOOL-COMPONENT.SEARCH-BY-FUNDING-CALL' | translate }}"></mat-tab>
+        <mat-tab label="{{ 'APP.RECOMMENDATION-TOOL-COMPONENT.SEARCH-BY-TEXT' | translate }}"></mat-tab>
+        <mat-tab label="{{ 'APP.RECOMMENDATION-TOOL-COMPONENT.SEARCH-BY-RESEARCHER' | translate }}"></mat-tab>
+    </mat-tab-group>
+    
+    <app-funding-call *ngIf="selectedTab == 0"></app-funding-call>
+    <app-search-by-text *ngIf="selectedTab == 1"></app-search-by-text>
+    <app-search-by-researcher *ngIf="selectedTab == 2"></app-search-by-researcher>
+</div>

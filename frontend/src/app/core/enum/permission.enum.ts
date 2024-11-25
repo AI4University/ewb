@@ -9,6 +9,7 @@ export enum AppPermission {
 	// UI Pages
 	ViewHomePage = "ViewHomePage",
 	ViewEwbPage = "ViewEwbPage",
+	ViewRecommendationToolPage = "ViewRecommendationToolPage",
 	ViewClassifyPage = "ViewClassifyPage",
 	ViewFaqPage = "ViewFaqPage",
 	ViewUserPage = "ViewUserPage"

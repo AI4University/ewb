@@ -12,6 +12,7 @@ public final class Permission {
 	public static String ViewHomePage = "ViewHomePage";
 	public static String ViewFaqPage = "ViewFaqPage";
 	public static String ViewEwbPage = "ViewEwbPage";
+	public static String ViewRecommendationToolPage = "ViewRecommendationToolPage";
 	public static String ViewClassifyPage = "ViewClassifyPage";
 	public static String ViewUsersPage = "ViewUsersPage";
 }

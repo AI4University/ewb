@@ -231,7 +231,7 @@ export class AuthService extends BaseService {
 	}
 
 	public refreshToken(httpParams?: Object): Promise<boolean> {
-		return this.keycloakService.updateToken(60).then(isRefreshed => {
+		return this.keycloakService.updateToken().then(isRefreshed => {
 
 				if(!isRefreshed){
 					return false;

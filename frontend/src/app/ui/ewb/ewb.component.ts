@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-ewb',
@@ -8,7 +8,6 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 export class EwbComponent implements OnInit {
   selectedModel: string = null;
   selectedCorpus: string = null;
-  selectedTab: number = 0;
 
   constructor() {
   }

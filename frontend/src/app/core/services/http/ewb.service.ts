@@ -21,6 +21,14 @@ import { BaseHttpService } from '@common/base/base-http.service';
 import { InstallationConfigurationService } from '@common/installation-configuration/installation-configuration.service';
 import { QueryResult } from '@common/model/query-result';
 import { Observable } from 'rxjs';
+import { SimilarResearcher } from '@app/core/model/ewb/researcher-similar-to-call.model';
+import { SimilarResearchGroup } from '@app/core/model/ewb/research-group-similar-to-call.model';
+import { AGDoc } from '@app/core/model/ewb/ag-doc.model';
+import { AGDocsLookup } from '@app/core/query/ag-docs.lookup';
+import { CallsSimilarToResearcherLookup } from '@app/core/query/calls-similar-to-researcher.lookup';
+import { ThetasResearcherLookup } from '@app/core/query/thetas-researcher.lookup';
+import { ResearchSimilarToCallLookup } from '@app/core/query/research-similar-to-call.lookup';
+import { ResearchSimilarToTextLookup } from '@app/core/query/research-similar-to-text.lookup';
 
 @Injectable({
   providedIn: 'root'
@@ -194,6 +202,76 @@ export class EwbService {
 
   suggestExperts(docsQuery: ExpertSuggestionQuery): Observable<QueryResult<any>> {
     return this.http.post<QueryResult<any>>(`${this.apiBase}/suggestExperts`, docsQuery);
+  }
+
+  getTopicStatistics(corpusCollection: string, model: string, topicId: string): Observable<Map<string, any>> {
+    return this.http.get<Map<string, any>>(`${this.apiBase}/topics/statistics`, {
+      params: {
+        corpusCollection: corpusCollection,
+        model: model,
+        topicId: topicId
+      }
+    })
+  }
+
+  getTopResearchers(query: TopDocTopicQuery): Observable<TopDoc[]> {
+    return this.http.post<TopDoc[]>(`${this.apiBase}/topics/top-researchers`, query);
+  }
+
+  getTopResearchGroups(query: TopDocTopicQuery): Observable<TopDoc[]> {
+    return this.http.post<TopDoc[]>(`${this.apiBase}/topics/top-research-groups`, query);
+  }
+
+  getMetadataAGByID(id: string, aggregatedCollectionName: string): Observable<Map<string, any>> {
+    return this.http.get<Map<string, any>>(`${this.apiBase}/metadata-ag-by-id`, {
+      params: {
+        id: id,
+        aggregatedCollectionName: aggregatedCollectionName
+      }
+    })
+  }
+
+  getTopicEvolution(corpusCollection: string, model: string, topicId: string): Observable<Array<Map<string, any[]>>> {
+    return this.http.get<Array<Map<string, any[]>>>(`${this.apiBase}/topics/evolution`, {
+      params: {
+        corpusCollection: corpusCollection,
+        model: model,
+        topicId: topicId
+      }
+    })
+  }
+
+  getSimiliarityCriteriaList(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.apiBase}/similarity-criteria-list`)
+  }
+
+  getResearchersSimilarToCall(lookup: ResearchSimilarToCallLookup): Observable<SimilarResearcher[]> {
+    return this.http.post<SimilarResearcher[]>(`${this.apiBase}/researchers-similar-to-call`, lookup);
+
+  }
+
+  getResearchersSimilarToText(lookup: ResearchSimilarToTextLookup): Observable<SimilarResearcher[]> {
+    return this.http.post<SimilarResearcher[]>(`${this.apiBase}/researchers-similar-to-text`, lookup);
+  }
+
+  getResearchGroupsSimilarToCall(lookup: ResearchSimilarToCallLookup): Observable<SimilarResearchGroup[]> {
+    return this.http.post<SimilarResearchGroup[]>(`${this.apiBase}/research-groups-similar-to-call`, lookup);
+  }
+
+  getResearchGroupsSimilarToText(lookup: ResearchSimilarToTextLookup): Observable<SimilarResearchGroup[]> {
+    return this.http.post<SimilarResearchGroup[]>(`${this.apiBase}/research-groups-similar-to-text`, lookup);
+  }
+
+  getAGDocsWithString(lookup: AGDocsLookup): Observable<QueryResult<AGDoc>> {
+    return this.http.post<QueryResult<AGDoc>>(`${this.apiBase}/ag-docs-with-string`, lookup);
+  }
+
+  getCallsSimilarToResearcher(lookup: CallsSimilarToResearcherLookup): Observable<QueryResult<SimilarResearcher>> {
+    return this.http.post<QueryResult<SimilarResearcher>>(`${this.apiBase}/calls-similar-to-researcher`, lookup);
+  }
+
+  getThetasResearcherByID(lookup: ThetasResearcherLookup): Observable<QueryResult<Theta>> {
+    return this.http.post<QueryResult<Theta>>(`${this.apiBase}/thetas-researcher`, lookup);
   }
 
 }

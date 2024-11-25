@@ -2,6 +2,7 @@ package gr.cite.intelcomp.evaluationworkbench.service.ewb;
 
 import gr.cite.intelcomp.evaluationworkbench.model.*;
 import gr.cite.intelcomp.evaluationworkbench.query.*;
+import gr.cite.intelcomp.evaluationworkbench.query.lookup.*;
 import gr.cite.intelcomp.evaluationworkbench.webclient.WebClientUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -17,7 +18,6 @@ import reactor.core.publisher.Mono;
 import java.time.Instant;
 import java.time.format.DateTimeParseException;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 @Component
@@ -144,17 +144,7 @@ public class EWBService {
         String response = Objects.requireNonNull(ewbTMClient.get().uri("/queries/getThetasDocById", uriBuilder -> WebClientUtils.buildParameters(uriBuilder, query))
                 .exchangeToMono(mono -> mono.bodyToMono(new ParameterizedTypeReference<Map<String, String>>() {
                 })).block()).entrySet().stream().findFirst().orElse(Map.entry("", "")).getValue();
-        List<String> thetas = List.of(response.split(" "));
-        List<EWBPrettyTheta> thetaList = new ArrayList<>();
-        List<EWBTopicModel> topicLabels = this.getTopics(query.getModelName());
-        thetas.forEach(s -> {
-            String[] values = s.split("\\|");
-            if (values.length == 2) {
-                Optional<EWBTopicModel> model = topicLabels.stream().filter(ewbTopicModel -> ewbTopicModel.getId().equals(values[0])).findFirst();
-                model.ifPresent(ewbTopicModel -> thetaList.add(new EWBPrettyTheta(values[0], ewbTopicModel.getTpcLabels(), Double.parseDouble(values[1]))));
-            }
-        });
-        return thetaList;
+        return this.buildThetas(response, query.getModelName());
     }
 
     public List<String> queryCollectionMetadata(String corpus) {
@@ -593,6 +583,146 @@ public class EWBService {
         return experts.get(query.getExpertCollection()).stream()
                 .filter(expertModel -> expertModel.getAffiliation().contains(query.getText()) || expertModel.getDepartment().contains(query.getText()) || expertModel.getOrganization().contains(query.getText()) || expertModel.getScientificArea().contains(query.getText()) || expertModel.getScientificField().contains(query.getText()) || expertModel.getSubfield().contains(query.getText()) || expertModel.getKeywords().contains(query.getText()))
                 .toList();
+    }
+
+    public Map<String, Object> getTopicStatistics(String corpusCollection, String model, String topicId) {
+
+        return this.ewbTMClient.get().uri(uriBuilder -> uriBuilder.path("/queries/getTopicStatistics/")
+                .queryParam("corpus_collection", corpusCollection)
+                .queryParam("model_name", model)
+                .queryParam("topic_id", topicId)
+                .build())
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {})
+                .block();
+    }
+
+    public List<EWBTopResearcher> getTopicTopResearcher(TopicTopResearcherLookup lookup) {
+        List<EWBTopResearcher> results = Objects.requireNonNull(ewbTMClient.get().uri("/queries/getTopicTopResearchers/", builder -> WebClientUtils.buildParameters(builder, lookup))
+                .exchangeToMono(mono -> mono.bodyToMono(new ParameterizedTypeReference<List<EWBTopResearchersResponse>>() {
+                })).block()).stream().map(researcher -> new EWBTopResearcher(researcher.getId(), researcher.getThetas() != null ? researcher.getThetas().get(0).getTheta() : 0, researcher.getWords(), researcher.getTopicRelevance(), researcher.getCounts())).collect(Collectors.toList());
+        CollectionQuery collectionQuery = new CollectionQuery();
+        collectionQuery.setCollection(lookup.getCorpusCollection());
+        collectionQuery.setQ("id: (" + results.stream().map(EWBTopResearcher::getId).collect(Collectors.joining(" ")) + ")");
+        collectionQuery.setQop("OR");
+        collectionQuery.setFl("id, title");
+        collectionQuery.setRows(results.size());
+        List<Map<String, Object>> collectedData = this.queryCollection(collectionQuery);
+        results.forEach(researcher -> researcher.setTitle(collectedData.stream().filter(cd -> cd.get("id").equals(researcher.getId())).map(cd -> cd.get("title").toString()).findFirst().orElse("N/A")));
+        results.sort(Comparator.comparing((EWBTopResearcher topResearcher) -> topResearcher.getTopic() * topResearcher.getRelevance()).reversed());
+        return results;
+    }
+
+    public List<EWBTopResearchGroup> getTopicTopResearchGroups(TopicTopResearchGroupLookup lookup) {
+        List<EWBTopResearchGroup> results = Objects.requireNonNull(ewbTMClient.get().uri("/queries/getTopicTopRGs/", builder -> WebClientUtils.buildParameters(builder, lookup))
+                .exchangeToMono(mono -> mono.bodyToMono(new ParameterizedTypeReference<List<EWBTopResearchGroupResponse>>() {
+                })).block()).stream().map(rg -> new EWBTopResearchGroup(rg.getId(), rg.getThetas() != null ? rg.getThetas().get(0).getTheta() : 0, rg.getWords(), rg.getTopicRelevance(), rg.getCounts())).collect(Collectors.toList());
+        CollectionQuery collectionQuery = new CollectionQuery();
+        collectionQuery.setCollection(lookup.getCorpusCollection());
+        collectionQuery.setQ("id: (" + results.stream().map(EWBTopResearchGroup::getId).collect(Collectors.joining(" ")) + ")");
+        collectionQuery.setQop("OR");
+        collectionQuery.setFl("id, title");
+        collectionQuery.setRows(results.size());
+        List<Map<String, Object>> collectedData = this.queryCollection(collectionQuery);
+        results.forEach(rg -> rg.setTitle(collectedData.stream().filter(cd -> cd.get("id").equals(rg.getId())).map(cd -> cd.get("title").toString()).findFirst().orElse("N/A")));
+        results.sort(Comparator.comparing((EWBTopResearchGroup topDoc) -> topDoc.getTopic() * topDoc.getRelevance()).reversed());
+        return results;
+    }
+
+    public List<Map<String, Object>> getTopicEvolution(String corpusCollection, String model, String topicId) {
+        return Objects.requireNonNull(this.ewbTMClient.get().uri(uriBuilder -> uriBuilder.path("/queries/getTopicEvolution/")
+                        .queryParam("corpus_collection", corpusCollection)
+                        .queryParam("model_name", model)
+                        .queryParam("topic_id", topicId)
+                        .build())
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<List<Map<String, Object>>>() {
+                })
+                .block());
+    }
+
+    public  Map<String, Object> getMetadataAGByID(String id, String aggregatedCollectionName) {
+        return this.ewbTMClient.get().uri(uriBuilder -> uriBuilder.path("/queries/getMetadataAGByID/")
+                        .queryParam("id", id)
+                        .queryParam("aggregated_collection_name", aggregatedCollectionName)
+                        .build())
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {})
+                .block();
+    }
+
+    public List<String> getSimilarityCriteriaList() {
+        return this.ewbTMClient.get().uri(uriBuilder -> uriBuilder.path("/queries/getSimiliarityCriteriaList/").build())
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<List<String>>() {})
+                .block();
+    }
+
+    public List<EWBSimilarResearcher> getResearchersSimilarToCall(ResearchSimilarToCallLookup lookup) {
+
+        return Objects.requireNonNull(ewbTMClient.get().uri("/queries/getResearchersSimilarToCall/", builder -> WebClientUtils.buildParameters(builder, lookup))
+                .exchangeToMono(mono -> mono.bodyToMono(new ParameterizedTypeReference<List<EWBSimilarResearcher>>() {
+                })).block());
+    }
+
+    public List<EWBSimilarResearcher> getResearchersSimilarToText(ResearchSimilarToTextLookup lookup) {
+
+        return Objects.requireNonNull(ewbTMClient.get().uri("/queries/getResearchersSimilarToText/", builder -> WebClientUtils.buildParameters(builder, lookup))
+                .exchangeToMono(mono -> mono.bodyToMono(new ParameterizedTypeReference<List<EWBSimilarResearcher>>() {
+                })).block());
+    }
+
+    public List<EWBSimilarResearchGroup> getResearchGroupsSimilarToCall(ResearchSimilarToCallLookup lookup ) {
+
+        return Objects.requireNonNull(ewbTMClient.get().uri("/queries/getResearchGroupsSimilarToCall/", builder -> WebClientUtils.buildParameters(builder, lookup))
+                .exchangeToMono(mono -> mono.bodyToMono(new ParameterizedTypeReference<List<EWBSimilarResearchGroup>>() {
+                })).block());
+    }
+
+    public List<EWBSimilarResearchGroup> getResearchGroupsSimilarToText(ResearchSimilarToTextLookup lookup ) {
+
+        return Objects.requireNonNull(ewbTMClient.get().uri("/queries/getResearchGroupsSimilarToText/", builder -> WebClientUtils.buildParameters(builder, lookup))
+                .exchangeToMono(mono -> mono.bodyToMono(new ParameterizedTypeReference<List<EWBSimilarResearchGroup>>() {
+                })).block());
+    }
+
+    public List<EWBDocAG> getAGDocsWithString(AGDocsLookup lookup) {
+
+        return Objects.requireNonNull(ewbTMClient.get().uri("/queries/getAGDocsWithString/", builder -> WebClientUtils.buildParameters(builder, lookup))
+                .exchangeToMono(mono -> mono.bodyToMono(new ParameterizedTypeReference<List<EWBDocAG>>() {
+                })).block());
+    }
+
+    public List<EWBSimilarResearcher> getCallsSimilarToResearcher(CallsSimilarToResearcherLookup lookup) {
+
+        return Objects.requireNonNull(ewbTMClient.get().uri("/queries/getCallsSimilarToResearcher/", builder -> WebClientUtils.buildParameters(builder, lookup))
+                .exchangeToMono(mono -> mono.bodyToMono(new ParameterizedTypeReference<List<EWBSimilarResearcher>>() {
+                })).block());
+    }
+
+    public List<EWBPrettyTheta> getThetasResearcherByID(ThetasResearcherLookup lookup) {
+        String response = Objects.requireNonNull(ewbTMClient.get().uri("/queries/getThetasResearcherByID", uriBuilder -> WebClientUtils.buildParameters(uriBuilder, lookup))
+                .exchangeToMono(mono -> mono.bodyToMono(new ParameterizedTypeReference<Map<String, String>>() {
+                })).block()).entrySet().stream().findFirst().orElse(Map.entry("", "")).getValue();
+        return this.buildThetas(response, lookup.getModelName());
+    }
+
+    private List<EWBPrettyTheta> buildThetas(String response, String modelName) {
+        List<String> thetas = List.of(response.split(" "));
+        List<EWBPrettyTheta> thetaList = new ArrayList<>();
+        List<EWBTopicModel> topicLabels = this.getTopics(modelName);
+        thetas.forEach(s -> {
+            String[] values = s.split("\\|");
+            if (values.length == 2) {
+                if (topicLabels != null) {
+                    Optional<EWBTopicModel> model = topicLabels.stream().filter(ewbTopicModel -> ewbTopicModel.getId().equals(values[0])).findFirst();
+                    model.ifPresent(ewbTopicModel -> thetaList.add(new EWBPrettyTheta(values[0], ewbTopicModel.getTpcLabels(), Double.parseDouble(values[1]))));
+                } else {
+                    thetaList.add(new EWBPrettyTheta(values[0], values[0], Double.parseDouble(values[1])));
+                }
+            }
+        });
+        return thetaList;
     }
 
 }

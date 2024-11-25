@@ -55,8 +55,9 @@
 			"NOTIFICATION-TEMPLATES": "Notification Templates",
 			"INAPP-NOTIFICATIONS": "Notifications",
 			"HOME": "Home",
-			"EWB": "Topic Analysis",
+			"EWB": "Knowledge Map",
 			"EXPERT": "Expert Selection",
+			"RECOMMENDATION-TOOL": "Recommendation tool",
 			"CLASSIFY": "Classification",
 			"CORPUS": "Corpora",
 			"RAW-CORPUS": "Raw Corpora",
@@ -104,7 +105,11 @@
 			"HOW-TO-CORPUS-DESCRIPTION": "Create a new corpus or combine them",
 			"HOW-TO-MODELS-DESCRIPTION": "Create and train a model",
 			"HOW-TO-WORD-LIST": "Word List",
-			"HOW-TO-WORD-LIST-DESCRIPTION": "Manage your list of items"
+			"HOW-TO-WORD-LIST-DESCRIPTION": "Manage your list of items",
+			"WELCOME": "Welcome to",
+			"APP-NAME": "Evaluation Workbench",
+			"VERSION": "v1.0",
+			"UC3M-DESCRIPTION": "Proyecto TED2021-132366B-I00 financiado por MICIU/AEI /10.13039/501100011033 y por la Unión Europea NextGenerationEU/ PRTR"
 		},
 		"RENAME-DIALOG": {
 			"TITLE": "Rename item",
@@ -958,6 +963,8 @@
 					"TOP-WORDS": "Top Words",
 					"TOPIC-STATISTICS": "Topic Statistics",
 					"TOP-DOCUMENTS": "Top Documents",
+					"TOP-RESEARCHERS": "Top Researchers",
+					"TOP-RESEARCHE-GROUPS": "Top Research Groups",
 					"LISTING": {
 						"ID": "ID",
 						"SIZE": "Size",
@@ -974,6 +981,18 @@
 				"SIMILAR-DOC": "Similarity of a document in the corpus to others",
 				"SIMILAR-TEXT": "Similarity of an inputted document and others in the corpus",
 				"SIMILAR-BETWEEN": "Similarity among pairs of documents in the corpus"
+			}
+		},
+		"RECOMMENDATION-TOOL-COMPONENT": {
+			"SEARCH-BY-FUNDING-CALL": "Search by funding call acronym or title",
+			"SEARCH-BY-TEXT": "Search by text",
+			"SEARCH-BY-RESEARCHER": "Search by researcher",
+			"CRITERIA": "Criteria"
+		},
+		"RESEARCH-VIEW-COMPONENT": {
+			"LISTING": {
+				"ID": "Id",
+				"SCORE": "Score"
 			}
 		},
 		"EXPERT-COMPONENT": {

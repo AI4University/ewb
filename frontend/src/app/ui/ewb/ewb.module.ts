@@ -16,17 +16,21 @@ import { TopicViewComponent } from './model-overview/topic-view/topic-view.compo
 import { DocumentSearchComponent } from './modules/document-search/document-search.component';
 import { DocumentViewComponent } from './modules/document-view/document-view.component';
 import { SimilaritiesComponent } from './similarities/similarities.component';
+import { TopicEvolutionChartComponent } from './model-overview/topic-view/topic-evolution-chart/topic-evolution-chart.component';
+import { MetadataAgViewComponent } from './modules/metadata-ag-view/metadata-ag-view.component';
 
 @NgModule({
   declarations: [
     EwbComponent,
     ModelOverviewComponent,
     TopicViewComponent,
+    TopicEvolutionChartComponent,
     DocumentSearchComponent,
     DocumentSearchViewComponent,
     SimilaritiesComponent,
     DocumentViewComponent,
-    TopicRelevanceComponent
+    TopicRelevanceComponent,
+    MetadataAgViewComponent
   ],
   imports: [
     CommonUiModule,

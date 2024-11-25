@@ -23,6 +23,15 @@ const appRoutes: Routes = [
 			}
 		},
 	},
+	{
+		path: 'recommendation-tool',
+		loadChildren: () => import('@app/ui/recommendation-tool/recommendation-tool.module').then(m => m.RecommendationToolModule),
+		data: {
+			authContext: {
+				permissions: [AppPermission.ViewRecommendationToolPage]
+			}
+		},
+	},
 //	{
 //		path: 'expert',
 //		canLoad: [AuthGuard],

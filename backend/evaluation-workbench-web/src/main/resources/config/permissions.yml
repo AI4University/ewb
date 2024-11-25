@@ -49,6 +49,13 @@ permissions:
       clients: [ ]
       allowAnonymous: false
       allowAuthenticated: false
+    ViewRecommendationToolPage:
+      roles:
+        - User
+        - Admin
+      clients: [ ]
+      allowAnonymous: false
+      allowAuthenticated: false
     ViewUsersPage:
       roles:
         - Admin

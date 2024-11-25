@@ -1,0 +1,38 @@
+<div class="research-view container-fluid">
+
+	<div class="row">
+		<div *ngIf="similarResearchers.length > 0" class="row">
+			<div class="element-div p-2">{{'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.TOP-RESEARCHERS' | translate}}</div>
+		</div>
+		<div *ngIf="similarResearchers.length > 0" class="row">
+			<div class="w-100">
+				<app-listing [rows]="similarResearchers" [columns]="similarResearchersColumns" [count]="similarResearchers.length" [selectionType]="selectionType.single" (columnSort)="sortRows($event)" (rowSelected)="showMetadata($event)" hideFooter></app-listing>
+			</div>
+		</div>
+		<div *ngIf="similarResearcherGroups.length > 0" class="row">
+			<div class="element-div p-2">{{'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.TOP-RESEARCHE-GROUPS' | translate}}</div>
+		</div>
+		<div *ngIf="similarResearcherGroups.length > 0" class="row">
+			<div class="w-100">
+				<app-listing [rows]="similarResearcherGroups" [columns]="similarResearcherGroupColumns" [count]="similarResearcherGroups.length" [selectionType]="selectionType.single" (columnSort)="sortRows($event)" (rowSelected)="showMetadata($event)" hideFooter></app-listing>
+			</div>
+		</div>
+	</div>
+</div>
+
+<ng-template #textWrapTemplate ngx-datatable-cell-template let-row="row" let-value="value" let-column="column">
+	<div class="title-style">{{value}}</div>
+</ng-template>
+
+<ng-template #percentageBar ngx-datatable-cell-template let-row="row" let-value="value" let-column="column">
+	<div class="progress">
+		<!-- <div class="progress-bar empty-bar" role="progressbar" [attr.aria-valuenow]="emptyValue(value)"
+			[style]="'width: ' + emptyValue(value) + '%'" aria-valuemin="0" aria-valuemax="100"></div> -->
+		<div class="progress-bar percent-bar" role="progressbar" [attr.aria-valuenow]="value"
+			[style]="'width: ' + value + '%'" aria-valuemin="0" aria-valuemax="100">
+			<!-- {{(value < 100 && value > 0) ? value : ''}} -->
+			<span *ngIf="value > 25">{{value | number: '1.0-2' }}%</span>
+		</div>
+		<span class="progress-value" *ngIf="value <= 25">{{value | number: '1.0-2' }}%</span>
+	</div>
+</ng-template>

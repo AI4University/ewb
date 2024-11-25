@@ -9,8 +9,8 @@ import { BaseComponent } from '@common/base/base.component';
 import { ColumnDefinition } from '@common/modules/listing/listing.component';
 import { takeUntil } from 'rxjs/operators';
 import { nameof } from 'ts-simple-nameof';
-import { DocumentViewComponent } from '../../modules/document-view/document-view.component';
 import { SelectionType } from '@swimlane/ngx-datatable';
+import { MetadataAgViewComponent } from '../../modules/metadata-ag-view/metadata-ag-view.component';
 
 @Component({
   selector: 'app-topic-view',
@@ -24,17 +24,21 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
 
 	maxValue = 100;
 
-	documents: TopDoc[] = [];
-	topDocColumns: ColumnDefinition[] = [];
-	topicMetadata: TopicMetadata = null;
+	researchers: TopDoc[] = [];
+	researchGroups: TopDoc[] = [];
+	topResearcherColumns: ColumnDefinition[] = [];
+	topicStatistics: Map<string, any> = null;
 	topicName: string = '';
 	words: TopicBeta[] = [];
 	topWordColumns: ColumnDefinition[] = [];
 	isRelevant: boolean = false;
-	topDocuments: TopDoc[] = [];
+	topResearchers: TopDoc[] = [];
+	topResearchGroupColumns: ColumnDefinition[] = [];
+	topResearchGroups: TopDoc[] = [];
 	private sortFieldName: string = null;
 	private oldSortFieldName: string = null;
-	private sortOrder: string = 'desc';
+	private sortResearcherOrder: string = 'desc';
+	private sortResearchGroupOrder: string = 'desc';
 
 	public selectionType = SelectionType;
 
@@ -44,7 +48,7 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
 	private dialogRef: MatDialogRef<TopicViewComponent>,
 	private ewbService: EwbService,
 	private dialog: MatDialog,
-    @Inject(MAT_DIALOG_DATA) private data: {
+    @Inject(MAT_DIALOG_DATA) public data: {
 		corpus: string,
 		model: string,
 		topicId: string,
@@ -57,10 +61,10 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
   ngOnInit(): void {
 	this.topicName = this.data.topicName;
 
-	this.ewbService.getTopicMetadata(this.data.model, this.data.topicId)
+	this.ewbService.getTopicStatistics(this.data.corpus, this.data.model, this.data.topicId)
 	.pipe(takeUntil(this._destroyed))
 	.subscribe((result) => {
-		this.topicMetadata = result;
+		this.topicStatistics = result;
 	});
 
 	const topDocTopicQuery: TopDocTopicQuery = {
@@ -71,14 +75,27 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
 		rows: undefined
 	};
 
-	this.ewbService.getTopDocs(topDocTopicQuery)
+	this.ewbService.getTopResearchers(topDocTopicQuery)
 	.pipe(takeUntil(this._destroyed))
 	.subscribe(result => {
-		this.documents = result;
-		this.documents.forEach(doc => doc.token = 0/*doc.words*/);
-		this.maxValue = this.documents.reduce((prev, curr) => (prev.topic > curr.topic)? prev : curr).relevance;
-		this.topDocuments = this.documents.slice(0, 10);
+		this.researchers = result;
+		this.researchers.forEach(doc => doc.token = 0/*doc.words*/);
+		this.maxValue = this.researchers.reduce((prev, curr) => (prev.topic > curr.topic)? prev : curr).relevance;
+		this.topResearchers = this.researchers.slice(0, 10);
 		this.setupTopDocColumns();
+		if (this.data.word !== null) {
+			this.selectWord([{id: this.data.word}]);
+		}
+	});
+
+	this.ewbService.getTopResearchGroups(topDocTopicQuery)
+	.pipe(takeUntil(this._destroyed))
+	.subscribe(result => {
+		this.researchGroups = result;
+		this.researchGroups.forEach(doc => doc.token = 0/*doc.words*/);
+		this.maxValue = this.researchGroups.reduce((prev, curr) => (prev.topic > curr.topic)? prev : curr).relevance;
+		this.topResearchGroups = this.researchGroups.slice(0, 10);
+		this.setupTopResearchGroupColumns();
 		if (this.data.word !== null) {
 			this.selectWord([{id: this.data.word}]);
 		}
@@ -103,7 +120,53 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
   private setupTopDocColumns() {
 	const pipe = new PercentValuePipe();
 	pipe.maxValue = this.maxValue > 100 ? this.maxValue : 100;
-	this.topDocColumns.push(...[
+	this.topResearcherColumns.push(...[
+		{
+			prop: nameof<TopDoc>(x => x.title),
+			name: nameof<TopDoc>(x => x.title),
+			sortable: false,
+			resizeable: false,
+			alwaysShown: true,
+			canAutoResize: true,
+			languageName: 'Title',
+			cellTemplate: this.textWrapTemplate,
+			headerClass: 'pretty-header'
+		},
+		{
+			prop: nameof<TopDoc>(x => x.relevance),
+			name: nameof<TopDoc>(x => x.relevance),
+			sortable: true,
+			resizeable: false,
+			alwaysShown: true,
+			isTreeColumn: false,
+			canAutoResize: true,
+			maxWidth: 250,
+			minWidth: 200,
+			languageName: 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.LISTING.RELEVANCE',
+			headerClass: 'pretty-header',
+			cellTemplate: this.percentageBar,
+			pipe: pipe
+		},
+		{
+			prop: nameof<TopDoc>(x => x.token),
+			name: nameof<TopDoc>(x => x.token),
+			sortable: true,
+			resizeable: false,
+			alwaysShown: true,
+			isTreeColumn: false,
+			canAutoResize: true,
+			maxWidth: 150,
+			minWidth: 100,
+			languageName: 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.LISTING.WORDS',
+			headerClass: 'pretty-header'
+		}
+	]);
+  }
+
+  private setupTopResearchGroupColumns() {
+	const pipe = new PercentValuePipe();
+	pipe.maxValue = this.maxValue > 100 ? this.maxValue : 100;
+	this.topResearchGroupColumns.push(...[
 		{
 			prop: nameof<TopDoc>(x => x.title),
 			name: nameof<TopDoc>(x => x.title),
@@ -194,51 +257,65 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
 	return 100 - value;
   }
 
-  showDocument(event: any) {
-	this.ewbService.getDocument(this.data.corpus, event[0].id).subscribe((doc: any) => {
-		this.dialog.open(DocumentViewComponent, {
-			minWidth: '80vw',
-			minHeight: '80vh',
-			maxWidth: '80vw',
-			maxHeight: '80vh',
-			panelClass: 'topic-style',
-			data: {
-				selectedDoc: doc
-			}
-		});
+
+  showMetadata(event: any) {
+	this.dialog.open(MetadataAgViewComponent, {
+		minWidth: '80vw',
+		minHeight: '80vh',
+		maxWidth: '80vw',
+		maxHeight: '80vh',
+		panelClass: 'topic-style',
+		data: {
+			selectedMetadata: event[0]
+		}
 	});
   }
 
   selectWord(event: any) {
   	let selectedWord: string = null;
-	this.documents.forEach(doc => doc.token = 0);
+	this.researchers.forEach(doc => doc.token = 0);
 	if (event.length > 0) {
 
 		for (let element of event) {
 			selectedWord = element.id;
-			this.documents.forEach(doc => doc.token = (doc.token + (doc.counts[selectedWord] !== undefined ? doc.counts[selectedWord] : 0)));
+			this.researchers.forEach(doc => doc.token = (doc.token + (doc.counts[selectedWord] !== undefined ? doc.counts[selectedWord] : 0)));
 			this.oldSortFieldName = this.sortFieldName;
 			this.sortFieldName = nameof<TopDoc>(x => x.token);
-			this.sortDocuments();
+			this.sortResearchers();
+			this.sortResearchGroup();
 		}
 	} else {
 		this.sortFieldName = this.oldSortFieldName;
-		this.documents.forEach(doc => doc.token = 0/*doc.words*/);
-		this.sortDocuments();
+		this.researchers.forEach(doc => doc.token = 0/*doc.words*/);
+		this.sortResearchers();
+		this.sortResearchGroup();
 	}
   }
 
-  sortRows(ev: any) {
-	this.sortOrder = ev.newValue;
+  sortResearcherRows(ev: any) {
+	this.sortResearcherOrder = ev.newValue;
 	this.sortFieldName = ev.sortDescriptors[0].property;
-	this.sortDocuments();
+	this.sortResearchers();
   }
 
-  sortDocuments() {
-	this.topDocuments = [];
-	this.documents = this.documents.sort((d0, d1) => (this.sortOrder === 'asc')? (d0[this.sortFieldName] - d1[this.sortFieldName]) : -1 * (d0[this.sortFieldName] - d1[this.sortFieldName]));
-	this.topDocuments = this.documents.slice(0, 10);
+  sortResearchers() {
+	this.topResearchers = [];
+	this.researchers = this.researchers.sort((d0, d1) => (this.sortResearcherOrder === 'asc')? (d0[this.sortFieldName] - d1[this.sortFieldName]) : -1 * (d0[this.sortFieldName] - d1[this.sortFieldName]));
+	this.topResearchers = this.researchers.slice(0, 10);
   }
+
+  sortResearchGroupRows(ev: any) {
+	this.sortResearchGroupOrder = ev.newValue;
+	this.sortFieldName = ev.sortDescriptors[0].property;
+	this.sortResearchGroup();
+  }
+
+  sortResearchGroup() {
+	this.topResearchGroups = [];
+	this.researchGroups = this.researchGroups.sort((d0, d1) => (this.sortResearchGroupOrder === 'asc')? (d0[this.sortFieldName] - d1[this.sortFieldName]) : -1 * (d0[this.sortFieldName] - d1[this.sortFieldName]));
+	this.topResearchGroups = this.researchGroups.slice(0, 10);
+  }
+  
 
   addRelevant() {
 	this.ewbService.addRelevantTopic(this.data.model, this.data.topicId)

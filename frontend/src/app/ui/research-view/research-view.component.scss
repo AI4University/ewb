@@ -1,0 +1,38 @@
+.research-view {
+	padding: 1.5rem;
+
+	.title-style {
+		white-space: break-spaces;
+	}
+	
+	.element-div {
+		background: #fff;
+		box-shadow: 0 .5rem .5rem -.3rem rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+		border-radius: .5rem;
+		margin: .5rem;
+		overflow: hidden;
+	}
+	
+	.percent-bar {
+		float: inline-end;
+	}
+	
+	.progress-value {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		text-align: center;
+	}
+	
+	.empty-bar {
+		background-color: #e9ecef;
+	}
+	
+	::ng-deep .pretty-header {
+		background-color: #fff;
+	}
+	
+	.topic-style .mat-dialog-container .mat-dialog-content {
+		overflow-x: hidden;
+	}
+}

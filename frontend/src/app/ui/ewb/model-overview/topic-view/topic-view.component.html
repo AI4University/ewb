@@ -14,13 +14,13 @@
 	</div>
 	</div>
 
-	<div class="row" *ngIf="topicMetadata">
+	<div class="row" *ngIf="topicStatistics">
 		<div class="col-12 col-xl-5">
 			<div class="row">
 				<div class="element-div p-2">{{'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.TOP-WORDS' | translate}}</div>
 			</div>
 			<div *ngIf="words.length > 0" class="row">
-				<div class="element-div w-100">
+				<div class="w-100">
 					<app-listing [rows]="words" [columns]="topWordColumns" [count]="words.length" [selected]="selectedWords" [selectionType]="selectionType.checkbox" (rowSelected)="selectWord($event)" hideFooter></app-listing>
 				</div>
 			</div>
@@ -33,25 +33,15 @@
 				<div class="element-div w-100">
 					<table class="table">
 						<tr>
-							<th>{{'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.LISTING.ID' | translate}}</th>
-							<th>{{'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.LISTING.SIZE' | translate}}</th>
-							<th>{{'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.LISTING.NUM-ACTIVE-DOCS' | translate}}</th>
-							<th>{{'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.LISTING.RELEVANCE' | translate}}</th>
-							<th>{{'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.LISTING.COHERENCE' | translate}}</th>
-							<th>{{'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.LISTING.LABEL' | translate}}</th>
+							<th *ngFor="let statistic of topicStatistics | keyvalue">{{statistic.key}}</th>
 						</tr>
 						<tr>
-							<td>{{ topicMetadata.id }}</td>
-							<td>{{ topicMetadata.alphas.toFixed(4) }}</td>
-							<td>{{ topicMetadata.ndocs_active }}</td>
-							<td>{{ topicMetadata.topic_entropy.toFixed(4) }}</td>
-							<td>{{ topicMetadata.topic_coherence.toFixed(4) }}</td>
-							<td>{{ topicMetadata.tpc_labels }}</td>
+							<td *ngFor="let statistic of topicStatistics | keyvalue">{{ statistic.value }}</td>
 						</tr>
 					</table>
 				</div>
 			</div>
-			<div class="row">
+			<!-- <div class="row">
 				<div class="element-div p-2">{{'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.TOP-DOCUMENTS' | translate}}</div>
 			</div>
 			<div *ngIf="topDocuments.length > 0" class="row">
@@ -60,7 +50,28 @@
 				</div>
 			</div>
 		</div>
+	</div> -->
+			<div *ngIf="topResearchers.length > 0" class="row">
+				<div class="element-div p-2">{{'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.TOP-RESEARCHERS' | translate}}</div>
+			</div>
+			<div *ngIf="topResearchers.length > 0" class="row">
+				<div class="w-100">
+					<app-listing [rows]="topResearchers" [columns]="topResearcherColumns" [count]="topResearchers.length" [selectionType]="selectionType.single" (columnSort)="sortResearcherRows($event)" (rowSelected)="showMetadata($event)" hideFooter></app-listing>
+				</div>
+			</div>
+			<div *ngIf="topResearchGroups.length > 0" class="row">
+				<div class="element-div p-2">{{'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.TOP-RESEARCHE-GROUPS' | translate}}</div>
+			</div>
+			<div *ngIf="topResearchGroups.length > 0" class="row">
+				<div class="w-100">
+					<app-listing [rows]="topResearchGroups" [columns]="topResearchGroupColumns" [count]="topResearchGroups.length" [selectionType]="selectionType.single" (columnSort)="sortResearchGroupRows($event)" (rowSelected)="showMetadata($event)" hideFooter></app-listing>
+				</div>
+			</div>
+		</div>
 	</div>
+<div>
+	<app-topic-evolution-chart [corpus]="data.corpus" [model]="data.model" [topicId]="data.topicId"></app-topic-evolution-chart>
+</div>
 
 </div>
 

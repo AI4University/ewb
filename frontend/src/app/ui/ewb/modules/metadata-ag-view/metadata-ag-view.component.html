@@ -1,0 +1,34 @@
+<div *ngIf="selectedMetadata" class="metadata-ag-view doc-style container-fluid">
+	<span *ngIf="selectedMetadata.id">
+		<div class="col-12 field-div">
+			<div class="row">
+			<div class="col-4 field-title">Id</div>
+			<div class="col-8 field-value">{{selectedMetadata.id}} </div>
+			</div>
+		</div>
+		<div class="col-12 space-div"></div>
+	</span>
+	<span *ngIf="selectedMetadata.title">
+		<div class="col-12 field-div">
+			<div class="row">
+				<div class="col-4 field-title">Title</div>
+				<div class="col-8 field-value">{{selectedMetadata.title}} </div>
+			</div>
+		</div>
+		<div class="col-12 space-div"></div>
+	</span>
+	<span *ngFor="let field of topicMetadata | keyvalue">
+		<div *ngIf="field.key !== 'id' && field.key !== 'title'" class="col-12 field-div">
+			<div class="row">
+				<div class="col-4 field-title">{{prettifyCamelCase(field.key)}}</div>
+				<div *ngIf="!isArray(field.value)" class="col-8 field-value" [innerHTML]="sanitized(field.value)"></div>
+				<dl *ngIf="isArray(field.value)" class="col-8">
+					<dt *ngFor="let subval of field.value" class="field-value">
+						{{subval}}
+					</dt>
+				</dl>
+			</div>
+		</div>
+		<div *ngIf="field.key !== 'id' && field.key !== 'title'" class="col-12 space-div"></div>
+	</span>
+</div>
