@@ -564,7 +564,10 @@
 						"LABEL": "Label",
 						"WORDS": "Λέξεις"
 					}
-				}
+				},
+                "LIST-VIEW": {
+                    "TITLE": "Projects"
+                }
 			},
 			"SIMILARITIES-COMPONENT": {
 				"OPTION-LABEL": "Option for document similarity search",

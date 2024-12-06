@@ -990,7 +990,10 @@
 						"LABEL": "Label",
 						"WORDS": "Words"
 					}
-				}
+				},
+                "LIST-VIEW": {
+                    "TITLE": "Projects"
+                }
 			},
 			"SIMILARITIES-COMPONENT": {
 				"OPTION-LABEL": "Option for document similarity search",

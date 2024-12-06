@@ -158,7 +158,7 @@ $light-theme: mat.define-theme((
     @include mat.typography-hierarchy($light-theme);
     @include mat.progress-bar-overrides((
         active-indicator-color: #656adf,
-        track-color: var(--sys-primary),
+        track-color: none,
     ));
     @include mat.sidenav-overrides((
         container-background-color: var(--sys-secondary-container),

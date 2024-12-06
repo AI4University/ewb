@@ -4,10 +4,13 @@
 .padded-container {
     transition: opacity 300ms ease-in-out
 }
-.result-card {
+.map-card, .list-card {
     background-color: #fff;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 0px 15px;
     flex: 1;
+}
+.map-card {
+    padding-top: 1rem;
     transition: all 400ms ease-in-out;
     position: relative;
     top: 0;
@@ -33,6 +36,11 @@
 }
 .opacity-0 {
     opacity: 0;
+}
+.list-card {
+    padding: 1.5rem;
+    margin: 1rem 2rem;
+    border-radius: 16px;
 }
 // .title-span {
 //     background-color: #38260edc;

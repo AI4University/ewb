@@ -8,8 +8,8 @@ import { Component, OnInit, signal } from '@angular/core';
 export class EwbComponent {
   selectedModel: string = null;
   selectedCorpus: string = null;
-  viewType: ViewType = ViewType.Map;
-  viewTypeEnum = ViewType;
+  viewMode: ModelViewMode = ModelViewMode.Map;
+  ViewModeEnum = ModelViewMode;
   fullscreenMode = signal<boolean>(false);
 
   constructor() {
@@ -27,7 +27,7 @@ export class EwbComponent {
 
 }
 
-enum ViewType {
+export enum ModelViewMode {
     'Map',
     'List'
 }

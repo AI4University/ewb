@@ -6,14 +6,14 @@
     @if(selectedModel){
         <div class="padded-container view-options d-flex gap-3 align-items-center" [class.opacity-0]="fullscreenMode()">
             {{'APP.EWB-COMPONENT.VIEW-OPTIONS.VIEW-AS' | translate}}
-            <mat-button-toggle-group [value]="viewType" hideSingleSelectionIndicator>
-                <mat-button-toggle [value]="viewTypeEnum.Map">
+            <mat-button-toggle-group [(ngModel)]="viewMode" hideSingleSelectionIndicator>
+                <mat-button-toggle [value]="ViewModeEnum.Map">
                     <div class="d-flex align-items-center gap-1 p-2 pt-0 pb-0">
                         <mat-icon>map</mat-icon>
                         {{'APP.EWB-COMPONENT.VIEW-OPTIONS.MAP' | translate}}
                     </div>
                 </mat-button-toggle>
-                <mat-button-toggle [value]="viewTypeEnum.List">
+                <mat-button-toggle [value]="ViewModeEnum.List">
                     <div class="d-flex align-items-center gap-1 p-2 pt-0 pb-0">
                         <mat-icon>list</mat-icon>
                         {{'APP.EWB-COMPONENT.VIEW-OPTIONS.LIST' | translate}}
@@ -21,8 +21,8 @@
                 </mat-button-toggle>
             </mat-button-toggle-group>
         </div>
-        <div class="result-card w-100 pt-3"  [class.fullscreen-mode]="fullscreenMode()">
-            <div class="actions">
+        <div  [ngClass]="viewMode === ViewModeEnum.Map ? 'map-card' : 'list-card'"  [class.fullscreen-mode]="fullscreenMode()">
+            <div class="actions" *ngIf="viewMode === ViewModeEnum.Map">
                 <app-topic-relevance [model]="selectedModel" *ngIf="!fullscreenMode()"></app-topic-relevance>
                 <button 
                     mat-fab 
@@ -35,7 +35,7 @@
                 </button>
             </div>
             <div class="model h-100">
-                <app-model-overview [corpus]="selectedCorpus" [model]="selectedModel"></app-model-overview>
+                <app-model-overview [corpus]="selectedCorpus" [model]="selectedModel" [viewMode]="viewMode"></app-model-overview>
             </div>
         </div>
     }

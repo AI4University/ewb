@@ -1,6 +1,6 @@
 export class TopicMetadata {
 	id: string;
-    betas: TopicBeta[];
+    top_words_betas: TopicBeta[];
     alphas: number;
     topic_entropy: number;
     topic_coherence: number;

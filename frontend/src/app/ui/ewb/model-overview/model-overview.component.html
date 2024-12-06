@@ -8,32 +8,56 @@
 		<mat-button-toggle mat-button class="col-2" value="1">{{ 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.SCALE' | translate }}</mat-button-toggle>
 		<mat-button-toggle mat-button class="col-2" value="0">{{ 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.GRID' | translate }}</mat-button-toggle>
 	</mat-button-toggle-group> -->
-	<div class="chart">
+	<div class="chart" [class.d-none]="viewMode() === ViewModeEnum.List">
 		<div
-		*ngIf="chartOptions else loading"
-		[options]="chartOptions"
-		echarts
-		@fadeIn
-		class="chart"
-		(chartClick)="openDialog($event)"
-
-		>
+            *ngIf="chartOptions else loading"
+            [options]="chartOptions"
+            echarts
+            @fadeIn
+            class="chart"
+            (chartClick)="openDialog($event)"
+        >
+        </div>
+	>
 	</div>
-	<ng-template #loading>
-		<div class="loading-container col-12" [@fadeOut]>
-			<ng-container *ngIf="topics.length > 0 else noDataFoundTemplate">
-				<mat-spinner *ngIf="!errorLoading else errorLoadingTemplate" ></mat-spinner>
-				<ng-template #errorLoadingTemplate>
-					{{'COMMONS.ERRORS.DEFAULT' | translate}}
-				</ng-template>
-			</ng-container>
-			<ng-template #noDataFoundTemplate>
-				{{
-					'COMMONS.LISTING-COMPONENT.MESSAGE.EMPTY' | translate
-				}}
-			</ng-template>
-		</div>
-
-	</ng-template>
-	</div>
+    <div class="list" [class.d-none]="viewMode() === ViewModeEnum.Map">
+        <h5 class="pb-2">{{'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.LIST-VIEW.TITLE' | translate}}</h5>
+        <mat-form-field class="w-100 search-field">
+            <mat-icon matPrefix>search</mat-icon>
+            <input type="text" matInput [(ngModel)]="like" (input)="triggerSearch($event)" [placeholder]="'APP.NAVIGATION.SEARCH' | translate"
+            >
+        </mat-form-field>
+        <mat-accordion>
+            @for(topic of searchResults; track $index){
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            {{topic.tpc_labels}}
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    @for(word of topic.top_words_betas; track $index){
+                        <button mat-button>
+                            {{word.id}}
+                        </button>
+                    }
+                </mat-expansion-panel>
+            }
+        </mat-accordion>
+    </div>
 </div>
+<ng-template #loading>
+    <div class="loading-container col-12" [@fadeOut]>
+        <ng-container *ngIf="topics.length > 0 else noDataFoundTemplate">
+            <mat-spinner *ngIf="!errorLoading else errorLoadingTemplate" ></mat-spinner>
+            <ng-template #errorLoadingTemplate>
+                {{'COMMONS.ERRORS.DEFAULT' | translate}}
+            </ng-template>
+        </ng-container>
+        <ng-template #noDataFoundTemplate>
+            {{
+                'COMMONS.LISTING-COMPONENT.MESSAGE.EMPTY' | translate
+            }}
+        </ng-template>
+    </div>
+
+</ng-template>

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, input, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { EwbService } from '@app/core/services/http/ewb.service';
 import { BaseComponent } from '@common/base/base.component';
@@ -17,6 +17,7 @@ import { BehaviorSubject } from 'rxjs';
 import { TopicBeta } from '@app/core/model/ewb/topic-beta.model';
 import { TopicRelevanceService } from '@app/core/services/ui/topic-relevance.service';
 import { TopicRelevanceModel } from '@app/core/model/ewb/topic-relevance.model';
+import { ModelViewMode } from '../ewb.component';
 
 @Component({
   selector: 'app-model-overview',
@@ -24,11 +25,21 @@ import { TopicRelevanceModel } from '@app/core/model/ewb/topic-relevance.model';
   styleUrls: ['./model-overview.component.scss'],
   animations: GENERAL_ANIMATIONS
 })
-export class ModelOverviewComponent extends BaseComponent implements OnInit {
+export class ModelOverviewComponent extends BaseComponent implements OnInit, OnDestroy {
 
 	@Input() model: string;
 	@Input() corpus: string;
-	topics: TopicMetadata[] = [];
+    viewMode = input<ModelViewMode>(ModelViewMode.Map);
+
+    ViewModeEnum = ModelViewMode
+    private _topics: TopicMetadata[] = [];
+	get topics(): TopicMetadata[] {
+        return this._topics;
+    }
+    set topics(val: TopicMetadata[]){
+        this._topics = val;
+        this.searchResults = this._topics;
+    }
 	selectedView: string = '1';
 	chartOptions: EChartsOption = null;
 	useRelation: string = '1';
@@ -610,4 +621,34 @@ export class ModelOverviewComponent extends BaseComponent implements OnInit {
 	return children;
   }
 
+  protected like: string;
+  private searchTimeout = null;
+  protected searchResults: TopicMetadata[];
+  protected triggerSearch(){
+    clearTimeout(this.searchTimeout);
+    this.searchTimeout = setTimeout(() => {
+        this.onSearchChange();
+      }, 200); 
+  }
+
+  private onSearchChange(){
+    if(!this.like || this.like === ''){
+        this.searchResults = this.topics;
+        return;
+    }
+    this.searchResults = [];
+    this.topics?.forEach((topic) => {
+        if(
+            topic.tpc_labels.includes(this.like) || 
+            topic.top_words_betas?.some((word) => word.id.includes(this.like)))
+        {
+            this.searchResults.push(topic);
+        }
+    })
+  }
+
+  ngOnDestroy(): void {
+    super.ngOnDestroy();
+    clearTimeout(this.searchTimeout);
+  }
 }
