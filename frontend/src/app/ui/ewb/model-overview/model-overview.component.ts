@@ -1,17 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Topic } from '@app/core/model/ewb/topic.model';
 import { EwbService } from '@app/core/services/http/ewb.service';
 import { BaseComponent } from '@common/base/base.component';
-import { QueryResult } from '@common/model/query-result';
 import { takeUntil } from 'rxjs/operators';
 import { TopicViewComponent } from './topic-view/topic-view.component';
 import { MatRadioChange } from '@angular/material/radio';
 import { CustomSeriesRenderItemReturn, EChartsOption } from 'echarts';
+import { GraphNode } from 'echarts/node_modules/tslib/modules/'
 import { GENERAL_ANIMATIONS } from '@app/animations';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import * as d3 from 'd3';
-import { Theta } from '@app/core/model/ewb/theta.model';
 import { TopicMetadata } from '@app/core/model/ewb/topic-metadata.model';
 import { TopDoc } from '@app/core/model/ewb/top-doc.model';
 import { DocumentViewComponent } from '../modules/document-view/document-view.component';
@@ -32,7 +30,7 @@ export class ModelOverviewComponent extends BaseComponent implements OnInit {
 	@Input() corpus: string;
 	topics: TopicMetadata[] = [];
 	selectedView: string = '1';
-	chartOptions: any = null;
+	chartOptions: EChartsOption = null;
 	useRelation: string = '1';
 	private vocabularies: any;
 	private areLoaded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
@@ -145,7 +143,7 @@ export class ModelOverviewComponent extends BaseComponent implements OnInit {
 			}
 			index = index + 1;
 		}
-		return data;
+		return data as GraphNode;
 	});
 	const links = [];
 	// if (this.useRelation === '1') {
@@ -249,7 +247,6 @@ export class ModelOverviewComponent extends BaseComponent implements OnInit {
 	this.chartOptions = {
 		series: {
 			type: 'treemap',
-			layout: 'none',
 			visibleMin: 300,
 			upperLabel: {
 				show: true
@@ -258,9 +255,11 @@ export class ModelOverviewComponent extends BaseComponent implements OnInit {
 			levels: [
 				{},
 				{
+                    colorSaturation: [0.25, 0.5],
 					itemStyle: {
-						borderColor: '#555',
-						borderWidth: 15
+						borderColor: '#fff',
+						borderWidth: 2,
+                        gapWidth: 1
 					}
 				}
 			]
@@ -303,7 +302,7 @@ export class ModelOverviewComponent extends BaseComponent implements OnInit {
 			tooltip: {
 				trigger: 'axis',
 				confine: true,
-				formatter: (params: any[], unused, unused1) => {
+				formatter: (params: any[]) => {
 					console.log(JSON.stringify(params));
 					let finalString = '<ul style=\"padding-left:20px\">';
 					params.forEach(param => {
@@ -350,7 +349,7 @@ export class ModelOverviewComponent extends BaseComponent implements OnInit {
 					emphasis: {
 						focus: 'series'
 					},
-					data: values.get(topic.id)
+					data: values.get(topic.id),
 				}
 			}),
 			toolbox: {

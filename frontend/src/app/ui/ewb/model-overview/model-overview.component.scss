@@ -21,7 +21,7 @@
 }
 
 .chart {
-	min-height: 60vh !important;
+	min-height: max(94%, 60vh) !important;
 	overflow: visible;
 	margin: .5rem;
 }
