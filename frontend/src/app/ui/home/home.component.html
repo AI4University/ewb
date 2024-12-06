@@ -1,35 +1,29 @@
-<section class="row m-0 pt-4 align-items-end centered-div">
-
-	<div class="welcome-div col">
-		<span>{{'APP.HOME-COMPONENT.WELCOME' | translate}}</span>
-	</div>
-	<div class="w-100"></div>
-	<div class="title-div col-auto">
-		<span>{{'APP.HOME-COMPONENT.APP-NAME' | translate}}</span>
-	</div>
-	<div class="version-div col-auto">
-		<span>{{'APP.HOME-COMPONENT.VERSION' | translate}}</span>
-	</div>
-	<div class="w-100"></div>
-	<!-- <div class="by-div">
-		<div class="version-div col-auto">
-			<span>by</span>
-		</div>
-		<div class="col-12 logo-div">
-			<img src="../../../assets/images/intelcomp.svg" class="img img-fluid logo" alt="Intelcomp Logo">
-			<img src="../../../assets/images/european-commision-logo.svg" class="img img-fluid logo" alt="Intelcomp Logo">
-		</div>
-	</div> -->
-    <div >
-		<div class="col-auto">
-			<span>{{'APP.HOME-COMPONENT.UC3M-DESCRIPTION' | translate}}</span>
-		</div>
-        <div class="col-12">
-            <img src="../../../assets/images/uc3m-welcome-logo.png" class="img img-fluid uc3m-logo">
-        </div>
+<div class="h-100 padded-container">
+    <div class="welcome-div">
+        {{'APP.HOME-COMPONENT.WELCOME' | translate}}
     </div>
-
-</section>
+    <div class="w-100"></div>
+    <div class="title-div">
+        {{'APP.HOME-COMPONENT.APP-NAME' | translate}}
+    </div>
+    <div class="version-div">
+        {{'APP.HOME-COMPONENT.VERSION' | translate}}
+    </div>
+    <!-- <div class="w-100"></div>
+    <div class="by-div">
+        <div class="version-div">
+            <span>by</span>
+        </div>
+        <div class="col-12 logo-div">
+            <img src="../../../assets/images/intelcomp.svg" class="img img-fluid logo" alt="Intelcomp Logo">
+            <img src="../../../assets/images/european-commision-logo.svg" class="img img-fluid logo" alt="Intelcomp Logo">
+        </div>
+    </div> -->
+    <div>
+        <span>{{'APP.HOME-COMPONENT.UC3M-DESCRIPTION' | translate}}</span>
+    </div>
+    <img src="../../../assets/images/uc3m-welcome-logo.png" class="img img-fluid uc3m-logo" alt="{{'APP.NAVIGATION.ALT-TEXT.ACKNOWLEDGMENT-LOGO' | translate}}" [attr.aria-label]="'APP.NAVIGATION.ALT-TEXT.ACKNOWLEDGMENTS' | translate">
+</div>
 
 
 <!-- <section class="actions-grid mt-5 pr-5 pl-5">

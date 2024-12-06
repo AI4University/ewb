@@ -1,56 +1,35 @@
-.recent-item{
-    border-bottom: 2px solid #c7c7cc;
-}
+// .recent-item{
+//     border-bottom: 2px solid #c7c7cc;
+// }
 
-.actions-grid{
-    display: grid;
-    gap: 7rem;
-    grid-template-columns: repeat(3, 1fr);
-}
+// .actions-grid{
+//     display: grid;
+//     gap: 7rem;
+//     grid-template-columns: repeat(3, 1fr);
+// }
 
 
-@media screen and (max-width: 768px) {
-    .actions-grid{
-        grid-template-columns: 1fr;
-    }
-}
+// @media screen and (max-width: 768px) {
+//     .actions-grid{
+//         grid-template-columns: 1fr;
+//     }
+// }
 
 .welcome-div {
-	color: rgb(68, 68, 68);
 	text-align: left;
-	font-weight: 600;
-	font-size: 48px;
-	font-family: "Source Sans Pro", serif;
-	letter-spacing: -0.2px;
-	text-decoration: none;
-	white-space: pre;
-	font-style: normal;
+    font-size: 3.5rem
 }
 
 .title-div {
-	color: rgb(32, 33, 35);
 	text-align: left;
-	font-weight: bold;
-	font-size: 60px;
-	font-family: "Source Sans Pro", serif;
-	letter-spacing: -0.2px;
-	text-decoration: none;
-	white-space: pre;
-	font-style: normal;
+    font-size: 2rem
 }
 
 .version-div {
-	color: rgb(140, 140, 141);
 	text-align: left;
-	font-weight: 400;
-	font-size: 24px;
-	font-family: "Source Sans Pro", serif;
-	letter-spacing: 0px;
-	text-decoration: none;
-	white-space: pre;
 	overflow-wrap: break-word;
 	word-break: break-word;
-	font-style: normal;
+	font-size: 1.75rem;
 }
 
 .logo {
@@ -62,15 +41,10 @@
 	width: 300px;
 }
 
-.centered-div {
-	padding: 25%;
-}
-
-.by-div {
-	margin-left: auto;
-	display: flex;
+.padded-container {
+    padding: 1rem 2rem;
 }
 
 .uc3m-logo {
-	width: 90% !important;
+    max-width: 50vw;
 }

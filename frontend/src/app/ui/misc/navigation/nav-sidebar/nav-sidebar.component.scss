@@ -1,0 +1,35 @@
+.navigation-sidebar {
+    height: 100%;
+    padding: 0.5rem;
+    display: flex;
+    .navigation-groups {
+        list-style: unset;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+    }
+    .navigation-group-item{
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem;
+        max-height: 3.5rem;
+        /* background-color: red; */
+        border-radius: 0.5rem;
+        &:hover, &:focus {
+            background-color:  hsl(from var(--sys-inverse-primary) h calc(s - 30) l);
+            padding:1.125rem;
+        }
+    }
+
+    li.selected-route {
+        .navigation-group-item{
+            background-color : hsl(from var(--sys-inverse-primary) h calc(s - 50) calc(l - 6));
+            padding: 1rem;
+            mat-icon{
+                color: var(--sys-primary);
+            }
+        }
+    }
+}

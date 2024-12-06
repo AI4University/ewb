@@ -11,6 +11,7 @@ import { ThemingService } from '@app/core/services/ui/theming.service';
 import { BaseComponent } from '@common/base/base.component';
 import { Observable } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
+import { SideNavService } from './nav-sidebar/side-nav.service';
 
 @Component({
 	selector: 'app-navigation',
@@ -34,7 +35,8 @@ export class NavigationComponent extends BaseComponent implements OnInit {
 		public themingService: ThemingService,
 		public languageService: LanguageService,
 		private progressIndicationService: ProgressIndicationService,
-		private enumUtils: AppEnumUtils
+		private enumUtils: AppEnumUtils,
+        private sidenavService: SideNavService
 	) {
 		super();
 
@@ -55,6 +57,10 @@ export class NavigationComponent extends BaseComponent implements OnInit {
 			setTimeout(() => { this.progressIndication = x; });
 		});
 	}
+
+    protected toggleSidebar(){
+        this.sidenavService.toggle();
+    }
 
 	public logout(): void {
 		this.router.navigate(['/logout']);

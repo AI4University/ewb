@@ -54,7 +54,7 @@
 			"ALL-INAPP-NOTIFICATIONS": "All Notifications >",
 			"NOTIFICATION-TEMPLATES": "Notification Templates",
 			"INAPP-NOTIFICATIONS": "Notifications",
-			"HOME": "Home",
+			"HOME": "Homepage",
 			"EWB": "Knowledge Map",
 			"EXPERT": "Expert Selection",
 			"RECOMMENDATION-TOOL": "Recommendation tool",
@@ -76,7 +76,12 @@
 			"LOGOUT": "Logout",
 			"LOGIN": "Login",
 			"MANUAL": "Manual",
-			"FAQ": "FAQ"
+			"FAQ": "FAQ",
+            "ALT-TEXT": {
+                "TOGGLE-SIDEBAR": "Toggle navigation menu visibility",
+                "ACKNOWLEDGMENT-LOGO": "Logos of the acknowledged organizations",
+                "ACKNOWLEDGMENTS": "acknowledgments: Ministerio de ciencia e innovación. Financiado por la Unión Europea (Next Generation EU) Agencia Estatal de Investigación. Plan de Recuperación, Transformación y Resiliencia. Agencia Estatal de Investigación."
+            }
 		},
 		"FOOTER": {
 			"FUNDING": "This project has received funding from the European Union's Horizon 2020 research and innovation programme under grant agreement No.101004870. H2020-SC6-GOVERNANCE-2018-2019-2020 / H2020-SC6-GOVERNANCE-2020",

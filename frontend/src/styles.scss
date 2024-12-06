@@ -1,6 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import "@angular/material/prebuilt-themes/indigo-pink.css";
 @import '../node_modules/@swimlane/ngx-datatable/index.css';
 @import '../node_modules/@swimlane/ngx-datatable/themes/material.scss';
 @import '../node_modules/@swimlane/ngx-datatable/assets/icons.css';
@@ -11,11 +10,24 @@
 
 //Material-Bootstrap configuration
 @import "assets/scss/bootstrap-material";
-
-@import './blue-theme.scss';
-@import './pink-theme.scss';
-
+@import "./appm3-theme.scss";
 @import "../node_modules/flag-icons/css/flag-icons.min.css";
+
+body {
+    font-family: Roboto, sans-serif;
+}
+
+.gap-1 {
+    gap: 0.25rem;
+}
+
+.gap-2 {
+    gap: 0.5rem;
+}
+
+.gap-3 {
+    gap: 1rem;
+}
 
 .cursor-pointer {
     cursor: pointer !important;

@@ -1,0 +1,47 @@
+<nav class="navigation-sidebar">
+    <ul class="navigation-groups w-100">
+        <li routerLink="/home" routerLinkActive="selected-route">
+            <div mat-button role="button" class="navigation-group-item">
+                <mat-icon>home</mat-icon>{{'APP.NAVIGATION.HOME' | translate}}
+            </div>
+        </li>
+        <li *ngIf="authService.hasPermission(appPermission.ViewEwbPage)" routerLink="/ewb" routerLinkActive="selected-route">
+            <div  mat-button role="button"  class="navigation-group-item">
+                <mat-icon>map</mat-icon>{{'APP.NAVIGATION.EWB' | translate}}
+            </div>
+        </li>
+        <li *ngIf="authService.hasPermission(appPermission.ViewRecommendationToolPage)"  routerLink="/recommendation-tool" routerLinkActive="selected-route">
+            <div  mat-button role="button" class="navigation-group-item">
+                <mat-icon>history_edu</mat-icon>{{'APP.NAVIGATION.RECOMMENDATION-TOOL' | translate}}
+            </div>
+        </li>
+        <!-- <li routerLink="/expert" routerLinkActive="selected-route">
+            <div mat-button role="button" class="navigation-group-item">
+                {{'APP.NAVIGATION.EXPERT' | translate}}
+            </div>
+        </li> -->
+        <!-- <li mat-button role="button" *ngIf="authService.hasPermission(appPermission.ViewClassifyPage)" class="navigation-group-item" routerLink="/classify" routerLinkActive="selected-route">
+            {{'APP.NAVIGATION.CLASSIFY' | translate}}
+        </li> -->
+        <!-- <li routerLink="/manual" routerLinkActive="selected-route">
+            <div mat-button role="button" class="navigation-group-item">
+                {{'APP.NAVIGATION.MANUAL' | translate}}
+            </div>
+        </li> -->
+        <li *ngIf="authService.hasPermission(appPermission.ViewUserPage)" routerLink="/users" routerLinkActive="selected-route">
+            <div mat-button role="button" class="navigation-group-item">
+                <mat-icon>person</mat-icon>{{'APP.NAVIGATION.USERS' | translate}}
+            </div>
+        </li>
+        <li *ngIf="authService.hasPermission(appPermission.ViewFaqPage)" routerLink="/faq" routerLinkActive="selected-route" class="mt-auto">
+            <div mat-button role="button" class="navigation-group-item">
+                <mat-icon>article</mat-icon>{{'APP.NAVIGATION.FAQ' | translate}}
+            </div>
+        </li>
+        <li *ngIf="isAuthenticated()">
+            <div mat-button role="button" class="navigation-group-item" (click)="logout()">
+                <mat-icon>exit_to_app</mat-icon>{{'APP.NAVIGATION.LOGOUT' | translate}}
+            </div>
+        </li>
+    </ul>
+</nav>

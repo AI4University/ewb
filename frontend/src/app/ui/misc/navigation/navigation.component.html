@@ -1,49 +1,53 @@
-<mat-toolbar class="navigation-bar row m-0">
+<mat-toolbar class="navigation-bar">
+	<div class="left d-flex align-items-center gap-3">
+        <button mat-icon-button class="sidebar-icon" [attr.aria-label]="'APP.NAVIGATION.ALT-TEXT.TOGGLE-SIDEBAR' | translate" (click)="toggleSidebar()">
+            <mat-icon>menu</mat-icon>
+        </button>
+        <img class="logo" src="/assets/images/logo.svg" alt="UC3M">
+        <img class="acknowledgments" src="/assets/images/uc3m-welcome-logo.png" alt="{{'APP.NAVIGATION.ALT-TEXT.ACKNOWLEDGMENT-LOGO' | translate}}" [attr.aria-label]="'APP.NAVIGATION.ALT-TEXT.ACKNOWLEDGMENTS' | translate">
+    </div>
+    <div class="right d-flex align-items-center">
+        <div *ngIf="isAuthenticated() && areConsentsNeedAttention()" class="col-auto">
+            <button mat-icon-button matTooltip="{{'APP.NAVIGATION.CONSENT-ATTENTION' | translate}}"
+                (click)="consentsNeedAttentionClicked()">
+                <mat-icon class="consent-icon">warning</mat-icon>
+            </button>
+        </div>
+        <div *ngIf="isAuthenticated() && isTransientUser()" class="col-auto">
+            <a routerLink="/user-profile" routerLinkActive="active" mat-icon-button
+                matTooltip="{{'APP.NAVIGATION.TRANSIENT-PROMPT' | translate}}">
+                <mat-icon>group_add</mat-icon>
+            </a>
+        </div>
+        <!-- * USER INFO -->
+        <div *ngIf="isAuthenticated()" class="col-auto">
 
-	<div class="col-auto p-0" style="z-index: 2;">
-		<nav class="navigation h-100">
-			<ul class="navigation-groups h-100">
-				<li class="navigation-group-item cursor-pointer" routerLink="/home" routerLinkActive="background-gray">
-					{{'APP.NAVIGATION.HOME' | translate}}
-				</li>
-				<li *ngIf="authService.hasPermission(appPermission.ViewEwbPage)" class="navigation-group-item cursor-pointer" routerLink="/ewb" routerLinkActive="background-gray">
-					{{'APP.NAVIGATION.EWB' | translate}}
-				</li>
-				<li *ngIf="authService.hasPermission(appPermission.ViewRecommendationToolPage)" class="navigation-group-item cursor-pointer" routerLink="/recommendation-tool" routerLinkActive="background-gray">
-					{{'APP.NAVIGATION.RECOMMENDATION-TOOL' | translate}}
-				</li>
-				<!-- <li class="navigation-group-item cursor-pointer" routerLink="/expert" routerLinkActive="background-gray">
-					{{'APP.NAVIGATION.EXPERT' | translate}}
-				</li> -->
-				<!-- <li *ngIf="authService.hasPermission(appPermission.ViewClassifyPage)" class="navigation-group-item cursor-pointer" routerLink="/classify" routerLinkActive="background-gray">
-					{{'APP.NAVIGATION.CLASSIFY' | translate}}
-				</li> -->
-				<!-- <li class="navigation-group-item cursor-pointer" routerLink="/manual" routerLinkActive="background-gray">
-					{{'APP.NAVIGATION.MANUAL' | translate}}
-				</li> -->
-				<li *ngIf="authService.hasPermission(appPermission.ViewFaqPage)" class="navigation-group-item cursor-pointer" routerLink="/faq" routerLinkActive="background-gray">
-					{{'APP.NAVIGATION.FAQ' | translate}}
-				</li>
-				<li *ngIf="authService.hasPermission(appPermission.ViewUserPage)" class="navigation-group-item cursor-pointer" routerLink="/users" routerLinkActive="background-gray">
-					{{'APP.NAVIGATION.USERS' | translate}}
-				</li>
-
-			</ul>
-		</nav>
-	</div>
-	<div class="col"></div>
-	<div *ngIf="isAuthenticated() && areConsentsNeedAttention()" class="col-auto">
-		<button mat-icon-button matTooltip="{{'APP.NAVIGATION.CONSENT-ATTENTION' | translate}}"
-			(click)="consentsNeedAttentionClicked()">
-			<mat-icon class="consent-icon">warning</mat-icon>
-		</button>
-	</div>
-	<div *ngIf="isAuthenticated() && isTransientUser()" class="col-auto">
-		<a routerLink="/user-profile" routerLinkActive="active" mat-icon-button
-			matTooltip="{{'APP.NAVIGATION.TRANSIENT-PROMPT' | translate}}">
-			<mat-icon>group_add</mat-icon>
-		</a>
-	</div>
+            <button mat-raised-button [matMenuTriggerFor]="menu">
+                <!-- TODO <img *ngIf="authService.getUserProfilePictureRef() else namePlaceholder" class="profile-picture"
+                            [src]="getProfilePicture() | secureImage | async">
+                <ng-template #namePlaceholder>
+                    <div class="profile-picture d-flex background-blue justify-content-center align-items-center">
+                        <small class="d-inline-block">
+                            {{getPrincipalName()?.[0]}}
+                        </small>
+                    </div>
+                </ng-template> -->
+                <span class="d-flex align-items-center">
+                    {{this.getPrincipalName()}}
+                    <mat-icon>arrow_drop_down</mat-icon>
+                </span>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item><mat-icon>settings</mat-icon>{{'APP.NAVIGATION.SETTINGS' | translate}}</button>
+                <button mat-menu-item (click)="logout()"><mat-icon>exit_to_app</mat-icon>{{'APP.NAVIGATION.LOGOUT' | translate}}</button>
+            </mat-menu>
+        </div>
+        <div *ngIf="!isAuthenticated()" class="col-auto">
+            <button mat-raised-button [routerLink]=" ['/login'] ">
+                <span class="d-inline-block pl-3">{{'APP.NAVIGATION.LOGIN' | translate}}</span>
+            </button>
+        </div>
+    </div>
 
 	<!-- * LANGUAGE -->
 	<!-- <div class="col-auto">
@@ -65,36 +69,7 @@
 				</button>
 		</mat-menu>
 	</div> -->
-
-
-	<!-- * USER INFO -->
-	<div *ngIf="isAuthenticated()" class="col-auto">
-
-		<button mat-button [matMenuTriggerFor]="menu" class="rounded-button background-gray">
-			<!-- TODO <img *ngIf="authService.getUserProfilePictureRef() else namePlaceholder" class="profile-picture"
-						[src]="getProfilePicture() | secureImage | async">
-			<ng-template #namePlaceholder>
-				<div class="profile-picture d-flex background-blue justify-content-center align-items-center">
-					<small class="d-inline-block">
-						{{getPrincipalName()?.[0]}}
-					</small>
-				</div>
-			</ng-template> -->
-			<span class="d-inline-block pl-3">
-				{{this.getPrincipalName()}}
-			</span>
-		</button>
-		<mat-menu #menu="matMenu">
-			<button mat-menu-item><mat-icon>settings</mat-icon>{{'APP.NAVIGATION.SETTINGS' | translate}}</button>
-			<button mat-menu-item (click)="logout()"><mat-icon>exit_to_app</mat-icon>{{'APP.NAVIGATION.LOGOUT' | translate}}</button>
-		</mat-menu>
-	</div>
-	<div *ngIf="!isAuthenticated()" class="col-auto">
-		<button mat-button [routerLink]=" ['/login'] ">
-			<span class="d-inline-block pl-3">{{'APP.NAVIGATION.LOGIN' | translate}}</span>
-		</button>
-	</div>
-	<div *ngIf="progressIndication" class="progress-bar" style="z-index: -1;">
-		<mat-progress-bar color="accent" mode="indeterminate"></mat-progress-bar>
-	</div>
 </mat-toolbar>
+<div *ngIf="progressIndication" class="progress-bar" style="z-index: -1;">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>

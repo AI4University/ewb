@@ -1,5 +1,5 @@
 import { OverlayContainer } from '@angular/cdk/overlay';
-import { AfterViewInit, Component, HostBinding, OnInit } from '@angular/core';
+import { AfterViewInit, Component, effect, HostBinding, OnInit, ViewChild } from '@angular/core';
 import { ThemeType } from '@app/core/enum/theme-type.enum';
 import { AuthService, LoginStatus } from '@app/core/services/ui/auth.service';
 import { ThemingService } from '@app/core/services/ui/theming.service';
@@ -13,6 +13,8 @@ import { PrincipalService } from './core/services/http/principal.service';
 import { LanguageService } from './core/services/ui/language.service';
 import { CultureService } from './core/services/ui/culture.service';
 import { TimezoneService } from './core/services/ui/timezone.service';
+import { MatSidenav } from '@angular/material/sidenav';
+import { SideNavService } from './ui/misc/navigation/nav-sidebar/side-nav.service';
 
 @Component({
 	selector: 'app-root',
@@ -21,7 +23,7 @@ import { TimezoneService } from './core/services/ui/timezone.service';
 })
 export class AppComponent extends BaseComponent implements OnInit, AfterViewInit {
 	@HostBinding('class') componentCssClass;
-
+    @ViewChild('sidenav') sidenav: MatSidenav;
 	constructor(
 		private installationConfiguration: InstallationConfigurationService,
 		private authService: AuthService,
@@ -33,7 +35,8 @@ export class AppComponent extends BaseComponent implements OnInit, AfterViewInit
 		private cultureService: CultureService,
 		private timezoneService: TimezoneService,
 		private logger: LoggingService,
-		private principalService: PrincipalService
+		private principalService: PrincipalService,
+        private sideNavService: SideNavService
 	) {
 		super();
 
@@ -44,6 +47,10 @@ export class AppComponent extends BaseComponent implements OnInit, AfterViewInit
 				this.updateServices();
 			}
 		});
+        effect(() => {
+            const sidenavOpen = this.sideNavService.isOpen();
+            sidenavOpen ? this.sidenav.open() : this.sidenav.close();
+        })
 	}
 
 	ngOnInit() {
