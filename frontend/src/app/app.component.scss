@@ -2,11 +2,14 @@
 	height: 100vh;
 	display: flex;
 	flex-direction: column;
-    .main-container {
+    .main-content {
         top: 60px;
     }
+    .main-container {
+        container-name: main-container;
+        container-type: inline-size;
+    }
 }
-
 
 
 // @media screen and (min-width: 800px) {	

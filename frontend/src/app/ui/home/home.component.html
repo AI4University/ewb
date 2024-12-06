@@ -1,13 +1,18 @@
 <div class="h-100 padded-container">
-    <div class="welcome-div">
+    <h1 class="welcome-div">
         {{'APP.HOME-COMPONENT.WELCOME' | translate}}
-    </div>
-    <div class="w-100"></div>
-    <div class="title-div">
+    </h1>
+    <h2 class="title-div">
         {{'APP.HOME-COMPONENT.APP-NAME' | translate}}
-    </div>
-    <div class="version-div">
-        {{'APP.HOME-COMPONENT.VERSION' | translate}}
+        <span class="version-div ml-2">
+            {{'APP.HOME-COMPONENT.VERSION' | translate}}
+        </span>
+    </h2>
+    <div class="subtitle">
+        <div class="pb-3">
+            {{'APP.HOME-COMPONENT.UC3M-DESCRIPTION' | translate}}
+        </div>
+        <img src="../../../assets/images/uc3m-welcome-logo.png" class="uc3m-logo" alt="{{'APP.NAVIGATION.ALT-TEXT.ACKNOWLEDGMENT-LOGO' | translate}}" [attr.aria-label]="'APP.NAVIGATION.ALT-TEXT.ACKNOWLEDGMENTS' | translate">
     </div>
     <!-- <div class="w-100"></div>
     <div class="by-div">
@@ -19,10 +24,7 @@
             <img src="../../../assets/images/european-commision-logo.svg" class="img img-fluid logo" alt="Intelcomp Logo">
         </div>
     </div> -->
-    <div>
-        <span>{{'APP.HOME-COMPONENT.UC3M-DESCRIPTION' | translate}}</span>
-    </div>
-    <img src="../../../assets/images/uc3m-welcome-logo.png" class="img img-fluid uc3m-logo" alt="{{'APP.NAVIGATION.ALT-TEXT.ACKNOWLEDGMENT-LOGO' | translate}}" [attr.aria-label]="'APP.NAVIGATION.ALT-TEXT.ACKNOWLEDGMENTS' | translate">
+
 </div>
 
 

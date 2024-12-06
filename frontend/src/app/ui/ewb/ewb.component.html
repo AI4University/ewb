@@ -1,7 +1,42 @@
-<app-corpus-model (valuesSelected)="registerValues($event)"></app-corpus-model>
-
-<div *ngIf="selectedModel">
-<app-topic-relevance [model]="selectedModel"></app-topic-relevance>
-<app-model-overview [corpus]="selectedCorpus" [model]="selectedModel"></app-model-overview>
-
+<div class="d-flex flex-column h-100">
+    <div class="padded-container d-flex flex-column" [class.opacity-0]="fullscreenMode()">
+        <h1 class="page-title pb-2">{{'APP.NAVIGATION.EWB' | translate}}</h1>
+        <app-corpus-model (valuesSelected)="registerValues($event)"></app-corpus-model>
+    </div> 
+    @if(selectedModel){
+        <div class="padded-container view-options d-flex gap-3 align-items-center" [class.opacity-0]="fullscreenMode()">
+            {{'APP.EWB-COMPONENT.VIEW-OPTIONS.VIEW-AS' | translate}}
+            <mat-button-toggle-group [value]="viewType" hideSingleSelectionIndicator>
+                <mat-button-toggle [value]="viewTypeEnum.Map">
+                    <div class="d-flex align-items-center gap-1 p-2 pt-0 pb-0">
+                        <mat-icon>map</mat-icon>
+                        {{'APP.EWB-COMPONENT.VIEW-OPTIONS.MAP' | translate}}
+                    </div>
+                </mat-button-toggle>
+                <mat-button-toggle [value]="viewTypeEnum.List">
+                    <div class="d-flex align-items-center gap-1 p-2 pt-0 pb-0">
+                        <mat-icon>list</mat-icon>
+                        {{'APP.EWB-COMPONENT.VIEW-OPTIONS.LIST' | translate}}
+                    </div>
+                </mat-button-toggle>
+            </mat-button-toggle-group>
+        </div>
+        <div class="result-card w-100 pt-3"  [class.fullscreen-mode]="fullscreenMode()">
+            <div class="actions">
+                <app-topic-relevance [model]="selectedModel" *ngIf="!fullscreenMode()"></app-topic-relevance>
+                <button 
+                    mat-fab 
+                    class="ml-auto toggle-fullscreen" 
+                    (click)="toggleFullscreen()"
+                    [matTooltip]="(fullscreenMode() ? 'APP.EWB-COMPONENT.VIEW-OPTIONS.EXIT-FULLSCREEN' : 'APP.EWB-COMPONENT.VIEW-OPTIONS.SHOW-FULLSCREEN') | translate"
+                    [attr.aria-label]="(fullscreenMode() ? 'APP.EWB-COMPONENT.VIEW-OPTIONS.EXIT-FULLSCREEN' : 'APP.EWB-COMPONENT.VIEW-OPTIONS.SHOW-FULLSCREEN') | translate"
+                >
+                    <mat-icon>{{fullscreenMode() ? 'fullscreen_exit' : 'fullscreen'}}</mat-icon>
+                </button>
+            </div>
+            <div class="model h-100">
+                <app-model-overview [corpus]="selectedCorpus" [model]="selectedModel"></app-model-overview>
+            </div>
+        </div>
+    }
 </div>

@@ -1,26 +1,19 @@
-.radio-option {
-	margin-right: 10px;
-	padding: 15px;
+.topic-relevance{
+    width: fit-content;
+    background-color: var(--sys-inverse-on-surface);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 3px 8px;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
 }
-
 .delete-button {
-	max-width: min-content;
-}
-
-.item-label {
-	padding-right: 20px;
-}
-
-.delete-icon {
-	color: red !important;
-	margin: 0px;
-}
-
-::ng-deep.mat-menu-panel {
-	min-width: fit-content;
-}
-
-
-.menu-item {
-	cursor: default;
+    color: var(--sys-error);
+    width: 1.5rem;
+    height: 1.5rem;
+    &:hover {
+        border-radius: 50%;
+        background-color: #00000030;
+    }
 }

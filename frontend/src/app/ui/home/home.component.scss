@@ -14,19 +14,7 @@
 //         grid-template-columns: 1fr;
 //     }
 // }
-
-.welcome-div {
-	text-align: left;
-    font-size: 3.5rem
-}
-
-.title-div {
-	text-align: left;
-    font-size: 2rem
-}
-
 .version-div {
-	text-align: left;
 	overflow-wrap: break-word;
 	word-break: break-word;
 	font-size: 1.75rem;
@@ -41,10 +29,8 @@
 	width: 300px;
 }
 
-.padded-container {
-    padding: 1rem 2rem;
-}
 
-.uc3m-logo {
+
+.uc3m-logo, .subtitle {
     max-width: 50vw;
 }

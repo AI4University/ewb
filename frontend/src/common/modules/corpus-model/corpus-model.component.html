@@ -1,28 +1,20 @@
-<div class="row pt-3 pb-3 pl-3 model-selection-row">
-    <div class="col-1 col-xl-3"></div>
-    <div class="col-5 col-xl-3" *ngIf="corpusList.length > 0">
-        <div class="row pb-0">
-            <span class="title-span col-3">{{ 'APP.EWB-COMPONENT.CORPUS' | translate }}</span>
-            <mat-form-field class="mat-form-field-no-padding col-9">
-                <mat-select (selectionChange)="valueChanged($event)" [(value)]="selectedCorpus">
-                    <mat-option *ngFor="let corpus of corpusList" [value]="corpus">
-                        {{corpus}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-    </div>
-    <div class="col-5 col-xl-3" *ngIf="modelList.length > 0">
-        <div class="row pb-0">
-            <span class="title-span col-3">{{ 'APP.EWB-COMPONENT.MODEL' | translate }}</span>
-            <mat-form-field class="mat-form-field-no-padding col-9">
-                <mat-select (selectionChange)="onModelSelection($event)" [(value)]="selectedModel">
-                    <mat-option *ngFor="let model of modelList" [value]="model">
-                        {{model}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-    </div>
-    <div class="col-1 col-xl-3"></div>
+<div class="model-selection-row">
+    <mat-form-field class="mat-form-field-no-padding">
+        <mat-label>{{ 'APP.EWB-COMPONENT.CORPUS' | translate }}</mat-label>
+        <mat-select (selectionChange)="valueChanged($event)" [(value)]="selectedCorpus" [disabled]="!corpusList.length">
+            <mat-option *ngFor="let corpus of corpusList" [value]="corpus">
+                {{corpus}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    @if(modelList.length){
+        <mat-form-field class="mat-form-field-no-padding">
+            <mat-label>{{ 'APP.EWB-COMPONENT.MODEL' | translate }}</mat-label>
+            <mat-select (selectionChange)="onModelSelection($event)" [(value)]="selectedModel">
+                <mat-option *ngFor="let model of modelList" [value]="model">
+                    {{model}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    }
 </div>

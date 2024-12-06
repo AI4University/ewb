@@ -13,8 +13,20 @@
 @import "./appm3-theme.scss";
 @import "../node_modules/flag-icons/css/flag-icons.min.css";
 
+//m3 overrides
+button.mat-mdc-raised-button:not(:disabled){
+    color: var(--sys-on-surface);
+}
+.mdc-linear-progress{
+    z-index: 2;
+}
+//
 body {
     font-family: Roboto, sans-serif;
+}
+
+h1 {
+    font-size: 3.5rem;
 }
 
 .gap-1 {
@@ -27,6 +39,14 @@ body {
 
 .gap-3 {
     gap: 1rem;
+}
+
+.ml-auto {
+    margin-left: auto !important;
+}
+
+.padded-container {
+    padding: 1rem 2rem;
 }
 
 .cursor-pointer {

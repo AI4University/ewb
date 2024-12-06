@@ -1,17 +1,21 @@
-<div class="row">
-	<div class="col-auto" *ngIf="selection === '1'">
-		<button [disabled]="!(topics?.length > 0)" mat-button [matMenuTriggerFor]="topicMenu">{{'APP.EWB-COMPONENT.TOPIC-RELEVANCE.TOPICS' | translate}}</button>
-		<mat-menu #topicMenu="matMenu">
-			<div mat-menu-item *ngFor="let topic of topics">
-				<button mat-button class="delete-button col-auto" (click)="removeTopic(topic, $event)"><mat-icon class="delete-icon">clear</mat-icon></button>
-				<span class="item-label col-auto">{{topic.tpc_labels}}</span>
-			</div>
-		</mat-menu>
-	</div>
-	<mat-radio-group class="col-auto" (change)="selectRadio($event)" value="0">
-		<mat-radio-button class="radio-option" value="0">{{'APP.EWB-COMPONENT.TOPIC-RELEVANCE.ALL-TOPICS' | translate}}</mat-radio-button>
-		<mat-radio-button class="radio-option" value="1">{{'APP.EWB-COMPONENT.TOPIC-RELEVANCE.RELEVANT-TOPICS' | translate}}</mat-radio-button>
-	</mat-radio-group>
-
-
+<div class="topic-relevance">
+    <mat-slide-toggle labelPosition="before" [(ngModel)]="showRelevantTopics">
+        {{'APP.EWB-COMPONENT.TOPIC-RELEVANCE.SHOW-RELEVANT-TOPICS' | translate}}
+    </mat-slide-toggle>
+	@if(showRelevantTopics){
+		<button [disabled]="!(topics?.length > 0)" mat-stroked-button [matMenuTriggerFor]="topicMenu">
+            {{'APP.EWB-COMPONENT.TOPIC-RELEVANCE.TOPICS' | translate}}
+            <mat-icon iconPositionEnd>arrow_drop_down</mat-icon>
+        </button>
+    }
 </div>
+<mat-menu #topicMenu="matMenu">
+    <div role="menuitem" class="d-flex align-items-center p-2 pr-0  gap-2" *ngFor="let topic of topics">
+        <div role="button" class="delete-button" (click)="removeTopic(topic, $event)" [attr.aria-label]="'COMMONS.ACTIONS.REMOVE' | translate">
+            <mat-icon>
+                clear
+            </mat-icon>
+        </div>
+        <span class="item-label">{{topic.tpc_labels}}</span>
+    </div>
+</mat-menu>

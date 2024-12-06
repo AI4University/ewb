@@ -12,46 +12,31 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class TopicRelevanceComponent extends BaseComponent implements OnInit {
 
-	selection: string = '0';
+	showRelevantTopics: boolean = false;
 	topics: TopicMetadata[] = [];
 	@Input() model: string;
-  constructor(private ewbService: EwbService, private topicRelevanceService: TopicRelevanceService) {
-	super();
-  }
+    constructor(private ewbService: EwbService, private topicRelevanceService: TopicRelevanceService) {
+        super();
+    }
 
-  ngOnInit(): void {
-	this.topicRelevanceService.pushTopics({useRelevance: this.selection !== '0', topics: []})
-	this.ewbService.getAllRelativeTopics(this.model)
-	.pipe(takeUntil(this._destroyed))
-	.subscribe(result => {
-		this.topics = result;
-		this.topicRelevanceService.pushTopics({useRelevance: this.selection !== '0', topics: this.topics});
-	});
-  }
+    ngOnInit(): void {
+        this.topicRelevanceService.pushTopics({useRelevance: this.showRelevantTopics, topics: []})
+        this.ewbService.getAllRelativeTopics(this.model)
+        .pipe(takeUntil(this._destroyed))
+        .subscribe(result => {
+            this.topics = result;
+            this.topicRelevanceService.pushTopics({useRelevance: this.showRelevantTopics, topics: this.topics});
+        });
+    }
 
-  removeTopic(topic: TopicMetadata, ev: any) {
-	ev.stopPropagation();
-	this.ewbService.removeRelevantTopic(this.model, topic.id)
-	.pipe(takeUntil(this._destroyed))
-	.subscribe(() => {
-		this.topics = this.topics.filter(t => t.id !== topic.id);
-		this.topicRelevanceService.pushTopics({useRelevance: this.selection !== '0', topics: this.topics});
-		console.log('removed');
-	});
-  }
-
-  selectRadio(ev: any) {
-	this.selection = ev.value;
-	if (this.selection === '1') {
-		this.ewbService.getAllRelativeTopics(this.model)
-		.pipe(takeUntil(this._destroyed))
-		.subscribe(result => {
-			this.topics = result;
-			this.topicRelevanceService.pushTopics({useRelevance: this.selection !== '0', topics: this.topics});
-		});
-	} else {
-		this.topicRelevanceService.pushTopics({useRelevance: this.selection !== '0', topics: this.topics});
-	}
-  }
+    removeTopic(topic: TopicMetadata, ev: any) { //(mchouliara) Shouldnt we add a confirmation dialog here?
+        ev.stopPropagation();
+        this.ewbService.removeRelevantTopic(this.model, topic.id)
+        .pipe(takeUntil(this._destroyed))
+        .subscribe(() => {
+            this.topics = this.topics.filter(t => t.id !== topic.id);
+            this.topicRelevanceService.pushTopics({useRelevance: this.showRelevantTopics, topics: this.topics});
+        });
+    }
 
 }

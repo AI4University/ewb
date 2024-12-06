@@ -1,10 +1,10 @@
 <div class="container-fluid p-0">
 	<app-navigation></app-navigation>
-    <mat-sidenav-container fullscreen class="main-container">
+    <mat-sidenav-container fullscreen class="main-content">
         <mat-sidenav #sidenav mode="side" opened class="sidenav">
             <app-nav-sidebar/>
         </mat-sidenav>
-        <mat-sidenav-content class="sidenav-content">
+        <mat-sidenav-content class="main-container">
             <router-outlet></router-outlet>
         </mat-sidenav-content>
     </mat-sidenav-container>

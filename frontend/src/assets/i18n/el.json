@@ -536,6 +536,15 @@
 			"MODEL-OVERVIEW": "Επισκόπηση μοντέλου",
 			"DOCUMENT-SEARCH": "Αναζήτηση Εγγράφου",
 			"SIMILARITIES": "Ομιότητες",
+            "VIEW-OPTIONS": {
+                "VIEW-AS": "View as",
+                "MAP": "Map",
+                "LIST": "List"
+            },
+            "TOPIC-RELEVANCE": {
+				"SHOW-RELEVANT-TOPICS": "Show relevant topics",
+				"TOPICS": "Topics"
+			},
 			"MODEL-OVERVIEW-COMPONENT": {
 				"DEFAULT": "Γενική προβολή",
 				"HIERARCHICAL": "Ηεραρχική προβολή",

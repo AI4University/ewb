@@ -958,9 +958,15 @@
 			"MODEL-OVERVIEW": "Model Overview",
 			"DOCUMENT-SEARCH": "Document Search",
 			"SIMILARITIES": "Similarities",
+            "VIEW-OPTIONS": {
+                "VIEW-AS": "View as",
+                "MAP": "Map",
+                "LIST": "List",
+                "SHOW-FULLSCREEN": "Show fullscreen",
+                "EXIT-FULLSCREEN": "Exit fullscreen"
+            },
 			"TOPIC-RELEVANCE": {
-				"ALL-TOPICS": "All Topics",
-				"RELEVANT-TOPICS": "Relevant Topics",
+				"SHOW-RELEVANT-TOPICS": "Show relevant topics",
 				"TOPICS": "Topics"
 			},
 			"MODEL-OVERVIEW-COMPONENT": {
@@ -1968,7 +1974,8 @@
 		"ACTIONS": {
 			"NEXT": "Next",
 			"BACK": "Back",
-			"CONTINUE": "Continue"
+			"CONTINUE": "Continue",
+            "REMOVE": "Remove"
 		},
 		"TEXT-FILTER": {
 			"LIKE": "search..."
