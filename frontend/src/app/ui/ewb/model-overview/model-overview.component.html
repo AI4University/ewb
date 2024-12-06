@@ -1,4 +1,4 @@
-<div *ngIf="topics.length > 0" class="h-100 wrapper">
+<div class="h-100 wrapper">
 	<!-- <mat-radio-group class="radio-style view-selection-row" (change)="onRadioChange($event)" [value]="selectedView">
 		<mat-radio-button class="radio-style" value="1">{{ 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.DEFAULT' | translate }}</mat-radio-button> -->
 		<!-- <mat-radio-button class="radio-style" value="3">{{ 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.HIERARCHICAL' | translate }}</mat-radio-button> -->
@@ -8,7 +8,7 @@
 		<mat-button-toggle mat-button class="col-2" value="1">{{ 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.SCALE' | translate }}</mat-button-toggle>
 		<mat-button-toggle mat-button class="col-2" value="0">{{ 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.GRID' | translate }}</mat-button-toggle>
 	</mat-button-toggle-group> -->
-	<div class="chart" [class.d-none]="viewMode() === ViewModeEnum.List">
+	<div class="chart" [class.d-none]="viewMode() === ViewModeEnum.List"  *ngIf="topics.length > 0">
 		<div
             *ngIf="chartOptions else loading"
             [options]="chartOptions"
@@ -24,12 +24,12 @@
         <h5 class="pb-2">{{'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.LIST-VIEW.TITLE' | translate}}</h5>
         <mat-form-field class="w-100 search-field">
             <mat-icon matPrefix>search</mat-icon>
-            <input type="text" matInput [(ngModel)]="like" (input)="triggerSearch($event)" [placeholder]="'APP.NAVIGATION.SEARCH' | translate"
+            <input type="text" matInput [(ngModel)]="like" (input)="triggerSearch()" [placeholder]="'APP.NAVIGATION.SEARCH' | translate"
             >
         </mat-form-field>
         <mat-accordion>
-            @for(topic of searchResults; track $index){
-                <mat-expansion-panel>
+            @for(topic of searchResults; track $index; let last = $last){
+                <mat-expansion-panel [class.mb-2]="last">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
                             {{topic.tpc_labels}}
