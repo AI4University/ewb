@@ -12,6 +12,9 @@ import { BaseComponent } from '@common/base/base.component';
 import { Observable } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { SideNavService } from './nav-sidebar/side-nav.service';
+import { TranslateService } from '@ngx-translate/core';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '@common/modules/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
 	selector: 'app-navigation',
@@ -36,7 +39,9 @@ export class NavigationComponent extends BaseComponent implements OnInit {
 		public languageService: LanguageService,
 		private progressIndicationService: ProgressIndicationService,
 		private enumUtils: AppEnumUtils,
-        private sidenavService: SideNavService
+        private sidenavService: SideNavService,
+        private language: TranslateService,
+        private dialog: MatDialog
 	) {
 		super();
 
@@ -63,7 +68,18 @@ export class NavigationComponent extends BaseComponent implements OnInit {
     }
 
 	public logout(): void {
-		this.router.navigate(['/logout']);
+        const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+            data: {
+                message: this.language.instant('APP.NAVIGATION.LOGOUT-DIALOG.CONFIRMATION-MESSAGE'),
+                confirmButton: this.language.instant('APP.NAVIGATION.LOGOUT-DIALOG.CONFIRM-BUTTON'),
+                cancelButton: this.language.instant('APP.NAVIGATION.LOGOUT-DIALOG.CANCEL')
+            }
+        });
+        dialogRef.afterClosed().pipe(takeUntil(this._destroyed)).subscribe(result => {
+            if (result) {
+                this.router.navigate(['/logout']);
+            }
+        });
 	}
 
 	public isAuthenticated(): boolean {

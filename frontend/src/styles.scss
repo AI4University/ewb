@@ -41,46 +41,6 @@ body {
     cursor: unset !important;
 }
 
-.rounded-button {
-    border-radius: 20px !important;
-}
-
-.button-rounded-padding {
-    padding-left: 2.3rem !important;
-    padding-right: 2.3rem !important;
-}
-
-.table-head-gray {
-    background-color: #e5e5e5;
-}
-
-.round-table {
-    border-radius: 1rem;
-    overflow: hidden;
-
-    th {
-        border-top: none !important;
-    }
-}
-
-.shadow-table {
-    border: none !important;
-    box-shadow: 0px 0px 1rem 0px rgba(0, 0, 0, 0.25) !important;
-}
-
-.background-gray {
-    background-color: #e0e0e0 !important;
-}
-
-.background-gray-dark {
-    background-color: #d6d6d8 !important;
-}
-
-.background-blue {
-    background-color: #0d47a1 !important;
-
-}
-
 .ngx-datatable.material.single-selection .datatable-body-row.active .datatable-row-group {
     background-color: #e0e0e0;
 }
@@ -168,7 +128,7 @@ body {
 }
 
 .snack-bar-notification--error {
-    background-color: #B13636 !important;
+    background-color: var(--sys-error) !important;
     color: white !important;
 }
 

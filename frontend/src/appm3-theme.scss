@@ -166,7 +166,4 @@ $light-theme: mat.define-theme((
         container-width: 250px,
         content-text-color: #202021
     ));
-    @include mat.button-overrides((
-        label-text-color: var(--sys-on-surface)
-    ));
 }

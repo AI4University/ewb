@@ -43,6 +43,11 @@
                 "TOGGLE-SIDEBAR": "Toggle navigation menu visibility",
                 "ACKNOWLEDGMENT-LOGO": "Logos of the acknowledged organizations",
                 "ACKNOWLEDGMENTS": "acknowledgments: Ministerio de ciencia e innovación. Financiado por la Unión Europea (Next Generation EU) Agencia Estatal de Investigación. Plan de Recuperación, Transformación y Resiliencia. Agencia Estatal de Investigación."
+            },
+            "LOGOUT-DIALOG": {
+                "CONFIRMATION-MESSAGE": "Are you sure you want to log out?",
+                "CONFIRM-BUTTON": "Logout",
+                "CANCEL": "Cancel"
             }
 		},
 		"FOOTER":{
