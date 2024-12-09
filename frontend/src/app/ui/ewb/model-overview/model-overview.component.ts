@@ -40,16 +40,15 @@ export class ModelOverviewComponent extends BaseComponent implements OnDestroy{
         this._topics = val;
         this.searchResults = this._topics;
     }
-	selectedView: string = '1';
 	chartOptions: EChartsOption = null;
-	useRelation: string = '1';
 	private vocabularies: any;
-	private areLoaded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-	private topicNum = 0;
-	private count = 1;
-
-	private relevantTopics: TopicMetadata[] = [];
 	private topicSignal = this.topicRelevanceService.topics;
+	// selectedView: string = '1';
+	// useRelation: string = '1';
+	// private areLoaded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+	// private topicNum = 0;
+	// private count = 1;
+
 
   constructor(private ewbService: EwbService, private dialog: MatDialog, private topicRelevanceService: TopicRelevanceService) {
 	    super();
@@ -70,18 +69,10 @@ export class ModelOverviewComponent extends BaseComponent implements OnDestroy{
         })
    }
 
-//   private getAllTopics() {
-// 	this.ewbService.getAllTopicMetadata(this.model)
-//         .pipe(takeUntil(this._destroyed))
-//         .subscribe((result: TopicMetadata[]) => {
-//             this.topics = result;
-//             this.setChartOptions();
-//         });
-//   }
-
   private setChartOptions() {
     if(!this.topics || !this.vocabularies){ return; }
-    this.makeDefaultViewOptions();
+    this.chartOptions = null;
+    this.makeTreemapOptions();
 
 	// switch(this.selectedView) {
 	// 	case '1':
@@ -96,142 +87,142 @@ export class ModelOverviewComponent extends BaseComponent implements OnDestroy{
 	// }
   }
 
-  onOverViewChange(event: MatButtonToggleChange) {
-	this.useRelation = event.value;
-	this.chartOptions = null;
-	this.makeDefaultViewOptions();
-  }
+//   onOverViewChange(event: MatButtonToggleChange) {
+// 	this.useRelation = event.value;
+// 	this.chartOptions = null;
+// 	this.makeDefaultViewOptions();
+//   }
 
-  private makeDefaultViewOptions() {
-	let x = 0;
-	let y = 0;
-	let index = 1;
-	const nodes = this.topics.map((topic: TopicMetadata) => {
-		const size = this.useRelation === '1' ? topic.alphas : 94;
-		const data = {
-			id: topic.id,
-			name: topic.tpc_labels,
-			value: 0,
-			x: this.useRelation === '1' ? topic.coords[0] : x,
-			y: this.useRelation === '1' ? topic.coords[1] : y,
-			symbolSize: this.useRelation === '1' ? topic.alphas * 1000 : 94,
-			label: {
-				show: true,
-				formatter: this.getTopWords(topic.id),
-				fontSize: this.useRelation === '1' ? topic.alphas * 100 : 12,
-				overflow: 'break'
-			},
-			itemStyle: {
-				color: 'aliceblue'
-			},
-			emphasis: {
-				itemStyle: {
-					color: 'lightblue',
-					overflow: 'break'
-				},
-				label: {
-					formatter: '{b}',
-					overflow: 'break'
-				}
-			}
-		};
-		if (this.useRelation !== '1') {
-			if (index === 10) {
-				index = 0;
-				x = 0;
-				y = y + size;
-			} else {
-				x = x + size;
-			}
-			index = index + 1;
-		}
-		return data as GraphNode;
-	});
-	const links = [];
-	// if (this.useRelation === '1') {
-	// 	this.ewbService.getTopicRelations(this.model)
-	// 	.pipe(takeUntil(this._destroyed)).subscribe((relations) => {
-	// 		nodes.forEach(node => {
-	// 			const relation = relations.filter(r => r.id === node.id)[0];
-	// 			relation.correlations.filter(c => c.id !== relation.id).forEach((value) => {
-	// 				const relatedNode = nodes.filter(x => x.id === value.id)[0];
-	// 				// const linkIndex = links.findIndex(link => link.id === relatedNode.id + '-' + node.id);
-	// 				// if (linkIndex > -1) {
-	// 				// 	links[linkIndex].value += value.score;
-	// 				// } else {
-	// 					links.push({
-	// 						id: node.id + '-' + relatedNode.id,
-	// 						source: node.id,
-	// 						target: relatedNode.id,
-	// 						value: value.score,
-	// 						lineStyle: {
-	// 							width: 0
-	// 						}
-	// 					});
-	// 				//}
-	// 				// const offset = value.score * 1.5;
-	// 				// const xdelta = Math.abs(relatedNode.x - node.x);
-	// 				// const ydelta = Math.abs(relatedNode.y - node.y);
-	// 				// const xoffset = (relatedNode.x === node.x) ? 0 : (relatedNode.x > node.x) ? Math.min(offset, xdelta) : (Math.min(offset, xdelta)) * -1;
-	// 				// const yoffset = (relatedNode.y === node.y) ? 0 : (relatedNode.y > node.y) ? Math.min(offset, ydelta) : (Math.min(offset, ydelta)) * -1;
-	// 				// node.x = node.x + xoffset;
-	// 				// node.y = node.y + yoffset;
-	// 			});
-	// 		});
-	// 		this.chartOptions = {
-	// 			series: {
-	// 				type: 'graph',
-	// 				layout: 'force',
-	// 				roam: true,
-	// 				autoCurveness: true,
-	// 				nodes: nodes,
-	// 				links: links,
-	// 				nodeScaleRatio: 0, //GK: Why 0.6 is a TYPE???
-	// 				force: {
-	// 					repulsion: [0, 1],
-	// 					edgeLength: [0, 1],
-	// 					layoutAnimation: false
-	// 				}
-	// 			} as any
-	// 		};
-	// 		console.log(JSON.stringify(this.chartOptions));
-	// 	});
-	// } else {
-		if (this.useRelation === '1') {
-			// this.chartOptions = {
-			// 	series: {
-			// 		type: 'graph',
-			// 		layout: 'none',
-			// 		nodes: nodes,
-			// 		roam: true,
-			// 		dataZoom: {
-			// 			type: 'absolute'
-			// 		},
-			// 		autoCurveness: true,
-			// 		nodeScaleRatio: 0.6, //GK: Why 0.6 is a TYPE???
-			// 		symbolKeepAspect: true,
-			// 		force: {
-			// 			repulsion: [0, 1],
-			// 			edgeLength: [0, 1],
-			// 			layoutAnimation: false
-			// 		}
-			// 	}
-			// };
-			this.makeTreemapOptions();
-		} else {
-			this.chartOptions = {
-				series: {
-					type: 'graph',
-					layout: 'none',
-					nodes: nodes
-				}
-			};
-		}
+//   private makeDefaultViewOptions() {
+// 	let x = 0;
+// 	let y = 0;
+// 	let index = 1;
+// 	const nodes = this.topics.map((topic: TopicMetadata) => {
+// 		const size = this.useRelation === '1' ? topic.alphas : 94;
+// 		const data = {
+// 			id: topic.id,
+// 			name: topic.tpc_labels,
+// 			value: 0,
+// 			x: this.useRelation === '1' ? topic.coords[0] : x,
+// 			y: this.useRelation === '1' ? topic.coords[1] : y,
+// 			symbolSize: this.useRelation === '1' ? topic.alphas * 1000 : 94,
+// 			label: {
+// 				show: true,
+// 				formatter: this.getTopWords(topic.id),
+// 				fontSize: this.useRelation === '1' ? topic.alphas * 100 : 12,
+// 				overflow: 'break'
+// 			},
+// 			itemStyle: {
+// 				color: 'aliceblue'
+// 			},
+// 			emphasis: {
+// 				itemStyle: {
+// 					color: 'lightblue',
+// 					overflow: 'break'
+// 				},
+// 				label: {
+// 					formatter: '{b}',
+// 					overflow: 'break'
+// 				}
+// 			}
+// 		};
+// 		if (this.useRelation !== '1') {
+// 			if (index === 10) {
+// 				index = 0;
+// 				x = 0;
+// 				y = y + size;
+// 			} else {
+// 				x = x + size;
+// 			}
+// 			index = index + 1;
+// 		}
+// 		return data as GraphNode;
+// 	});
+// 	const links = [];
+// 	// if (this.useRelation === '1') {
+// 	// 	this.ewbService.getTopicRelations(this.model)
+// 	// 	.pipe(takeUntil(this._destroyed)).subscribe((relations) => {
+// 	// 		nodes.forEach(node => {
+// 	// 			const relation = relations.filter(r => r.id === node.id)[0];
+// 	// 			relation.correlations.filter(c => c.id !== relation.id).forEach((value) => {
+// 	// 				const relatedNode = nodes.filter(x => x.id === value.id)[0];
+// 	// 				// const linkIndex = links.findIndex(link => link.id === relatedNode.id + '-' + node.id);
+// 	// 				// if (linkIndex > -1) {
+// 	// 				// 	links[linkIndex].value += value.score;
+// 	// 				// } else {
+// 	// 					links.push({
+// 	// 						id: node.id + '-' + relatedNode.id,
+// 	// 						source: node.id,
+// 	// 						target: relatedNode.id,
+// 	// 						value: value.score,
+// 	// 						lineStyle: {
+// 	// 							width: 0
+// 	// 						}
+// 	// 					});
+// 	// 				//}
+// 	// 				// const offset = value.score * 1.5;
+// 	// 				// const xdelta = Math.abs(relatedNode.x - node.x);
+// 	// 				// const ydelta = Math.abs(relatedNode.y - node.y);
+// 	// 				// const xoffset = (relatedNode.x === node.x) ? 0 : (relatedNode.x > node.x) ? Math.min(offset, xdelta) : (Math.min(offset, xdelta)) * -1;
+// 	// 				// const yoffset = (relatedNode.y === node.y) ? 0 : (relatedNode.y > node.y) ? Math.min(offset, ydelta) : (Math.min(offset, ydelta)) * -1;
+// 	// 				// node.x = node.x + xoffset;
+// 	// 				// node.y = node.y + yoffset;
+// 	// 			});
+// 	// 		});
+// 	// 		this.chartOptions = {
+// 	// 			series: {
+// 	// 				type: 'graph',
+// 	// 				layout: 'force',
+// 	// 				roam: true,
+// 	// 				autoCurveness: true,
+// 	// 				nodes: nodes,
+// 	// 				links: links,
+// 	// 				nodeScaleRatio: 0, //GK: Why 0.6 is a TYPE???
+// 	// 				force: {
+// 	// 					repulsion: [0, 1],
+// 	// 					edgeLength: [0, 1],
+// 	// 					layoutAnimation: false
+// 	// 				}
+// 	// 			} as any
+// 	// 		};
+// 	// 		console.log(JSON.stringify(this.chartOptions));
+// 	// 	});
+// 	// } else {
+// 		if (this.useRelation === '1') {
+// 			// this.chartOptions = {
+// 			// 	series: {
+// 			// 		type: 'graph',
+// 			// 		layout: 'none',
+// 			// 		nodes: nodes,
+// 			// 		roam: true,
+// 			// 		dataZoom: {
+// 			// 			type: 'absolute'
+// 			// 		},
+// 			// 		autoCurveness: true,
+// 			// 		nodeScaleRatio: 0.6, //GK: Why 0.6 is a TYPE???
+// 			// 		symbolKeepAspect: true,
+// 			// 		force: {
+// 			// 			repulsion: [0, 1],
+// 			// 			edgeLength: [0, 1],
+// 			// 			layoutAnimation: false
+// 			// 		}
+// 			// 	}
+// 			// };
+// 			this.makeTreemapOptions();
+// 		} else {
+// 			this.chartOptions = {
+// 				series: {
+// 					type: 'graph',
+// 					layout: 'none',
+// 					nodes: nodes
+// 				}
+// 			};
+// 		}
 
-	//}
+// 	//}
 
 
-  }
+//   }
 
   private makeTreemapOptions() {
 	const data = [];
@@ -573,10 +564,10 @@ export class ModelOverviewComponent extends BaseComponent implements OnDestroy{
         });
     }
 
-  onRadioChange(event: MatRadioChange) {
-	this.selectedView = event.value;
-	this.setChartOptions();
-  }
+//   onRadioChange(event: MatRadioChange) {
+// 	this.selectedView = event.value;
+// 	this.setChartOptions();
+//   }
 
   private getTopWords(topicId: string): string {
     if(!this.vocabularies?.size){return;}
