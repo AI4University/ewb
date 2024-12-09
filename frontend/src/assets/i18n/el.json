@@ -552,9 +552,10 @@
 				"SCALE": "Scale View",
 				"GRID": "Grid View",
 				"TOPIC-VIEWER": {
-					"TOP-WORDS": "Top Words",
-					"TOPIC-STATISTICS": "Topic Statistics",
-					"TOP-DOCUMENTS": "Top Documents",
+					"WORDS-USED": "Words used",
+					"TOPIC-STATISTICS": "Topic statistics",
+					"TOP-DOCUMENTS": "Top documents",
+                    "TOPIC-EVOLUTION": "Topic evolution",
 					"LISTING": {
 						"ID": "ID",
 						"SIZE": "Size",
@@ -563,7 +564,9 @@
 						"COHERENCE": "Coherence",
 						"LABEL": "Label",
 						"WORDS": "Λέξεις"
-					}
+					},
+                    "RESEARCHER": "Researcher",
+                    "RESEARCH-GROUP": "Research group"
 				},
                 "LIST-VIEW": {
                     "TITLE": "Projects"

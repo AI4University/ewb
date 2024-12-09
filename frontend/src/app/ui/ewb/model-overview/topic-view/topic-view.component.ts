@@ -11,6 +11,8 @@ import { takeUntil } from 'rxjs/operators';
 import { nameof } from 'ts-simple-nameof';
 import { SelectionType } from '@swimlane/ngx-datatable';
 import { MetadataAgViewComponent } from '../../modules/metadata-ag-view/metadata-ag-view.component';
+import { TranslateService } from '@ngx-translate/core';
+import { TopicRelevanceService } from '@app/core/services/ui/topic-relevance.service';
 
 @Component({
   selector: 'app-topic-view',
@@ -20,6 +22,8 @@ import { MetadataAgViewComponent } from '../../modules/metadata-ag-view/metadata
 export class TopicViewComponent extends BaseComponent implements OnInit {
 
 	@ViewChild('textWrapTemplate', { static: true }) textWrapTemplate: TemplateRef<any>;
+	@ViewChild('researchGroupTitleTemplate', { static: true }) researchGroupTitleTemplate: TemplateRef<any>;
+	@ViewChild('researcherTitleTemplate', { static: true }) researcherTitleTemplate: TemplateRef<any>;
 	@ViewChild('percentageBar', { static: true }) percentageBar: TemplateRef<any>;
 
 	maxValue = 100;
@@ -32,6 +36,7 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
 	words: TopicBeta[] = [];
 	topWordColumns: ColumnDefinition[] = [];
 	isRelevant: boolean = false;
+    relevanceChanged: boolean = false;
 	topResearchers: TopDoc[] = [];
 	topResearchGroupColumns: ColumnDefinition[] = [];
 	topResearchGroups: TopDoc[] = [];
@@ -48,6 +53,8 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
 	private dialogRef: MatDialogRef<TopicViewComponent>,
 	private ewbService: EwbService,
 	private dialog: MatDialog,
+    private language: TranslateService,
+    private topicRelevanceService: TopicRelevanceService,
     @Inject(MAT_DIALOG_DATA) public data: {
 		corpus: string,
 		model: string,
@@ -56,6 +63,12 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
 		word: string
 	}) {
 		super();
+        this.dialogRef.beforeClosed().pipe(takeUntil(this._destroyed))
+        .subscribe(() => {
+            if(this.relevanceChanged){ 
+                this.topicRelevanceService.kickStartRefresh()
+            }
+        })
 	 }
 
   ngOnInit(): void {
@@ -129,8 +142,7 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
 			alwaysShown: true,
 			canAutoResize: true,
 			languageName: 'Title',
-			cellTemplate: this.textWrapTemplate,
-			headerClass: 'pretty-header'
+			cellTemplate: this.researcherTitleTemplate,
 		},
 		{
 			prop: nameof<TopDoc>(x => x.relevance),
@@ -143,7 +155,6 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
 			maxWidth: 250,
 			minWidth: 200,
 			languageName: 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.LISTING.RELEVANCE',
-			headerClass: 'pretty-header',
 			cellTemplate: this.percentageBar,
 			pipe: pipe
 		},
@@ -158,7 +169,6 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
 			maxWidth: 150,
 			minWidth: 100,
 			languageName: 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.LISTING.WORDS',
-			headerClass: 'pretty-header'
 		}
 	]);
   }
@@ -175,8 +185,7 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
 			alwaysShown: true,
 			canAutoResize: true,
 			languageName: 'Title',
-			cellTemplate: this.textWrapTemplate,
-			headerClass: 'pretty-header'
+			cellTemplate: this.researchGroupTitleTemplate,
 		},
 		{
 			prop: nameof<TopDoc>(x => x.relevance),
@@ -189,7 +198,6 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
 			maxWidth: 250,
 			minWidth: 200,
 			languageName: 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.LISTING.RELEVANCE',
-			headerClass: 'pretty-header',
 			cellTemplate: this.percentageBar,
 			pipe: pipe
 		},
@@ -204,7 +212,6 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
 			maxWidth: 150,
 			minWidth: 100,
 			languageName: 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.LISTING.WORDS',
-			headerClass: 'pretty-header'
 		}
 	]);
   }
@@ -231,7 +238,6 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
 			canAutoResize: true,
 			languageName: 'Word',
 			cellTemplate: this.textWrapTemplate,
-			headerClass: 'pretty-header'
 		},
 		{
 			prop: nameof<TopicBeta>(x => x.beta),
@@ -243,7 +249,6 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
 			canAutoResize: true,
 			languageName: 'Weight',
 			cellTemplate: this.percentageBar,
-			headerClass: 'pretty-header',
 			pipe: pipe
 		}
 	])
@@ -258,15 +263,16 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
   }
 
 
-  showMetadata(event: any) {
+  showMetadata(row: any, title: string ) {
 	this.dialog.open(MetadataAgViewComponent, {
-		minWidth: '80vw',
-		minHeight: '80vh',
+		minWidth: '30vw',
+		minHeight: '20vh',
 		maxWidth: '80vw',
 		maxHeight: '80vh',
 		panelClass: 'topic-style',
 		data: {
-			selectedMetadata: event[0]
+			selectedMetadata: row,
+            title: this.language.instant(title)
 		}
 	});
   }
@@ -320,14 +326,19 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
   addRelevant() {
 	this.ewbService.addRelevantTopic(this.data.model, this.data.topicId)
 	.pipe(takeUntil(this._destroyed))
-	.subscribe(result => this.isRelevant = true);
+	.subscribe(result => {
+        this.isRelevant = true;
+        this.relevanceChanged = true;
+    });
   }
 
   removeRelevant() {
 	this.ewbService.removeRelevantTopic(this.data.model, this.data.topicId)
 	.pipe(takeUntil(this._destroyed))
-	.subscribe(() => this.isRelevant = false);
-
+	.subscribe(() => {
+        this.isRelevant = false;
+        this.relevanceChanged = true;
+    });
   }
 
 }

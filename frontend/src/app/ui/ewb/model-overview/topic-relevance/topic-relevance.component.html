@@ -1,16 +1,16 @@
 <div class="topic-relevance">
-    <mat-slide-toggle labelPosition="before" [(ngModel)]="showRelevantTopics">
+    <mat-slide-toggle labelPosition="before" [(ngModel)]="showRelevantTopics" (change)="refreshTopics()">
         {{'APP.EWB-COMPONENT.TOPIC-RELEVANCE.SHOW-RELEVANT-TOPICS' | translate}}
     </mat-slide-toggle>
 	@if(showRelevantTopics){
-		<button [disabled]="!(topics?.length > 0)" mat-stroked-button [matMenuTriggerFor]="topicMenu">
+		<button [disabled]="!relevantTopics?.length" mat-stroked-button [matMenuTriggerFor]="topicMenu">
             {{'APP.EWB-COMPONENT.TOPIC-RELEVANCE.TOPICS' | translate}}
             <mat-icon iconPositionEnd>arrow_drop_down</mat-icon>
         </button>
     }
 </div>
 <mat-menu #topicMenu="matMenu">
-    <div role="menuitem" class="d-flex align-items-center p-2 pr-0  gap-2" *ngFor="let topic of topics">
+    <div role="menuitem" class="d-flex align-items-center p-2 pr-0  gap-2" *ngFor="let topic of relevantTopics">
         <div role="button" class="delete-button" (click)="removeTopic(topic, $event)" [attr.aria-label]="'COMMONS.ACTIONS.REMOVE' | translate">
             <mat-icon>
                 clear

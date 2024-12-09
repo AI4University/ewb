@@ -1,42 +1,90 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, effect, input, Input, OnDestroy, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { TopicMetadata } from '@app/core/model/ewb/topic-metadata.model';
 import { EwbService } from '@app/core/services/http/ewb.service';
 import { TopicRelevanceService } from '@app/core/services/ui/topic-relevance.service';
 import { BaseComponent } from '@common/base/base.component';
-import { takeUntil } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+import { startWith, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-topic-relevance',
   templateUrl: './topic-relevance.component.html',
   styleUrls: ['./topic-relevance.component.scss']
 })
-export class TopicRelevanceComponent extends BaseComponent implements OnInit {
+export class TopicRelevanceComponent extends BaseComponent implements OnDestroy{
 
 	showRelevantTopics: boolean = false;
-	topics: TopicMetadata[] = [];
-	@Input() model: string;
+	relevantTopics: TopicMetadata[];
+	allTopics: TopicMetadata[];
+	model = input<string>();
     constructor(private ewbService: EwbService, private topicRelevanceService: TopicRelevanceService) {
         super();
+        this.topicRelevanceService.pushTopics([]);
+        effect(() => {
+            const model = this.model();
+            this.relevantTopics = null;
+            this.allTopics = null;
+            this.refreshTopics();
+        },
+        {
+            allowSignalWrites: true,
+        });
+        this.topicRelevanceService.kickstartSubject.pipe(takeUntil(this._destroyed))
+        .subscribe(() => {
+            this.relevantTopics = null;
+            this.allTopics = null;
+            this.refreshTopics();
+        })
     }
 
-    ngOnInit(): void {
-        this.topicRelevanceService.pushTopics({useRelevance: this.showRelevantTopics, topics: []})
-        this.ewbService.getAllRelativeTopics(this.model)
+    refreshTopics(){
+        if(this.showRelevantTopics){
+            this.getRelevantTopics();
+        } else {
+            this.getAllTopics();
+        }
+    }
+
+    getRelevantTopics(){
+        if(this.relevantTopics){
+            this.topicRelevanceService.pushTopics(this.relevantTopics);
+            return;
+        }
+        this.ewbService.getAllRelativeTopics(this.model())
         .pipe(takeUntil(this._destroyed))
         .subscribe(result => {
-            this.topics = result;
-            this.topicRelevanceService.pushTopics({useRelevance: this.showRelevantTopics, topics: this.topics});
+            this.relevantTopics = result;
+            this.topicRelevanceService.pushTopics(this.relevantTopics);
         });
     }
+
+    private getAllTopics() {
+        if(this.allTopics){
+            this.topicRelevanceService.pushTopics(this.allTopics);
+            return;
+        }
+        this.ewbService.getAllTopicMetadata(this.model())
+        .pipe(takeUntil(this._destroyed))
+        .subscribe((result: TopicMetadata[]) => {
+            this.allTopics = result;
+            this.topicRelevanceService.pushTopics(this.allTopics)
+        });
+    }
+      
 
     removeTopic(topic: TopicMetadata, ev: any) { //(mchouliara) Shouldnt we add a confirmation dialog here?
         ev.stopPropagation();
-        this.ewbService.removeRelevantTopic(this.model, topic.id)
+        this.ewbService.removeRelevantTopic(this.model(), topic.id)
         .pipe(takeUntil(this._destroyed))
         .subscribe(() => {
-            this.topics = this.topics.filter(t => t.id !== topic.id);
-            this.topicRelevanceService.pushTopics({useRelevance: this.showRelevantTopics, topics: this.topics});
+            this.topicRelevanceService.removeTopic(topic.id);
         });
+    }
+
+    ngOnDestroy(): void {
+        super.ngOnDestroy();
+        this.topicRelevanceService.pushTopics([]);
     }
 
 }

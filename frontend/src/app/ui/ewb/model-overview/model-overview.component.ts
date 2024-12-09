@@ -1,4 +1,4 @@
-import { Component, input, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, effect, input, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { EwbService } from '@app/core/services/http/ewb.service';
 import { BaseComponent } from '@common/base/base.component';
@@ -16,8 +16,8 @@ import { DocumentViewComponent } from '../modules/document-view/document-view.co
 import { BehaviorSubject } from 'rxjs';
 import { TopicBeta } from '@app/core/model/ewb/topic-beta.model';
 import { TopicRelevanceService } from '@app/core/services/ui/topic-relevance.service';
-import { TopicRelevanceModel } from '@app/core/model/ewb/topic-relevance.model';
 import { ModelViewMode } from '../ewb.component';
+import { TopicRelevanceModel } from '@app/core/model/ewb/topic-relevance.model';
 
 @Component({
   selector: 'app-model-overview',
@@ -25,10 +25,10 @@ import { ModelViewMode } from '../ewb.component';
   styleUrls: ['./model-overview.component.scss'],
   animations: GENERAL_ANIMATIONS
 })
-export class ModelOverviewComponent extends BaseComponent implements OnInit, OnDestroy {
+export class ModelOverviewComponent extends BaseComponent implements OnDestroy{
 
-	@Input() model: string;
-	@Input() corpus: string;
+	model = input<string>();
+	corpus = input<string>();
     viewMode = input<ModelViewMode>(ModelViewMode.Map);
 
     ViewModeEnum = ModelViewMode
@@ -49,60 +49,51 @@ export class ModelOverviewComponent extends BaseComponent implements OnInit, OnD
 	private count = 1;
 
 	private relevantTopics: TopicMetadata[] = [];
-	private topicRelevanceSubscription: any;
+	private topicSignal = this.topicRelevanceService.topics;
 
   constructor(private ewbService: EwbService, private dialog: MatDialog, private topicRelevanceService: TopicRelevanceService) {
-	super();
+	    super();
+        effect(() => {
+            const model = this.model();
+            if(!model){ return; }
+            this.ewbService.getVocabularyForTopics(model)
+            .pipe(takeUntil(this._destroyed))
+            .subscribe(result => {
+                this.vocabularies = result;
+                this.setChartOptions();
+            });
+        })
+        effect(() => {
+            this.topics = this.topicSignal();
+            if(!this.topics){ return; }
+            this.setChartOptions();
+        })
    }
 
-  ngOnInit(): void {
-	if (this.model !== null && this.model !== undefined) {
-		this.ewbService.getVocabularyForTopics(this.model)
-		.pipe(takeUntil(this._destroyed))
-		.subscribe(result => {
-			this.vocabularies = result;
-			this.registerTopicRelevanceListeners();
-		});
-	}
-
-
-  }
-
-  private registerTopicRelevanceListeners() {
-	this.topicRelevanceSubscription = this.topicRelevanceService.getTopics()
-	.pipe(takeUntil(this._destroyed))
-	.subscribe((result: TopicRelevanceModel) => {
-		this.relevantTopics = result.topics;
-		if (result.useRelevance) {
-			this.topics = this.relevantTopics;
-			this.setChartOptions();
-		} else {
-			this.getAllTopics();
-		}
-	});
-  }
-
-  private getAllTopics() {
-	this.ewbService.getAllTopicMetadata(this.model)
-					.pipe(takeUntil(this._destroyed))
-					.subscribe((result: TopicMetadata[]) => {
-						this.topics = result;
-						this.setChartOptions();
-					});
-  }
+//   private getAllTopics() {
+// 	this.ewbService.getAllTopicMetadata(this.model)
+//         .pipe(takeUntil(this._destroyed))
+//         .subscribe((result: TopicMetadata[]) => {
+//             this.topics = result;
+//             this.setChartOptions();
+//         });
+//   }
 
   private setChartOptions() {
-	switch(this.selectedView) {
-		case '1':
-			this.makeDefaultViewOptions();
-			break;
-		case '2':
-			this.makeTemporalViewOptions();
-			break;
-		case '3':
-			this.makeHierarchicalViewOptions();
-			break;
-	}
+    if(!this.topics || !this.vocabularies){ return; }
+    this.makeDefaultViewOptions();
+
+	// switch(this.selectedView) {
+	// 	case '1':
+	// 		this.makeDefaultViewOptions();
+	// 		break;
+	// 	case '2':
+	// 		this.makeTemporalViewOptions();
+	// 		break;
+	// 	case '3':
+	// 		this.makeHierarchicalViewOptions();
+	// 		break;
+	// }
   }
 
   onOverViewChange(event: MatButtonToggleChange) {
@@ -237,7 +228,6 @@ export class ModelOverviewComponent extends BaseComponent implements OnInit, OnD
 			};
 		}
 
-		console.log(JSON.stringify(this.chartOptions));
 	//}
 
 
@@ -268,9 +258,9 @@ export class ModelOverviewComponent extends BaseComponent implements OnInit, OnD
 				{
                     colorSaturation: [0.25, 0.5],
 					itemStyle: {
-						borderColor: '#fff',
-						borderWidth: 2,
-                        gapWidth: 1
+                        borderWidth: 15,
+                        gapWidth: 1,
+                        borderColorSaturation: 0.9,
 					}
 				}
 			]
@@ -278,309 +268,310 @@ export class ModelOverviewComponent extends BaseComponent implements OnInit, OnD
 	};
   }
 
-  private makeTemporalViewOptions() {
-	this.ewbService.getTopicsTemporal(this.corpus, this.model)
-	.pipe(takeUntil(this._destroyed))
-	.subscribe( response => {
-		let years: any[] = [];
-		const values: Map<string, number[]> = new Map();
-		const topics = this.topics.map(topic => topic.tpc_labels);
-		Object.entries(response).forEach(value => {
-			values.set(value[0], []);
-			Object.entries(value[1]).forEach(val => {
-				if (!years.includes(val[0])) {
-					years.push(val[0] + '');
-				}
-				values.get(value[0]).push(val[1]);
-			});
-		});
-		this.chartOptions = {
-			title: {
-				text: ''
-			},
-			legend: {
-				orient: 'vertical',
-				right: 10,
-				top: 'center',
-				backgroundColor: '#fff',
-				textStyle: {
-					width: 120,
-					overflow: 'truncate'
-				},
-				type: 'scroll',
-				selector: true
-			},
-			tooltip: {
-				trigger: 'axis',
-				confine: true,
-				formatter: (params: any[]) => {
-					console.log(JSON.stringify(params));
-					let finalString = '<ul style=\"padding-left:20px\">';
-					params.forEach(param => {
-						finalString += `<li style=\"color:${param.color}\"><span style=\"color:black; float:left; padding-right:20px;\">${param.seriesName}</span><span style=\"color: black; float:right\">${param.value}</span></li>`
-					});
-					finalString += '</ul>'
-					return finalString;
-				}
-			},
-			dataZoom: {
-				type: 'inside'
-			},
-			xAxis: [
-				{
-					type: 'category',
-					data: years,
-					boundaryGap: true,
-        			silent: false,
-        			splitLine: {
-            			show: false
-        			},
-        			axisLabel: {}
-				}
-			],
-			yAxis:[
-				{
-					type: 'value',
-					axisLabel: {
-						formatter: (value, index) => {
-							console.log(typeof(value));
-							return `${(+value).toFixed(0)}`;
-						}
-					}
-				}
-			],
-			series: this.topics.map((topic, index) => {
-				return {
-					name: topic.tpc_labels,
-					id: topic.id,
-					type: 'line',
-					stack: 'x',
-					areaStyle: {},
-					//color: //TODO: Set value from Topic,
-					emphasis: {
-						focus: 'series'
-					},
-					data: values.get(topic.id),
-				}
-			}),
-			toolbox: {
-				show: true,
-				feature: {
-					saveAsImage: {
-						type: 'png'
-					}
-				}
-			}
-		};
-		console.log(JSON.stringify(this.chartOptions));
-	});
-  }
+//   private makeTemporalViewOptions() {
+// 	this.ewbService.getTopicsTemporal(this.corpus, this.model)
+// 	.pipe(takeUntil(this._destroyed))
+// 	.subscribe( response => {
+// 		let years: any[] = [];
+// 		const values: Map<string, number[]> = new Map();
+// 		const topics = this.topics.map(topic => topic.tpc_labels);
+// 		Object.entries(response).forEach(value => {
+// 			values.set(value[0], []);
+// 			Object.entries(value[1]).forEach(val => {
+// 				if (!years.includes(val[0])) {
+// 					years.push(val[0] + '');
+// 				}
+// 				values.get(value[0]).push(val[1]);
+// 			});
+// 		});
+// 		this.chartOptions = {
+// 			title: {
+// 				text: ''
+// 			},
+// 			legend: {
+// 				orient: 'vertical',
+// 				right: 10,
+// 				top: 'center',
+// 				backgroundColor: '#fff',
+// 				textStyle: {
+// 					width: 120,
+// 					overflow: 'truncate'
+// 				},
+// 				type: 'scroll',
+// 				selector: true
+// 			},
+// 			tooltip: {
+// 				trigger: 'axis',
+// 				confine: true,
+// 				formatter: (params: any[]) => {
+// 					console.log(JSON.stringify(params));
+// 					let finalString = '<ul style=\"padding-left:20px\">';
+// 					params.forEach(param => {
+// 						finalString += `<li style=\"color:${param.color}\"><span style=\"color:black; float:left; padding-right:20px;\">${param.seriesName}</span><span style=\"color: black; float:right\">${param.value}</span></li>`
+// 					});
+// 					finalString += '</ul>'
+// 					return finalString;
+// 				}
+// 			},
+// 			dataZoom: {
+// 				type: 'inside'
+// 			},
+// 			xAxis: [
+// 				{
+// 					type: 'category',
+// 					data: years,
+// 					boundaryGap: true,
+//         			silent: false,
+//         			splitLine: {
+//             			show: false
+//         			},
+//         			axisLabel: {}
+// 				}
+// 			],
+// 			yAxis:[
+// 				{
+// 					type: 'value',
+// 					axisLabel: {
+// 						formatter: (value, index) => {
+// 							console.log(typeof(value));
+// 							return `${(+value).toFixed(0)}`;
+// 						}
+// 					}
+// 				}
+// 			],
+// 			series: this.topics.map((topic, index) => {
+// 				return {
+// 					name: topic.tpc_labels,
+// 					id: topic.id,
+// 					type: 'line',
+// 					stack: 'x',
+// 					areaStyle: {},
+// 					//color: //TODO: Set value from Topic,
+// 					emphasis: {
+// 						focus: 'series'
+// 					},
+// 					data: values.get(topic.id),
+// 				}
+// 			}),
+// 			toolbox: {
+// 				show: true,
+// 				feature: {
+// 					saveAsImage: {
+// 						type: 'png'
+// 					}
+// 				}
+// 			}
+// 		};
+// 		console.log(JSON.stringify(this.chartOptions));
+// 	});
+//   }
 
-  private makeHierarchicalViewOptions() {
-	this.ewbService.getTopicsHierarchical(this.corpus, this.model)
-	.pipe(takeUntil(this._destroyed))
-	.subscribe(result => {
-		const seriesData = [];
-		seriesData.push({
-			id: 'root',
-			value: '',
-			depth: 0,
-			index: seriesData.length
-		})
-		Object.entries(result).forEach(val => {
-			seriesData.push({
-				id: this.getTopicName(val[0]),
-				value: this.getTopicRelevance(val[0]),
-				rid: val[0],
-				depth: 1,
-				index: seriesData.length
-			});
-			(val[1] as TopDoc[]).forEach(doc => {
-				seriesData.push({
-					id: `${this.getTopicName(val[0])}.${doc.id}`,
-					value: doc.words,
-					depth: 2,
-					index: seriesData.length
-				});
-			});
-			const displayRoot = stratify();
-  function stratify() {
-    return d3
-      .stratify()
-      .parentId((d: any) => {
-		if (d.id == 'root') {
-			return '';
-		} else if (d.id.lastIndexOf('.') < 0) {
-			return 'root';
-		} else {
-        	return d.id.substring(0, d.id.lastIndexOf('.'));
-		}
-      })(seriesData)
-      .sum((d: any) => {
-        return d.value || 0;
-      })
-      .sort((a, b) => {
-        return b.value - a.value;
-      });
-  }
-  function overallLayout(params, api) {
-    var context = params.context;
-    d3
-      .pack()
-      .size([api.getWidth() - 2, api.getHeight() - 2])
-      .padding(3)(displayRoot);
-    context.nodes = {};
-    displayRoot.descendants().forEach(function (node, index) {
-      context.nodes[node.id] = node;
-    });
-  }
-  function renderItem(params, api): CustomSeriesRenderItemReturn {
-    var context = params.context;
-    // Only do that layout once in each time `setOption` called.
-    if (!context.layout) {
-      context.layout = true;
-      overallLayout(params, api);
-    }
-    var nodePath = api.value('id');
-    var node = context.nodes[nodePath];
-    if (!node) {
-      // Reder nothing.
-      return;
-    }
-    var isLeaf = !node.children || !node.children.length;
-    var focus = new Uint32Array(
-      node.descendants().map(function (node) {
-        return node.data.index;
-      })
-    );
-    var nodeName = isLeaf
-      ? nodePath
-          .slice(nodePath.lastIndexOf('.') + 1)
-          .split(/(?=[A-Z][^A-Z])/g)
-          .join('\n')
-      : '';
-    var z2 = api.value('depth') * 2;
-    return {
-      type: 'circle',
-      focus: focus,
-      shape: {
-        cx: node.x,
-        cy: node.y,
-        r: node.r
-      },
-      transition: ['shape'],
-      z2: z2,
-      textContent: {
-        type: 'text',
-        style: {
-          // transition: isLeaf ? 'fontSize' : null,
-          text: nodeName,
-          fontFamily: 'Arial',
-          width: node.r * 1.3,
-          overflow: 'truncate',
-          fontSize: node.r / 3
-        },
-        emphasis: {
-          style: {
-            overflow: null,
-            fontSize: Math.max(node.r / 3, 12)
-          }
-        }
-      },
-      textConfig: {
-        position: 'inside'
-      },
-      style: {
-        fill: api.visual('color')
-      },
-      emphasis: {
-        style: {
-          fontFamily: 'Arial',
-          fontSize: 12,
-          shadowBlur: 20,
-          shadowOffsetX: 3,
-          shadowOffsetY: 5,
-          shadowColor: 'rgba(0,0,0,0.3)'
-        }
-      }
-    };
-  }
-  this.chartOptions = {
-    dataset: {
-      source: seriesData
-    },
-    tooltip: {},
-    visualMap: [
-      {
-        show: false,
-        min: 0,
-        max: 2,
-        dimension: 2,
-        inRange: {
-          color: ['#006edd', '#e0ffff']
-        }
-      }
-    ],
-    hoverLayerThreshold: Infinity,
-    series: {
-      type: 'custom',
-      renderItem: renderItem,
-      coordinateSystem: 'none',
-      encode: {
-        tooltip: 'value',
-        itemName: 'id'
-      }
-    }
-  };
+//   private makeHierarchicalViewOptions() {
+// 	this.ewbService.getTopicsHierarchical(this.corpus, this.model)
+// 	.pipe(takeUntil(this._destroyed))
+// 	.subscribe(result => {
+// 		const seriesData = [];
+// 		seriesData.push({
+// 			id: 'root',
+// 			value: '',
+// 			depth: 0,
+// 			index: seriesData.length
+// 		})
+// 		Object.entries(result).forEach(val => {
+// 			seriesData.push({
+// 				id: this.getTopicName(val[0]),
+// 				value: this.getTopicRelevance(val[0]),
+// 				rid: val[0],
+// 				depth: 1,
+// 				index: seriesData.length
+// 			});
+// 			(val[1] as TopDoc[]).forEach(doc => {
+// 				seriesData.push({
+// 					id: `${this.getTopicName(val[0])}.${doc.id}`,
+// 					value: doc.words,
+// 					depth: 2,
+// 					index: seriesData.length
+// 				});
+// 			});
+// 			const displayRoot = stratify();
+//   function stratify() {
+//     return d3
+//       .stratify()
+//       .parentId((d: any) => {
+// 		if (d.id == 'root') {
+// 			return '';
+// 		} else if (d.id.lastIndexOf('.') < 0) {
+// 			return 'root';
+// 		} else {
+//         	return d.id.substring(0, d.id.lastIndexOf('.'));
+// 		}
+//       })(seriesData)
+//       .sum((d: any) => {
+//         return d.value || 0;
+//       })
+//       .sort((a, b) => {
+//         return b.value - a.value;
+//       });
+//   }
+//   function overallLayout(params, api) {
+//     var context = params.context;
+//     d3
+//       .pack()
+//       .size([api.getWidth() - 2, api.getHeight() - 2])
+//       .padding(3)(displayRoot);
+//     context.nodes = {};
+//     displayRoot.descendants().forEach(function (node, index) {
+//       context.nodes[node.id] = node;
+//     });
+//   }
+//   function renderItem(params, api): CustomSeriesRenderItemReturn {
+//     var context = params.context;
+//     // Only do that layout once in each time `setOption` called.
+//     if (!context.layout) {
+//       context.layout = true;
+//       overallLayout(params, api);
+//     }
+//     var nodePath = api.value('id');
+//     var node = context.nodes[nodePath];
+//     if (!node) {
+//       // Reder nothing.
+//       return;
+//     }
+//     var isLeaf = !node.children || !node.children.length;
+//     var focus = new Uint32Array(
+//       node.descendants().map(function (node) {
+//         return node.data.index;
+//       })
+//     );
+//     var nodeName = isLeaf
+//       ? nodePath
+//           .slice(nodePath.lastIndexOf('.') + 1)
+//           .split(/(?=[A-Z][^A-Z])/g)
+//           .join('\n')
+//       : '';
+//     var z2 = api.value('depth') * 2;
+//     return {
+//       type: 'circle',
+//       focus: focus,
+//       shape: {
+//         cx: node.x,
+//         cy: node.y,
+//         r: node.r
+//       },
+//       transition: ['shape'],
+//       z2: z2,
+//       textContent: {
+//         type: 'text',
+//         style: {
+//           // transition: isLeaf ? 'fontSize' : null,
+//           text: nodeName,
+//           fontFamily: 'Arial',
+//           width: node.r * 1.3,
+//           overflow: 'truncate',
+//           fontSize: node.r / 3
+//         },
+//         emphasis: {
+//           style: {
+//             overflow: null,
+//             fontSize: Math.max(node.r / 3, 12)
+//           }
+//         }
+//       },
+//       textConfig: {
+//         position: 'inside'
+//       },
+//       style: {
+//         fill: api.visual('color')
+//       },
+//       emphasis: {
+//         style: {
+//           fontFamily: 'Arial',
+//           fontSize: 12,
+//           shadowBlur: 20,
+//           shadowOffsetX: 3,
+//           shadowOffsetY: 5,
+//           shadowColor: 'rgba(0,0,0,0.3)'
+//         }
+//       }
+//     };
+//   }
+//   this.chartOptions = {
+//     dataset: {
+//       source: seriesData
+//     },
+//     tooltip: {},
+//     visualMap: [
+//       {
+//         show: false,
+//         min: 0,
+//         max: 2,
+//         dimension: 2,
+//         inRange: {
+//           color: ['#006edd', '#e0ffff']
+//         }
+//       }
+//     ],
+//     hoverLayerThreshold: Infinity,
+//     series: {
+//       type: 'custom',
+//       renderItem: renderItem,
+//       coordinateSystem: 'none',
+//       encode: {
+//         tooltip: 'value',
+//         itemName: 'id'
+//       }
+//     }
+//   };
 
-		});
-	});
-  }
+// 		});
+// 	});
+//   }
 
-  openDialog(event: any) {
-	switch(this.selectedView) {
-		case '1': {
-			this.dialog.open(TopicViewComponent, {
-				maxHeight: '90vh',
-				minWidth: '90vw',
-				panelClass: 'topic-style',
-				data: {
-					corpus: this.corpus,
-					model: this.model,
-					topicId: event.data.id,
-					topicName: this.getTopicName(event.data.id),
-					word: (event.data.isWord ? event.data.name : null)
-				}
-			});
-		}
-		case '3': {
-			if (event.data.depth === 1) {
-				this.dialog.open(TopicViewComponent, {
-					maxHeight: '90vh',
-					minWidth: '90vw',
-					panelClass: 'topic-style',
-					data: {
-						corpus: this.corpus,
-						model: this.model,
-						topicId: event.data.rid,
-						topicName: event.data.id
-					}
-				});
-			} else if (event.data.depth === 2) {
-				this.ewbService.getDocument(this.corpus, (event.data.id as string).split('.')[1]).subscribe((doc: any) => {
-				this.dialog.open(DocumentViewComponent, {
-					maxHeight: '90vh',
-					minWidth: '90vw',
-					panelClass: 'topic-style',
-					data: {
-						selectedDoc: doc
-					}
-				});
-			});
-			}
-		}
-	}
-  }
+    openTopicDialog(topic: TopicMetadata){
+        this.openTopicView({
+            topicId: topic.id,
+            topicName: this.getTopicName(topic.id),
+            word: null
+        })
+    }
+    openWordDialog(word: TopicBeta, topicId: string){
+        this.openTopicView({
+            topicId: topicId,
+            topicName: this.getTopicName(topicId),
+            word: word.id
+        })
+    }
+
+  openDialog(event: {data: Partial<{id: string; name: string; isWord: boolean}>}) {
+        this.openTopicView({
+            topicId: event.data.id,
+            topicName: this.getTopicName(event.data.id),
+            word: (event.data.isWord ? event.data.name : null)
+        });
+    }
+
+    openTopicView(params: {topicId: string, topicName: string, word:string}){
+        const {topicId, topicName, word} = params;
+        this.dialog.open(TopicViewComponent, {
+            position:{
+                bottom: '0',
+                right: '0'
+            },
+            height: '98vh',
+            width: '75vw',
+            maxWidth: '95vw',
+            minWidth: 'min(70rem, 95vw)',
+            panelClass: 'topic-style',
+            autoFocus: false,
+            data: {
+                corpus: this.corpus(),
+                model: this.model(),
+                topicId,
+                topicName,
+                word
+            }
+        });
+    }
 
   onRadioChange(event: MatRadioChange) {
 	this.selectedView = event.value;
@@ -588,28 +579,27 @@ export class ModelOverviewComponent extends BaseComponent implements OnInit, OnD
   }
 
   private getTopWords(topicId: string): string {
-	if (this.vocabularies !== undefined && this.vocabularies !== null) {
-		const words: any[] = (this.vocabularies[topicId] as TopicBeta[]).map(beta => beta.id);
-		let finalString: string = '';
-		for (let i = 0; i < 5; i++) {
-			finalString = `${finalString}\n${words[i]}`;
-		}
-		return finalString;
-	}
-	return 'Test\nteSt';
+    if(!this.vocabularies?.size){return;}
+    const words: any[] = (this.vocabularies[topicId] as TopicBeta[])?.map(beta => beta.id);
+    let finalString: string = '';
+    for (let i = 0; i < 5; i++) {
+        finalString = `${finalString}\n${words[i]}`;
+    }
+    return finalString;
+	
   }
 
   private getTopicName(topicId: string): string {
-	return this.topics.filter((topic: TopicMetadata) => topic.id === topicId)[0].tpc_labels;
+	return this.topics.find((topic) => topic.id === topicId)?.tpc_labels;
   }
 
   private getTopicRelevance(topicId: string): number {
-	return this.topics.filter((topic: TopicMetadata) => topic.id === topicId)[0].topic_entropy;
+	return this.topics.find((topic) => topic.id === topicId)?.topic_entropy;
   }
 
   private getTopicChildren(topicId: string, topicName: string): any[] {
 	const children: any[] = [];
-	(this.vocabularies[topicId] as TopicBeta[]).forEach(beta => {
+	(this.vocabularies[topicId] as TopicBeta[])?.forEach(beta => {
 		children.push({
 			value: beta.beta,
 			name: beta.id,

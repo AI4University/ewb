@@ -21,10 +21,10 @@ export class MetadataAgViewComponent  extends BaseComponent implements OnInit {
 	private injector: Injector,
 	private ewbService: EwbService
   ) {
-	super();
-	this.dialogRef = this.injector.get(MatDialogRef, null);
-	this.dialogData = this.injector.get(MAT_DIALOG_DATA, null);
-	this.selectedMetadata = this.dialogData?.selectedMetadata;
+        super();
+        this.dialogRef = this.injector.get(MatDialogRef, null);
+        this.dialogData = this.injector.get(MAT_DIALOG_DATA, null);
+        this.selectedMetadata = this.dialogData?.selectedMetadata;
    }
 
   ngOnInit(): void {

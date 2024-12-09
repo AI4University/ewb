@@ -36,9 +36,9 @@ $_palettes: (
     60: #8b8dbd,
     70: #a6a7da,
     80: #c1c2f6,
-    90: #e1e0ff,
-    95: #f1efff,
-    98: #fbf8ff,
+    90: #e8e8f5,
+    95: #eeedf5,
+    98: #f9f6fc,
     99: #fffbff,
     100: #ffffff,
   ),
@@ -170,4 +170,11 @@ $light-theme: mat.define-theme((
         selected-state-background-color: var(--sys-primary),
         selected-state-text-color: var(--sys-on-primary),
     ));
+    @include mat.dialog-overrides((
+        container-shape: 8px,
+        container-color: #ffffff
+    ));
+    --sys-background: #f5f5f5;
+    --grid-header-color: hsl(from var(--sys-surface-variant) h calc(s + -25) calc(l + 3));
+    --grid-border-color: hsl(from var(--sys-surface-variant) h calc(s + -25) calc(l - 5));
 }

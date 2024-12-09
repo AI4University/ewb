@@ -14,7 +14,7 @@ import { LanguageService } from './core/services/ui/language.service';
 import { CultureService } from './core/services/ui/culture.service';
 import { TimezoneService } from './core/services/ui/timezone.service';
 import { MatSidenav } from '@angular/material/sidenav';
-import { SideNavService } from './ui/misc/navigation/nav-sidebar/side-nav.service';
+import { SideNavService } from './ui/misc/navigation/services/side-nav.service';
 
 @Component({
 	selector: 'app-root',

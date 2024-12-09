@@ -14,11 +14,19 @@
 @import "../node_modules/flag-icons/css/flag-icons.min.css";
 
 //m3 overrides
-button.mat-mdc-raised-button:not(:disabled){
-    color: var(--sys-on-surface);
-}
-.mdc-linear-progress{
-    z-index: 2;
+    button.mat-mdc-raised-button:not(:disabled){
+        color: var(--sys-on-surface);
+    }
+    .mdc-linear-progress{
+        z-index: 2;
+    }
+    .mat-mdc-icon-button{
+        line-height: 1;
+    }
+//
+//ngrx datatable overrides 
+.ngx-datatable .progress-bar {
+    background-color: var(--sys-primary);
 }
 //
 body {
@@ -168,4 +176,27 @@ mat-spinner {
 
 .mat-button-disabled, input[readonly] {
     cursor: not-allowed !important;
+}
+
+.statistics-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+
+    .grid-label{
+        padding: 1rem;
+        font-weight: bold;
+        background-color: var(--grid-header-color);
+        border: 0.5px solid var(--grid-border-color);
+    }
+
+    .grid-value{
+        display: flex;
+        align-items: center;
+        padding-left: 1rem;
+        border: 0.5px solid var(--grid-border-color);
+        &>*{
+            flex-grow: 1;
+            margin-right: 0.2rem;
+        }
+    }
 }

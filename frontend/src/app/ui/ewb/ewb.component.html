@@ -22,8 +22,8 @@
             </mat-button-toggle-group>
         </div>
         <div  [ngClass]="viewMode === ViewModeEnum.Map ? 'map-card' : 'list-card'"  [class.fullscreen-mode]="fullscreenMode()">
-            <div class="actions" *ngIf="viewMode === ViewModeEnum.Map">
-                <app-topic-relevance [model]="selectedModel" *ngIf="!fullscreenMode()"></app-topic-relevance>
+            <div class="actions" [class.d-none]="viewMode === ViewModeEnum.List">
+                <app-topic-relevance [model]="selectedModel" [class.d-none]="fullscreenMode()"></app-topic-relevance>
                 <button 
                     mat-fab 
                     class="ml-auto toggle-fullscreen" 

@@ -30,12 +30,12 @@
         </li> -->
         <li *ngIf="authService.hasPermission(appPermission.ViewUserPage)" routerLink="/users" routerLinkActive="selected-route">
             <div mat-button role="button" class="navigation-group-item">
-                <mat-icon>person</mat-icon>{{'APP.NAVIGATION.USERS' | translate}}
+                <mat-icon class="material-icons-outlined">admin_panel_settings</mat-icon>{{'APP.NAVIGATION.ADMINISTRATION' | translate}}
             </div>
         </li>
         <li *ngIf="authService.hasPermission(appPermission.ViewFaqPage)" routerLink="/faq" routerLinkActive="selected-route" class="mt-auto">
             <div mat-button role="button" class="navigation-group-item">
-                <mat-icon>article</mat-icon>{{'APP.NAVIGATION.FAQ' | translate}}
+                <mat-icon class="material-icons-outlined">article</mat-icon>{{'APP.NAVIGATION.FAQ' | translate}}
             </div>
         </li>
         <li *ngIf="isAuthenticated()">

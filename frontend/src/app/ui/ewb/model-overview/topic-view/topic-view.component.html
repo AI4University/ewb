@@ -1,82 +1,107 @@
 <div class="topic-view container-fluid">
 
-	<div class="row">
-	<h4 class="col-auto fixed-top-navbar">
-		<span>{{ topicName }}</span>
-	</h4>
-	<div class="col-auto">
-		<button mat-button matTooltip="Add Topic to Relevants" *ngIf="!isRelevant" (click)="addRelevant()">
-			<mat-icon>add</mat-icon>
-		</button>
-		<button mat-button matTooltip="Remove Topic from Relevants" *ngIf="isRelevant" (click)="removeRelevant()">
-			<mat-icon>remove</mat-icon>
-		</button>
-	</div>
-	</div>
+	<div class="header d-flex align-items-center gap-1">
+        <h4 class="m-0 pt-1">
+            <span>{{ topicName }}</span>
+        </h4>
+        @if(isRelevant){
+            <button mat-icon-button matTooltip="Remove Topic from Relevants"(click)="removeRelevant()">
+                <mat-icon>remove</mat-icon>
+            </button>
+        }@else{
+            <button mat-icon-button matTooltip="Add Topic to Relevants" (click)="addRelevant()">
+                <mat-icon>add_circle_outline</mat-icon>
+            </button>
+        }
+        <div class="ml-auto">
+            <button mat-icon-button mat-dialog-close>
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+    </div>
 
-	<div class="row" *ngIf="topicStatistics">
-		<div class="col-12 col-xl-5">
-			<div class="row">
-				<div class="element-div p-2">{{'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.TOP-WORDS' | translate}}</div>
-			</div>
-			<div *ngIf="words.length > 0" class="row">
-				<div class="w-100">
-					<app-listing [rows]="words" [columns]="topWordColumns" [count]="words.length" [selected]="selectedWords" [selectionType]="selectionType.checkbox" (rowSelected)="selectWord($event)" hideFooter></app-listing>
-				</div>
-			</div>
-		</div>
-		<div class="col-12 col-xl-7">
-			<div class="row">
-				<div class="element-div p-2">{{'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.TOPIC-STATISTICS' | translate}}</div>
-			</div>
-			<div class="row">
-				<div class="element-div w-100">
-					<table class="table">
-						<tr>
-							<th *ngFor="let statistic of topicStatistics | keyvalue">{{statistic.key}}</th>
-						</tr>
-						<tr>
-							<td *ngFor="let statistic of topicStatistics | keyvalue">{{ statistic.value }}</td>
-						</tr>
-					</table>
-				</div>
-			</div>
-			<!-- <div class="row">
-				<div class="element-div p-2">{{'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.TOP-DOCUMENTS' | translate}}</div>
-			</div>
-			<div *ngIf="topDocuments.length > 0" class="row">
-				<div class="element-div w-100">
-					<app-listing [rows]="topDocuments" [columns]="topDocColumns" [count]="topDocuments.length" [selectionType]="selectionType.single" (columnSort)="sortRows($event)" (rowSelected)="showDocument($event)" hideFooter></app-listing>
-				</div>
-			</div>
-		</div>
-	</div> -->
-			<div *ngIf="topResearchers.length > 0" class="row">
-				<div class="element-div p-2">{{'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.TOP-RESEARCHERS' | translate}}</div>
-			</div>
-			<div *ngIf="topResearchers.length > 0" class="row">
-				<div class="w-100">
-					<app-listing [rows]="topResearchers" [columns]="topResearcherColumns" [count]="topResearchers.length" [selectionType]="selectionType.single" (columnSort)="sortResearcherRows($event)" (rowSelected)="showMetadata($event)" hideFooter></app-listing>
-				</div>
-			</div>
-			<div *ngIf="topResearchGroups.length > 0" class="row">
-				<div class="element-div p-2">{{'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.TOP-RESEARCHE-GROUPS' | translate}}</div>
-			</div>
-			<div *ngIf="topResearchGroups.length > 0" class="row">
-				<div class="w-100">
-					<app-listing [rows]="topResearchGroups" [columns]="topResearchGroupColumns" [count]="topResearchGroups.length" [selectionType]="selectionType.single" (columnSort)="sortResearchGroupRows($event)" (rowSelected)="showMetadata($event)" hideFooter></app-listing>
-				</div>
-			</div>
-		</div>
-	</div>
-<div>
-	<app-topic-evolution-chart [corpus]="data.corpus" [model]="data.model" [topicId]="data.topicId"></app-topic-evolution-chart>
-</div>
-
+	@if(topicStatistics){
+        <div class="info-container">
+            <div>
+                <div class="section">
+                    <div class="section-header">{{'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.TOPIC-EVOLUTION' | translate}}</div>
+                    <app-topic-evolution-chart [corpus]="data.corpus" [model]="data.model" [topicId]="data.topicId"></app-topic-evolution-chart>
+                </div>
+                <div class="section">
+                    <div class="section-header">{{'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.WORDS-USED' | translate}}</div>
+                    <div *ngIf="words.length > 0" class="row">
+                        <div class="w-100">
+                            <app-listing [rows]="words" [columns]="topWordColumns" [count]="words.length" [selected]="selectedWords" [selectionType]="selectionType.checkbox" (rowSelected)="selectWord($event)" hideFooter></app-listing>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="section">
+                    <div class="section-header">{{'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.TOPIC-STATISTICS' | translate}}</div>
+                    <div class="statistics-grid">
+                        @for(statistic of topicStatistics | keyvalue; track $index){
+                            <div class="grid-label">{{statistic.key}}</div>
+                            <div class="grid-value">{{ statistic.value }}</div>
+                        }
+                    </div>
+                </div>
+                @if(topResearchers.length){
+                    <div class="section">
+                        <div class="section-header">{{'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.TOP-RESEARCHERS' | translate}}</div>
+                        <div class="w-100">
+                            <app-listing 
+                                [rows]="topResearchers" 
+                                [columns]="topResearcherColumns" 
+                                [count]="topResearchers.length" 
+                                (columnSort)="sortResearcherRows($event)" 
+                                hideFooter
+                            ></app-listing>
+                        </div>
+                    </div>
+                }
+                @if(topResearchGroups.length > 0){
+                    <div class="section">
+                        <div class="section-header">{{'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.TOP-RESEARCHE-GROUPS' | translate}}</div>
+                        <div class="w-100">
+                            <app-listing 
+                                [rows]="topResearchGroups" 
+                                [columns]="topResearchGroupColumns" 
+                                [count]="topResearchGroups.length" 
+                                (columnSort)="sortResearchGroupRows($event)" 
+                                hideFooter
+                            ></app-listing>
+                        </div>
+                    </div>
+                }
+            </div>
+                <!-- <div class="row">
+                    <div class="section-header">{{'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.TOP-DOCUMENTS' | translate}}</div>
+                </div>
+                <div *ngIf="topDocuments.length > 0" class="row">
+                    <div class="element-div w-100">
+                        <app-listing [rows]="topDocuments" [columns]="topDocColumns" [count]="topDocuments.length" [selectionType]="selectionType.single" (columnSort)="sortRows($event)" (rowSelected)="showDocument($event)" hideFooter></app-listing>
+                    </div>
+                </div>
+            </div>-->
+        </div>
+    }
 </div>
 
 <ng-template #textWrapTemplate ngx-datatable-cell-template let-row="row" let-value="value" let-column="column">
 	<div class="title-style">{{value}}</div>
+</ng-template>
+
+<ng-template #researcherTitleTemplate ngx-datatable-cell-template let-row="row" let-value="value" let-column="column">
+    <button mat-raised-button (click)="showMetadata(row, 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.RESEARCHER')">
+        <ng-container *ngTemplateOutlet="textWrapTemplate, context : { row, value, column }"></ng-container>
+    </button>
+</ng-template>
+
+<ng-template #researchGroupTitleTemplate ngx-datatable-cell-template let-row="row" let-value="value" let-column="column">
+    <button mat-raised-button (click)="showMetadata(row, 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.RESEARCH-GROUP')">
+        <ng-container *ngTemplateOutlet="textWrapTemplate, context : { row, value, column }"></ng-container>
+    </button>
 </ng-template>
 
 <ng-template #percentageBar ngx-datatable-cell-template let-row="row" let-value="value" let-column="column">

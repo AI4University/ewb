@@ -11,7 +11,7 @@ import { ThemingService } from '@app/core/services/ui/theming.service';
 import { BaseComponent } from '@common/base/base.component';
 import { Observable } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
-import { SideNavService } from './nav-sidebar/side-nav.service';
+import { SideNavService } from './services/side-nav.service';
 import { TranslateService } from '@ngx-translate/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '@common/modules/confirmation-dialog/confirmation-dialog.component';

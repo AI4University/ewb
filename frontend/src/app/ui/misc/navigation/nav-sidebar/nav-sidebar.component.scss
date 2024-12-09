@@ -3,7 +3,7 @@
     padding: 0.5rem;
     display: flex;
     .navigation-groups {
-        list-style: unset;
+        list-style: none;
         margin: 0;
         padding: 0;
         display: flex;
@@ -18,14 +18,14 @@
         /* background-color: red; */
         border-radius: 0.5rem;
         &:hover, &:focus {
-            background-color:  hsl(from var(--sys-inverse-primary) h calc(s - 30) l);
-            padding:1.125rem;
+            background-color: hsl(from var(--sys-inverse-primary) h calc(s - 55) l); 
+            padding: 1.125rem;
         }
     }
 
     li.selected-route {
         .navigation-group-item{
-            background-color : hsl(from var(--sys-inverse-primary) h calc(s - 50) calc(l - 6));
+            background-color :hsl(from var(--sys-inverse-primary) h calc(s - 55) calc(l - 6));
             padding: 1rem;
             mat-icon{
                 color: var(--sys-primary);

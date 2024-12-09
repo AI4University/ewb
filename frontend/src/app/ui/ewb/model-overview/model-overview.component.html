@@ -18,25 +18,23 @@
             (chartClick)="openDialog($event)"
         >
         </div>
-	>
 	</div>
     <div class="list" [class.d-none]="viewMode() === ViewModeEnum.Map">
         <h5 class="pb-2">{{'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.LIST-VIEW.TITLE' | translate}}</h5>
         <mat-form-field class="w-100 search-field">
             <mat-icon matPrefix>search</mat-icon>
-            <input type="text" matInput [(ngModel)]="like" (input)="triggerSearch()" [placeholder]="'APP.NAVIGATION.SEARCH' | translate"
-            >
+            <input type="text" matInput [(ngModel)]="like" (input)="triggerSearch()" [placeholder]="'APP.NAVIGATION.SEARCH' | translate">
         </mat-form-field>
         <mat-accordion>
             @for(topic of searchResults; track $index; let last = $last){
                 <mat-expansion-panel [class.mb-2]="last">
                     <mat-expansion-panel-header>
-                        <mat-panel-title>
+                        <mat-panel-title (click)="$event.stopPropagation(); openTopicDialog(topic)">
                             {{topic.tpc_labels}}
                         </mat-panel-title>
                     </mat-expansion-panel-header>
                     @for(word of topic.top_words_betas; track $index){
-                        <button mat-button>
+                        <button mat-button (click)="openWordDialog(word, topic.id)">
                             {{word.id}}
                         </button>
                     }
