@@ -35,4 +35,24 @@
 	.topic-style .mat-dialog-container .mat-dialog-content {
 		overflow-x: hidden;
 	}
+
+    .section {
+        border: 0.5px solid var(--grid-border-color);
+        border-radius: 2px;
+        padding: 0;
+    }
+	.section-header {
+        font-size: 1.2rem;
+        padding: 0.75rem 1rem;
+        background-color: var(--sys-surface-variant);
+        border-bottom: 1px solid var(--grid-border-color);
+    }
+}
+
+//overwrite ngrx datatable styling 
+::ng-deep .ngx-datatable.material {
+    box-shadow: none;
+    .datatable-header{
+        background-color: var(--grid-header-color);
+    }
 }

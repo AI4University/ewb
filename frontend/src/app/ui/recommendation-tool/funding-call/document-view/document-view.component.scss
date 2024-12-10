@@ -1,23 +1,15 @@
 .document-view {
 	padding: 1.5rem;
 	
-	.field-value {
-		padding-left: 10px;
-		vertical-align: middle;
-		cursor: default !important;
-		text-align: center;
-	}
-	
-	.space-div {
-		border-top: solid gainsboro;
-		width: 100%;
-	}
-	
-	.doc-style {
-		border-top: solid gainsboro;
-	}
-	
-	.field-title {
-		border-right: solid gainsboro;
-	}
+    .section {
+        border: 0.5px solid var(--grid-border-color);
+        border-radius: 2px;
+        padding: 0;
+    }
+	.section-header {
+        font-size: 1.2rem;
+        padding: 0.75rem 1rem;
+        background-color: var(--sys-surface-variant);
+        border-bottom: 1px solid var(--grid-border-color);
+    }
 }

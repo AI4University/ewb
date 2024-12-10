@@ -1,34 +1,27 @@
-<div *ngIf="selectedDoc" class="document-view doc-style container-fluid">
-	<span *ngIf="selectedDoc.id">
-		<div class="col-12 field-div">
-			<div class="row">
-			<div class="col-4 field-title">Id</div>
-			<div class="col-8 field-value">{{selectedDoc.id}} </div>
-			</div>
-		</div>
-		<div class="col-12 space-div"></div>
-	</span>
-	<span *ngIf="selectedDoc.title">
-		<div class="col-12 field-div">
-			<div class="row">
-				<div class="col-4 field-title">Title</div>
-				<div class="col-8 field-value">{{selectedDoc.title}} </div>
-			</div>
-		</div>
-		<div class="col-12 space-div"></div>
-	</span>
-	<span *ngFor="let field of selectedDoc | keyvalue">
-		<div *ngIf="field.key !== 'id' && field.key !== 'title'" class="col-12 field-div">
-			<div class="row">
-				<div class="col-4 field-title">{{prettifyCamelCase(field.key)}}</div>
-				<div *ngIf="!isArray(field.value)" class="col-8 field-value" [innerHTML]="sanitized(field.value)"></div>
-				<dl *ngIf="isArray(field.value)" class="col-8">
-					<dt *ngFor="let subval of field.value" class="field-value">
-						{{subval}}
-					</dt>
-				</dl>
-			</div>
-		</div>
-		<div *ngIf="field.key !== 'id' && field.key !== 'title'" class="col-12 space-div"></div>
-	</span>
+<div *ngIf="selectedDoc" class="document-view">
+    <div class="section grid-container">
+        <div class="section-header">
+            {{'APP.DOCUMENT-VIEW-COMPONENT.INFORMATION' | translate}}
+        </div>
+        <div class="table-grid">
+            <div class="grid-label">Id</div>
+			<div class="grid-value">{{selectedDoc.id}} </div>
+            <div class="grid-label">Title</div>
+            <div class="grid-value">{{selectedDoc.title}} </div>
+            @for(field of selectedDoc | keyvalue; track $index){
+                @if(field.key !== 'id' && field.key !== 'title'){
+                    <div class="grid-label">{{prettifyCamelCase(field.key)}}</div>
+                    <div class="grid-value">
+                        @if(isArray(field.value)){
+                            <span *ngFor="let subval of field.value; let last=last">
+                                {{subval}}{{!last ? ', ' : ''}}
+                            </span>
+                        }@else {
+                            <div [innerHTML]="sanitized(field.value)"></div>
+                        }
+                    </div>
+                }
+            }
+        </div>
+    </div>
 </div>

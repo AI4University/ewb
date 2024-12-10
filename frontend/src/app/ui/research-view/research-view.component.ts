@@ -9,6 +9,7 @@ import { SelectionType } from '@swimlane/ngx-datatable';
 import { SimilarResearcher } from '@app/core/model/ewb/researcher-similar-to-call.model';
 import { SimilarResearchGroup } from '@app/core/model/ewb/research-group-similar-to-call.model';
 import { MetadataAgViewComponent } from '../ewb/modules/metadata-ag-view/metadata-ag-view.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-research-view',
@@ -38,7 +39,8 @@ export class ResearchViewComponent extends BaseComponent implements OnInit {
 	selectedWords: TopicBeta[] = [];
 
   constructor(
-	private dialog: MatDialog
+	private dialog: MatDialog,
+    private language: TranslateService
 	) {
 		super();
 	 }
@@ -58,9 +60,10 @@ export class ResearchViewComponent extends BaseComponent implements OnInit {
 			prop: nameof<SimilarResearcher>(x => x.id),
 			name: nameof<SimilarResearcher>(x => x.id),
 			sortable: false,
-			resizeable: false,
+			resizeable: true,
 			alwaysShown: true,
 			canAutoResize: true,
+            maxWidth: 200,
 			languageName: 'APP.RESEARCH-VIEW-COMPONENT.LISTING.ID',
 			cellTemplate: this.textWrapTemplate,
 			headerClass: 'pretty-header'
@@ -69,11 +72,10 @@ export class ResearchViewComponent extends BaseComponent implements OnInit {
 			prop: nameof<SimilarResearcher>(x => x.score),
 			name: nameof<SimilarResearcher>(x => x.score),
 			sortable: true,
-			resizeable: false,
+			resizeable: true,
 			alwaysShown: true,
 			isTreeColumn: false,
 			canAutoResize: true,
-			maxWidth: 250,
 			minWidth: 200,
 			languageName: 'APP.RESEARCH-VIEW-COMPONENT.LISTING.SCORE',
 			headerClass: 'pretty-header',
@@ -94,6 +96,7 @@ export class ResearchViewComponent extends BaseComponent implements OnInit {
 			resizeable: false,
 			alwaysShown: true,
 			canAutoResize: true,
+            maxWidth: 200,
 			languageName: 'APP.RESEARCH-VIEW-COMPONENT.LISTING.ID',
 			cellTemplate: this.textWrapTemplate,
 			headerClass: 'pretty-header'
@@ -106,7 +109,6 @@ export class ResearchViewComponent extends BaseComponent implements OnInit {
 			alwaysShown: true,
 			isTreeColumn: false,
 			canAutoResize: true,
-			maxWidth: 250,
 			minWidth: 200,
 			languageName: 'APP.RESEARCH-VIEW-COMPONENT.LISTING.SCORE',
 			headerClass: 'pretty-header',
@@ -123,15 +125,16 @@ export class ResearchViewComponent extends BaseComponent implements OnInit {
 	return 100 - value;
   }
 
-  showMetadata(event: any) {
+  showMetadata(event: any, title: string) {
 	this.dialog.open(MetadataAgViewComponent, {
-		minWidth: '80vw',
-		minHeight: '80vh',
+		minWidth: '30vw',
+		minHeight: '20vh',
 		maxWidth: '80vw',
 		maxHeight: '80vh',
 		panelClass: 'topic-style',
 		data: {
-			selectedMetadata: event[0]
+			selectedMetadata: event[0],
+            title: this.language.instant(title)
 		}
 	});
   }

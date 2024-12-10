@@ -1,3 +1,28 @@
-.funding-call-view {
-    overflow: hidden;
+.filters, .results {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+.results.document-only {
+    grid-template-columns: 1fr;
+}
+
+.chart, .research-view {
+    background-color: var(--sys-surface-container-lowest);
+}
+.chart{
+    max-width: calc(100% - 1px); //force refresh chart width on sidenav expand/minimize
+}
+
+
+@container main-container (inline-size < 1000px){
+    .results {
+        grid-template-columns: 1fr
+    }
+}
+
+@container main-container (inline-size < 750px){
+    .results {
+        grid-template-columns: 1fr
+    }
 }

@@ -14,6 +14,7 @@ export class DocumentSearchComponent extends BaseComponent implements OnInit {
 	docs: any[] = [];
 	@Output() selectedDoc: EventEmitter<any> = new EventEmitter<any>();
 	@Input() corpus: string;
+    @Input() placeholder: string;
 	searchInput: string = '';
 	private searchText: string = '';
 	private odd: boolean = false;

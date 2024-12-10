@@ -1,23 +1,35 @@
 <div class="research-view container-fluid">
-
-	<div class="row">
-		<div *ngIf="similarResearchers.length > 0" class="row">
-			<div class="element-div p-2">{{'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.TOP-RESEARCHERS' | translate}}</div>
-		</div>
-		<div *ngIf="similarResearchers.length > 0" class="row">
-			<div class="w-100">
-				<app-listing [rows]="similarResearchers" [columns]="similarResearchersColumns" [count]="similarResearchers.length" [selectionType]="selectionType.single" (columnSort)="sortRows($event)" (rowSelected)="showMetadata($event)" hideFooter></app-listing>
-			</div>
-		</div>
-		<div *ngIf="similarResearcherGroups.length > 0" class="row">
-			<div class="element-div p-2">{{'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.TOP-RESEARCHE-GROUPS' | translate}}</div>
-		</div>
-		<div *ngIf="similarResearcherGroups.length > 0" class="row">
-			<div class="w-100">
-				<app-listing [rows]="similarResearcherGroups" [columns]="similarResearcherGroupColumns" [count]="similarResearcherGroups.length" [selectionType]="selectionType.single" (columnSort)="sortRows($event)" (rowSelected)="showMetadata($event)" hideFooter></app-listing>
-			</div>
-		</div>
-	</div>
+    @if(similarResearchers.length){
+        <div class="section">
+            <div class="section-header">{{'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.TOP-RESEARCHERS' | translate}}</div>
+            <div class="w-100">
+                <app-listing 
+                    [rows]="similarResearchers" 
+                    [columns]="similarResearchersColumns" 
+                    [count]="similarResearchers.length" 
+                    [selectionType]="selectionType.single" 
+                    (columnSort)="sortRows($event)" 
+                    (rowSelected)="showMetadata($event, 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.RESEARCHER')" hideFooter
+                ></app-listing>
+            </div>
+        </div>
+    }
+    @if(similarResearcherGroups.length > 0){
+        <div class="section mt-3">
+            <div class="section-header">{{'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.TOP-RESEARCHE-GROUPS' | translate}}</div>
+            <div class="w-100">
+                <app-listing 
+                    [rows]="similarResearcherGroups" 
+                    [columns]="similarResearcherGroupColumns" 
+                    [count]="similarResearcherGroups.length" 
+                    [selectionType]="selectionType.single" 
+                    (columnSort)="sortRows($event)" 
+                    (rowSelected)="showMetadata($event, 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.TOP-RESEARCHE-GROUPS')" 
+                    hideFooter
+                ></app-listing>
+            </div>
+        </div>
+    }
 </div>
 
 <ng-template #textWrapTemplate ngx-datatable-cell-template let-row="row" let-value="value" let-column="column">

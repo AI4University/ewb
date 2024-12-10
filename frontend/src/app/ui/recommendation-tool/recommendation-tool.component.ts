@@ -9,7 +9,8 @@ import { BaseComponent } from '@common/base/base.component';
 })
 export class RecommendationToolComponent extends BaseComponent implements OnInit {
 
-	selectedTab: number = 0;
+	searchBy: SearchBy = SearchBy.FundingCall;
+    SearchByEnum = SearchBy;
 
 	constructor() {
 		super();
@@ -18,4 +19,10 @@ export class RecommendationToolComponent extends BaseComponent implements OnInit
 	ngOnInit(): void {
 	}
 
+}
+
+enum SearchBy {
+    FundingCall,
+    Text,
+    Researcher
 }

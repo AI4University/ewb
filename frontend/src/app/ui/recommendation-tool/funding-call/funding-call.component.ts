@@ -36,11 +36,11 @@ export class FundingCallComponent extends BaseComponent implements OnInit {
 	) {
 		super();
 	}
-	ngAfterViewInit(): void {
-		this.scrollDispatch.scrolled().subscribe((data: CdkScrollable) => {
-			console.log(JSON.stringify(data));
-		});
-	}
+	// ngAfterViewInit(): void {
+	// 	this.scrollDispatch.scrolled().subscribe((data: CdkScrollable) => {
+	// 		console.log(JSON.stringify(data));
+	// 	});
+	// }
 
 	ngOnInit(): void {
 		this.ewbService.getSimiliarityCriteriaList()

@@ -1007,17 +1007,22 @@
 			}
 		},
 		"RECOMMENDATION-TOOL-COMPONENT": {
-			"SEARCH-BY-FUNDING-CALL": "Search by funding call acronym or title",
-			"SEARCH-BY-TEXT": "Search by text",
-			"SEARCH-BY-RESEARCHER": "Search by researcher",
+            "SEARCH-BY": "Search by",
+			"FUNDING-CALL": "Funding call acronym or title",
+			"TEXT": "Text",
+			"RESEARCHER": "Researcher",
 			"CRITERIA": "Criteria"
 		},
 		"RESEARCH-VIEW-COMPONENT": {
 			"LISTING": {
 				"ID": "Id",
-				"SCORE": "Score"
+                "TITLE": "Title",
+				"SCORE": "Topic relevance"
 			}
 		},
+        "DOCUMENT-VIEW-COMPONENT": {
+            "INFORMATION": "Information"
+        },
 		"EXPERT-COMPONENT": {
 			"PROFILE": "Expert Profile",
 			"SUGGESTION": "Expert Suggestion",

@@ -1,12 +1,29 @@
-<div>
-    <mat-tab-group [(selectedIndex)]="selectedTab">
+<div class="padded-container">
+    <h1 class="page-title mb-3">{{'APP.NAVIGATION.RECOMMENDATION-TOOL' | translate}}</h1>
+    <div class="d-flex align-items-center gap-3 mb-3">
+        {{'APP.RECOMMENDATION-TOOL-COMPONENT.SEARCH-BY' | translate}}:
+        <mat-button-toggle-group [(ngModel)]="searchBy">
+            <mat-button-toggle [value]="SearchByEnum.FundingCall">
+                {{ 'APP.RECOMMENDATION-TOOL-COMPONENT.FUNDING-CALL' | translate }}
+            </mat-button-toggle>
+            <mat-button-toggle [value]="SearchByEnum.Text">
+                {{ 'APP.RECOMMENDATION-TOOL-COMPONENT.TEXT' | translate }}
+            </mat-button-toggle>
+            <mat-button-toggle [value]="SearchByEnum.Researcher">
+                {{ 'APP.RECOMMENDATION-TOOL-COMPONENT.RESEARCHER' | translate }}
+            </mat-button-toggle>
+        </mat-button-toggle-group>
+    </div>
     
-        <mat-tab label="{{ 'APP.RECOMMENDATION-TOOL-COMPONENT.SEARCH-BY-FUNDING-CALL' | translate }}"></mat-tab>
-        <mat-tab label="{{ 'APP.RECOMMENDATION-TOOL-COMPONENT.SEARCH-BY-TEXT' | translate }}"></mat-tab>
-        <mat-tab label="{{ 'APP.RECOMMENDATION-TOOL-COMPONENT.SEARCH-BY-RESEARCHER' | translate }}"></mat-tab>
-    </mat-tab-group>
-    
-    <app-funding-call *ngIf="selectedTab == 0"></app-funding-call>
-    <app-search-by-text *ngIf="selectedTab == 1"></app-search-by-text>
-    <app-search-by-researcher *ngIf="selectedTab == 2"></app-search-by-researcher>
+    @switch(searchBy){
+        @case(SearchByEnum.FundingCall){
+            <app-funding-call></app-funding-call>
+        }
+        @case(SearchByEnum.Text){
+            <app-search-by-text></app-search-by-text>
+        }
+        @case(SearchByEnum.Researcher){
+            <app-search-by-researcher></app-search-by-researcher>
+        }
+    }
 </div>

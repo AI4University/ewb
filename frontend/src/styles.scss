@@ -195,7 +195,7 @@ mat-spinner {
     .grid-value{
         display: flex;
         align-items: center;
-        padding-left: 1rem;
+        padding: 1rem;
         border: 0.5px solid var(--grid-border-color);
         &>*{
             margin-right: 0.25rem;
