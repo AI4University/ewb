@@ -3,13 +3,16 @@
         <div class="section">
             <div class="section-header">{{'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.TOP-RESEARCHERS' | translate}}</div>
             <div class="w-100">
-                <app-listing 
+                <app-listing
                     [rows]="similarResearchers" 
                     [columns]="similarResearchersColumns" 
                     [count]="similarResearchers.length" 
                     [selectionType]="selectionType.single" 
                     (columnSort)="sortRows($event)" 
-                    (rowSelected)="showMetadata($event, 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.RESEARCHER')" hideFooter
+                    (rowSelected)="showMetadata($event, 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.RESEARCHER')"
+                    [count]="similarResearchers?.length" 
+                    [limit]="maxPageSize"
+                    (pageLoad)="onResearcherLoad($event)"
                 ></app-listing>
             </div>
         </div>
@@ -25,7 +28,8 @@
                     [selectionType]="selectionType.single" 
                     (columnSort)="sortRows($event)" 
                     (rowSelected)="showMetadata($event, 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.TOP-RESEARCHE-GROUPS')" 
-                    hideFooter
+                    [limit]="maxPageSize"
+                    (pageLoad)="onResearchGroupLoad($event)"
                 ></app-listing>
             </div>
         </div>

@@ -3,4 +3,10 @@ export class ResearchSimilarToTextLookup {
 	similarityMethod: string;
 	start?: number;
 	rows?: number;
+    year?: string;
+}
+
+export class ResearchSimilarToTextPaging {
+    start: number;
+	rows: number;
 }

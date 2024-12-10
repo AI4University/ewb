@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { SimilarResearchGroup } from '@app/core/model/ewb/research-group-similar-to-call.model';
 import { SimilarResearcher } from '@app/core/model/ewb/researcher-similar-to-call.model';
 import { Theta } from '@app/core/model/ewb/theta.model';
+import { ResearchSimilarToTextPaging } from '@app/core/query/research-similar-to-text.lookup';
 import { EwbService } from '@app/core/services/http/ewb.service';
 import { BaseComponent } from '@common/base/base.component';
 import { QueryResult } from '@common/model/query-result';
@@ -117,22 +118,37 @@ export class FundingCallComponent extends BaseComponent implements OnInit {
 	}
 
 	selectedCriteriaChange() {
-		if (this.selectedDoc?.id && this.selectedCriteria.length > 0) {
-			this.ewbService.getResearchersSimilarToCall({id: this.selectedDoc.id, similarityMethod: this.selectedCriteria})
-			.pipe(takeUntil(this._destroyed))
-			.subscribe((result) => {
-				this.similarResearchers = result;
-				this.similarResearchers = this.similarResearchers.slice(0, 10);
-				
-			});
-		
-			this.ewbService.getResearchGroupsSimilarToCall({id: this.selectedDoc.id, similarityMethod: this.selectedCriteria})
-			.pipe(takeUntil(this._destroyed))
-			.subscribe(result => {
-				this.similarResearcherGroups = result;
-				this.similarResearcherGroups = this.similarResearcherGroups.slice(0, 10);
-			});
-		}
+		this.researchersChange();
+        this.researchGroupsChange();
 	}
+
+    researchersChange(paging?: ResearchSimilarToTextPaging){
+        if (!this.selectedDoc?.id || !this.selectedCriteria.length){ return; }
+        this.ewbService.getResearchersSimilarToCall({
+            id: this.selectedDoc.id, 
+            similarityMethod: this.selectedCriteria,
+            ...paging
+        })
+        .pipe(takeUntil(this._destroyed))
+        .subscribe((result) => {
+            this.similarResearchers = result;
+            this.similarResearchers = this.similarResearchers.slice(0, 10);
+            
+        });
+    }
+
+    researchGroupsChange(paging?: ResearchSimilarToTextPaging){
+        if (!this.selectedDoc?.id || !this.selectedCriteria.length){ return; }
+        this.ewbService.getResearchGroupsSimilarToCall({
+            id: this.selectedDoc.id, 
+            similarityMethod: this.selectedCriteria,
+            ...paging
+        })
+        .pipe(takeUntil(this._destroyed))
+        .subscribe(result => {
+            this.similarResearcherGroups = result;
+            this.similarResearcherGroups = this.similarResearcherGroups.slice(0, 10);
+        });
+    }
 
 }

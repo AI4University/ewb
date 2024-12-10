@@ -6,7 +6,9 @@
 
 	}
 }
-
+::ng-deep .datatable-footer-inner {
+    height: fit-content !important;
+}
 // app-listing {
 // 	button {
 // 		border: 1px solid darkgray;

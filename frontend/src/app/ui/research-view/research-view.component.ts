@@ -1,15 +1,16 @@
-import { Component, Inject, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { PercentValuePipe } from '@app/core/formatting/pipes/percentage.pipe';
 import { TopicBeta } from '@app/core/model/ewb/topic-metadata.model';
 import { BaseComponent } from '@common/base/base.component';
-import { ColumnDefinition } from '@common/modules/listing/listing.component';
+import { ColumnDefinition, ListingComponent } from '@common/modules/listing/listing.component';
 import { nameof } from 'ts-simple-nameof';
 import { SelectionType } from '@swimlane/ngx-datatable';
 import { SimilarResearcher } from '@app/core/model/ewb/researcher-similar-to-call.model';
 import { SimilarResearchGroup } from '@app/core/model/ewb/research-group-similar-to-call.model';
 import { MetadataAgViewComponent } from '../ewb/modules/metadata-ag-view/metadata-ag-view.component';
 import { TranslateService } from '@ngx-translate/core';
+import { ResearchSimilarToTextPaging } from '@app/core/query/research-similar-to-text.lookup';
 
 @Component({
   selector: 'app-research-view',
@@ -21,10 +22,15 @@ export class ResearchViewComponent extends BaseComponent implements OnInit {
 	@ViewChild('textWrapTemplate', { static: true }) textWrapTemplate: TemplateRef<any>;
 	@ViewChild('percentageBar', { static: true }) percentageBar: TemplateRef<any>;
 
-	maxValue = 100;
-
 	@Input() similarResearchers: SimilarResearcher[] = [];
 	@Input() similarResearcherGroups: SimilarResearchGroup[] = [];
+
+    @Output() loadResearchers = new EventEmitter<ResearchSimilarToTextPaging>();
+    @Output() loadResearchGroups = new EventEmitter<ResearchSimilarToTextPaging>();
+
+	maxValue = 100;
+    maxPageSize = ListingComponent.MAX_PAGE_SIZE;
+
 	similarResearchersColumns: ColumnDefinition[] = [];
 	similarResearcherGroupColumns: ColumnDefinition[] = [];
 
@@ -57,14 +63,14 @@ export class ResearchViewComponent extends BaseComponent implements OnInit {
 	pipe.maxValue = this.maxValue > 100 ? this.maxValue : 100;
 	this.similarResearchersColumns.push(...[
 		{
-			prop: nameof<SimilarResearcher>(x => x.id),
-			name: nameof<SimilarResearcher>(x => x.id),
+			prop: nameof<SimilarResearcher>(x => x.name),
+			name: nameof<SimilarResearcher>(x => x.name),
 			sortable: false,
 			resizeable: true,
 			alwaysShown: true,
 			canAutoResize: true,
-            maxWidth: 200,
-			languageName: 'APP.RESEARCH-VIEW-COMPONENT.LISTING.ID',
+            maxWidth: 250,
+			languageName: 'APP.RESEARCH-VIEW-COMPONENT.LISTING.NAME',
 			cellTemplate: this.textWrapTemplate,
 			headerClass: 'pretty-header'
 		},
@@ -90,14 +96,14 @@ export class ResearchViewComponent extends BaseComponent implements OnInit {
 	pipe.maxValue = this.maxValue > 100 ? this.maxValue : 100;
 	this.similarResearcherGroupColumns.push(...[
 		{
-			prop: nameof<SimilarResearchGroup>(x => x.id),
-			name: nameof<SimilarResearchGroup>(x => x.id),
+			prop: nameof<SimilarResearchGroup>(x => x.name),
+			name: nameof<SimilarResearchGroup>(x => x.name),
 			sortable: false,
 			resizeable: false,
 			alwaysShown: true,
 			canAutoResize: true,
-            maxWidth: 200,
-			languageName: 'APP.RESEARCH-VIEW-COMPONENT.LISTING.ID',
+            maxWidth: 250,
+			languageName: 'APP.RESEARCH-VIEW-COMPONENT.LISTING.NAME',
 			cellTemplate: this.textWrapTemplate,
 			headerClass: 'pretty-header'
 		},
@@ -142,6 +148,16 @@ export class ResearchViewComponent extends BaseComponent implements OnInit {
   sortRows(ev: any) {
 	this.sortOrder = ev.newValue;
 	this.sortFieldName = ev.sortDescriptors[0].property;
+  }
+
+  protected onResearcherLoad(event){
+    const {pageSize, limit, offset} = event;
+    this.loadResearchers.emit({start: offset, rows: pageSize});
+  }
+
+  protected onResearchGroupLoad(event){
+    const {pageSize, limit, offset} = event;    
+    this.loadResearchGroups.emit({start: offset, rows: pageSize});
   }
 
 }

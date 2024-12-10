@@ -9,6 +9,11 @@
         background-color: var(--sys-surface-container-lowest);
         padding: 1rem;
     }
+
+    .year-select {
+        flex: 1;
+        max-width: 10rem;
+    }
 }
 
 

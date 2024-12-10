@@ -16,7 +16,12 @@
             <app-document-view [selectedDoc]="selectedDoc" class="mb-3 col-12 col-xl-8"></app-document-view>
         </div>
         <div class="research-view p-3" *ngIf="selectedCriteria?.length">
-            <app-research-view  [similarResearchers]="similarResearchers" [similarResearcherGroups]="similarResearcherGroups"></app-research-view>
+            <app-research-view  
+                [similarResearchers]="similarResearchers" 
+                [similarResearcherGroups]="similarResearcherGroups"
+                (loadResearchers)="researchersChange($event)" 
+                (loadResearchGroups)="researchGroupsChange($event)"
+            ></app-research-view>
         </div>
     </div>
 </div> 

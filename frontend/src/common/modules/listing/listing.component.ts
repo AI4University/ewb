@@ -6,6 +6,7 @@ import { ListingSettingsDialogComponent } from '@common/modules/listing/listing-
 import { TranslateService } from '@ngx-translate/core';
 import { SelectionType, TableColumn } from '@swimlane/ngx-datatable';
 import { takeUntil } from 'rxjs/operators';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
 	selector: 'app-listing',
@@ -14,6 +15,7 @@ import { takeUntil } from 'rxjs/operators';
 	encapsulation: ViewEncapsulation.None
 })
 export class ListingComponent extends BaseComponent implements OnInit, OnChanges {
+    static MAX_PAGE_SIZE = 5;
 
 	@ViewChild('functionValueTemplate', { static: true }) functionValueTemplate: TemplateRef<any>;
 
@@ -107,6 +109,18 @@ export class ListingComponent extends BaseComponent implements OnInit, OnChanges
 			this.refreshColumnDefinitionData();
 		});
 
+	}
+
+    onsomePage(event: PageEvent){
+		if(!event){
+			return;
+		}
+		this.pageLoad.emit({
+			count: event.length,
+			pageSize: event.pageSize,
+			limit: event.pageSize,
+			offset: event.pageIndex,
+		});
 	}
 
 	private setTableMessages() {

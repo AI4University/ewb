@@ -7,13 +7,15 @@ import { ListingComponent } from '@common/modules/listing/listing.component';
 import { CommonUiModule } from '@common/ui/common-ui.module';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { FilterEditorComponent } from './filter-editor/filter-editor.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
 	imports: [
 		CommonUiModule,
 		FormsModule,
 		NgxDatatableModule,
-		CommonFormsModule
+		CommonFormsModule,
+        MatPaginatorModule
 	],
 	declarations: [
 		ListingComponent,

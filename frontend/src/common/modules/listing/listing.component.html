@@ -27,8 +27,14 @@
 	rowHeight="auto"
 	[rowClass]="getRowClass">
 
-	<ngx-datatable-footer *ngIf="!hideFooter">
-		<ng-template *ngIf="!hideFooter" ngx-datatable-footer-template let-rowCount="rowCount" let-pageSize="pageSize" let-selectedCount="selectedCount" let-curPage="curPage" let-offset="offset">
+    
+    <ngx-datatable-footer *ngIf="!hideFooter" style="overflow: hidden">
+        <ng-template ngx-datatable-footer-template>
+            <div class="flex-grow-1 d-flex flex-column" *ngIf="count">
+                <ng-container *ngTemplateOutlet="paginator" />
+            </div>
+        </ng-template>
+		<!-- <ng-template *ngIf="!hideFooter" ngx-datatable-footer-template let-rowCount="rowCount" let-pageSize="pageSize" let-selectedCount="selectedCount" let-curPage="curPage" let-offset="offset">
 			<div class="page-count">
 				{{rowCount}} {{'COMMONS.LISTING-COMPONENT.MESSAGE.TOTAL' | translate}}
 			</div>
@@ -39,11 +45,23 @@
 					<mat-icon>settings</mat-icon>
 				</button>
 			</div>
-		</ng-template>
-	</ngx-datatable-footer>
+		</ng-template> -->
+    </ngx-datatable-footer>
 
 </ngx-datatable>
 
 <ng-template #functionValueTemplate ngx-datatable-cell-template let-row="row" let-value="value" let-column="column">
 	{{column.valueFunction(row)}}
+</ng-template>
+
+
+<ng-template #paginator let-pageSizeOptions="pageSizeOptions">
+	<mat-paginator
+		[length]="count"
+		[pageSize]="limit"
+		[pageIndex]="offset"
+		(page)="onsomePage($event)"
+		[pageSizeOptions]="pageSizeOptions ?? [5, 10, 25, 50, 100]"
+	>
+	</mat-paginator>
 </ng-template>

@@ -2,6 +2,7 @@ import { CdkScrollable, ScrollDispatcher } from '@angular/cdk/scrolling';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { SimilarResearcher } from '@app/core/model/ewb/researcher-similar-to-call.model';
 import { Theta } from '@app/core/model/ewb/theta.model';
+import { ResearchSimilarToTextPaging } from '@app/core/query/research-similar-to-text.lookup';
 import { EwbService } from '@app/core/services/http/ewb.service';
 import { BaseComponent } from '@common/base/base.component';
 import { takeUntil } from 'rxjs/operators';
@@ -121,10 +122,15 @@ export class SearchByResearcherComponent extends BaseComponent implements OnInit
 		return typeof (obj);
 	}
 
-	selectedCriteriaChange() {
+	selectedCriteriaChange(paging?: ResearchSimilarToTextPaging) {
 		if (this.selectedAG?.id && this.selectedCriteria.length > 0) {
 			// TODO collection name parameter
-			this.ewbService.getCallsSimilarToResearcher({id: this.selectedAG.id, similarityMethod: this.selectedCriteria, collectionName: "funding_calls"})
+			this.ewbService.getCallsSimilarToResearcher({
+                id: this.selectedAG.id, 
+                similarityMethod: this.selectedCriteria, 
+                collectionName: "funding_calls",
+                ...paging
+            })
 			.pipe(takeUntil(this._destroyed))
 			.subscribe((result) => {
 				if (result) {

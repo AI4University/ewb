@@ -1016,12 +1016,14 @@
 			"FUNDING-CALL": "Funding call acronym or title",
 			"TEXT": "Text",
 			"RESEARCHER": "Researcher",
-			"CRITERIA": "Criteria"
+			"CRITERIA": "Criteria",
+            "STARTING-YEAR": "Starting from year",
+            "ANY": "Any"
 		},
 		"RESEARCH-VIEW-COMPONENT": {
 			"LISTING": {
 				"ID": "Id",
-                "TITLE": "Title",
+                "NAME": "Name",
 				"SCORE": "Topic relevance"
 			}
 		},
