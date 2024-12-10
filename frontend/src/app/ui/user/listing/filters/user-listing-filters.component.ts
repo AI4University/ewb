@@ -56,12 +56,7 @@ export class UserListingFiltersComponent extends BaseComponent implements OnInit
 			...this.filter,
 			like,
 			isActive: isActive ? [IsActive.Active] : [IsActive.Inactive],
-		}
-		if (userRoleSubQuery && userRoleSubQuery?.roles != null && userRoleSubQuery?.roles?.length > 0) {
-			filter = {
-				...filter,
-				userRoleSubQuery
-			}
+            userRoleSubQuery
 		}
 		this.filterChange.emit(filter);
 	}
@@ -107,6 +102,7 @@ export class UserListingFiltersComponent extends BaseComponent implements OnInit
 
 	clearFilters() {
 		this.internalFilters = this._getEmptyFilters();
+        this.appliedFilterCount = this._computeAppliedFilters(this.internalFilters);
 	}
 }
 

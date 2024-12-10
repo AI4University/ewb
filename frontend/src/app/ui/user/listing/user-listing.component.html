@@ -15,7 +15,7 @@
 	<div class="d-flex align-items-center p-3 gap-1-rem">
 		<div class="row">
 			<ng-container *ngIf="isColumnSelected('name')">
-				<a class="buttonLinkClass" [routerLink]="routerUtils.generateUrl('./' + item?.id)" class="col-12" (click)="$event.stopPropagation()">{{item?.fristName | nullifyValue}}</a>
+				<a class="buttonLinkClass" [routerLink]="routerUtils.generateUrl('./' + item?.id)" class="col-12" (click)="$event.stopPropagation()">{{item?.firstName | nullifyValue}}</a>
 				<br />
 			</ng-container>
 
@@ -45,7 +45,7 @@
 		<app-user-role-editor-component style="width: 100%;" [item]="row"></app-user-role-editor-component>
 	</div>
 </ng-template>
-
+<!-- 
 <ng-template #nameCellTemplate let-row="row" let-item>
 	<div class="row align-items-center">
 		<div class="col-auto">
@@ -54,4 +54,4 @@
 		<div class="col">{{row.firstName}}</div>
 
 	</div>
-</ng-template>
+</ng-template> -->

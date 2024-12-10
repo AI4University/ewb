@@ -5,7 +5,8 @@
 				<ng-container>
 					<div *ngFor="let role of this.formGroup.get('roles').value" class="row">
 						<div class="col-auto p-0">
-							<span class="user-role" [ngClass]="{'user': role == appRole.User, 'tenant-plan-manager': role == appRole.TenantPlanManager, 'admin': role == appRole.Admin, 'installation-admin': role == appRole.InstallationAdmin, 'tenant-config-manager': role == appRole.TenantConfigManager, 'tenant-admin': role == appRole.TenantAdmin, 'tenant-user': role == appRole.TenantUser}">
+							<span class="user-role">
+                                <!-- [ngClass]="{'user': role == appRole.User, 'tenant-plan-manager': role == appRole.TenantPlanManager, 'admin': role == appRole.Admin, 'installation-admin': role == appRole.InstallationAdmin, 'tenant-config-manager': role == appRole.TenantConfigManager, 'tenant-admin': role == appRole.TenantAdmin, 'tenant-user': role == appRole.TenantUser}" -->
 								{{enumUtils.toAppRoleString(role)}}
 							</span>
 						</div>

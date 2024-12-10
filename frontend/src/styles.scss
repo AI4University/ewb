@@ -26,6 +26,9 @@
     .mat-mdc-dialog-panel.square-dialog .mat-mdc-dialog-surface{
         border-radius: 0 !important;
     }
+    .mat-badge-medium.mat-badge-overlap .mat-badge-content{
+        margin-left: -8px !important;
+    }
 //
 //ngrx datatable overrides 
 .ngx-datatable .progress-bar {

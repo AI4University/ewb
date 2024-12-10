@@ -34,7 +34,7 @@ export class UserListingComponent extends BaseListingComponent<User, UserLookup>
 	propertiesAvailableForOrder: ColumnDefinition[];
 
 	@ViewChild('roleCellTemplate', { static: true }) roleCellTemplate?: TemplateRef<any>;
-	@ViewChild('nameCellTemplate', { static: true }) nameCellTemplate?: TemplateRef<any>;
+	// @ViewChild('nameCellTemplate', { static: true }) nameCellTemplate?: TemplateRef<any>;
 
 	private readonly lookupFields: string[] = [
 		nameof<User>(x => x.id),
@@ -100,13 +100,11 @@ export class UserListingComponent extends BaseListingComponent<User, UserLookup>
 			prop: nameof<User>(x => x.firstName),
 			sortable: true,
 			languageName: 'USER-LISTING.FIELDS.FIRST-NAME',
-			cellTemplate: this.nameCellTemplate
 		},
 		{
 			prop: nameof<User>(x => x.lastName),
 			sortable: true,
 			languageName: 'USER-LISTING.FIELDS.LAST-NAME',
-			cellTemplate: this.nameCellTemplate
 		},
 		{
 			prop: nameof<User>(x => x.contacts),
@@ -133,12 +131,12 @@ export class UserListingComponent extends BaseListingComponent<User, UserLookup>
 			maxWidth: 300,
 			cellTemplate: this.roleCellTemplate
 		},
-		{
-			prop: nameof<User>(x => x.isActive),
-			sortable: true,
-			languageName: 'USER-LISTING.FIELDS.IS-ACTIVE',
-			pipe: this.pipeService.getPipe<IsActiveTypePipe>(IsActiveTypePipe)
-		},
+		// {
+		// 	prop: nameof<User>(x => x.isActive),
+		// 	sortable: true,
+		// 	languageName: 'USER-LISTING.FIELDS.IS-ACTIVE',
+		// 	pipe: this.pipeService.getPipe<IsActiveTypePipe>(IsActiveTypePipe)
+		// },
 		]);
 		this.propertiesAvailableForOrder = this.gridColumns.filter(x => x.sortable);
 	}

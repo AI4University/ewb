@@ -175,6 +175,13 @@ $light-theme: mat.define-theme((
         container-shape: 8px,
         container-color: #ffffff
     ));
+    @include mat.paginator-overrides((
+        container-background-color: #ffffff
+    ));
+    @include mat.card-overrides((
+        container-color: #ffffff
+    ));
+    --sys-surface: #ffffff;
     --sys-background: #f7f7f7;
     --grid-header-color: hsl(from var(--sys-surface-variant) h calc(s + -25) calc(l + 3));
     --grid-border-color: hsl(from var(--sys-surface-variant) h calc(s + -25) calc(l - 5));

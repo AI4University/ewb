@@ -2,15 +2,6 @@
 
 }
 
-::ng-deep.mat-mdc-menu-panel {
-	max-width: 100% !important;
-	height: 100% !important;
-}
-
-:host::ng-deep.mat-mdc-menu-content:not(:empty) {
-	padding-top: 0 !important;
-}
-
 
 .filter-button{
 	padding-top: .6rem;
@@ -21,4 +12,7 @@
 	label {
 			margin: 0;
 	}
+}
+::ng-deep .mat-mdc-button:not(:disabled).filter-button{
+    color: var(--sys-on-surface);    
 }
