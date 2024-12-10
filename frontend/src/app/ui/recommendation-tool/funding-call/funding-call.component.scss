@@ -13,6 +13,9 @@
 .chart{
     max-width: calc(100% - 1px); //force refresh chart width on sidenav expand/minimize
 }
+.research-view {
+    max-height: fit-content;
+}
 
 
 @container main-container (inline-size < 1000px){

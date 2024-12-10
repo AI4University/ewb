@@ -72,9 +72,11 @@ export class SearchByResearcherComponent extends BaseComponent implements OnInit
 					trigger: 'item'
 				},
                 legend: {
-                    orient: 'vertical',
-                    bottom: '5%',
-                    left: '5%'
+                    type: 'scroll',
+                    orient: 'horizontal',
+                    left: 10,
+                    bottom: 10,
+                    right: 10
                 },
 				series: {
 					type: 'pie',

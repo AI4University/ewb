@@ -12,7 +12,7 @@
         <div class="result-container">
             <div class="charts">
                 @for(option of chartOptions; track $index){
-                    <div [options]="option" echarts></div>
+                    <div class="chart" [options]="option" echarts></div>
                 }
             </div>
             <app-document-view *ngIf="selectedAG" [selectedDoc]="selectedAG"></app-document-view>

@@ -238,8 +238,13 @@ export class ModelOverviewComponent extends BaseComponent implements OnDestroy{
 		});
 	});
 	this.chartOptions = {
+        tooltip: {
+            trigger: 'item',
+            formatter: '{b}'
+        },
 		series: {
 			type: 'treemap',
+            nodeClick: false,
 			visibleMin: 300,
 			upperLabel: {
 				show: true

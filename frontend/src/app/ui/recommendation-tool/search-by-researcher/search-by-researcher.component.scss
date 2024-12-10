@@ -10,9 +10,11 @@
     
     .result-container {
         background-color: var(--sys-surface-container-lowest);
-        max-width: calc(100% - 1px); //force refresh chart width on sidenav expand/minimize
         padding: 1rem;
         max-height: fit-content;
+    }
+    .chart {
+        max-width: calc(100% - 1px); //force refresh chart width on sidenav expand/minimize
     }
     
 }

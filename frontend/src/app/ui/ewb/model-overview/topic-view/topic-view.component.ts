@@ -120,9 +120,7 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
 		this.words = result;
 		this.maxValue = this.words.reduce((prev, curr) => (prev.beta > curr.beta)? prev : curr).beta;
 		this.setupTopWordColumns();
-		if (this.data.word !== null) {
-			this.selectedWords = this.words.filter(topicBeta => topicBeta.id === this.data.word);
-		}
+		this.selectedWords = this.data.word !== null ? this.words.filter(topicBeta => topicBeta.id === this.data.word) : this.words;
 	});
 
 	this.ewbService.isTopicRelative(this.data.model, this.data.topicId)
@@ -284,7 +282,7 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
 
 		for (let element of event) {
 			selectedWord = element.id;
-			this.researchers.forEach(doc => doc.token = (doc.token + (doc.counts[selectedWord] !== undefined ? doc.counts[selectedWord] : 0)));
+			this.researchers.forEach(doc => doc.token = (doc.token + (doc.counts[selectedWord] ?? 0)));
 			this.oldSortFieldName = this.sortFieldName;
 			this.sortFieldName = nameof<TopDoc>(x => x.token);
 			this.sortResearchers();
@@ -292,7 +290,6 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
 		}
 	} else {
 		this.sortFieldName = this.oldSortFieldName;
-		this.researchers.forEach(doc => doc.token = 0/*doc.words*/);
 		this.sortResearchers();
 		this.sortResearchGroup();
 	}

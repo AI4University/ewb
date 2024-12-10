@@ -29,8 +29,10 @@
             @for(topic of searchResults; track $index; let last = $last){
                 <mat-expansion-panel [class.mb-2]="last">
                     <mat-expansion-panel-header>
-                        <mat-panel-title (click)="$event.stopPropagation(); openTopicDialog(topic)">
-                            {{topic.tpc_labels}}
+                        <mat-panel-title>
+                            <span role="button"(click)="$event.stopPropagation(); openTopicDialog(topic)">
+                                {{topic.tpc_labels}}
+                            </span>
                         </mat-panel-title>
                     </mat-expansion-panel-header>
                     @for(word of topic.top_words_betas; track $index){
