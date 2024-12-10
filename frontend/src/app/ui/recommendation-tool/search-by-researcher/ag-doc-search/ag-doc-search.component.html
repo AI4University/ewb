@@ -1,6 +1,8 @@
 <div class="pb-0">
 	<mat-form-field class="w-100">
-		<mat-icon matPrefix>search</mat-icon>
+        @if(label){
+            <mat-label>{{label}}</mat-label>
+        }
 		<input class="col-4" type="text" matInput [matAutocomplete]="auto" (input)="onChange($event)"
 			(click)="onChange($event)" [(value)]="searchInput">
 		<mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSelected($event)"

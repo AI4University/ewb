@@ -33,11 +33,11 @@ export class SearchByResearcherComponent extends BaseComponent implements OnInit
 	) {
 		super();
 	}
-	ngAfterViewInit(): void {
-		this.scrollDispatch.scrolled().subscribe((data: CdkScrollable) => {
-			console.log(JSON.stringify(data));
-		});
-	}
+	// ngAfterViewInit(): void {
+	// 	this.scrollDispatch.scrolled().subscribe((data: CdkScrollable) => {
+	// 		console.log(JSON.stringify(data));
+	// 	});
+	// }
 
 	ngOnInit(): void {
 		this.ewbService.getSimiliarityCriteriaList()
@@ -71,10 +71,11 @@ export class SearchByResearcherComponent extends BaseComponent implements OnInit
 				tooltip: {
 					trigger: 'item'
 				},
-				legend: {
-					top: '5%',
-					left: 'center'
-				},
+                legend: {
+                    orient: 'vertical',
+                    bottom: '5%',
+                    left: '5%'
+                },
 				series: {
 					type: 'pie',
 					radius: ['40%', '70%'],
@@ -97,9 +98,14 @@ export class SearchByResearcherComponent extends BaseComponent implements OnInit
 						}
 						return data;
 					}),
+                    itemStyle: {
+                        borderRadius: 6,
+                        borderColor: '#fff',
+                        borderWidth: 4
+                    },
 					emphasis: {
 						itemStyle: {
-							shadowBlur: 10,
+							shadowBlur: 6,
 							shadowOffsetX: 0,
 							shadowColor: 'rgba(0, 0, 0, 0.5)'
 						}

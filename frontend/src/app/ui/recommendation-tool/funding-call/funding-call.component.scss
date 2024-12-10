@@ -22,7 +22,7 @@
 }
 
 @container main-container (inline-size < 750px){
-    .results {
+    .filters {
         grid-template-columns: 1fr
     }
 }

@@ -12,6 +12,7 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./ag-doc-search.component.scss']
 })
 export class AGDocSearchComponent extends BaseComponent implements OnInit {
+    @Input() label: string;
 	AGdocs: AGDoc[] = [];
 	@Output() selectedAGDoc: EventEmitter<AGDoc> = new EventEmitter<AGDoc>();
 	searchInput: string = '';

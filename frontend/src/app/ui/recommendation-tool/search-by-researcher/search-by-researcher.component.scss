@@ -1,3 +1,23 @@
 .search-by-researcher-view {
-    overflow: hidden;
+    .filters, .results, .charts {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+    .results.no-criteria {
+        grid-template-columns: 1fr;
+    }
+    
+    .result-container {
+        background-color: var(--sys-surface-container-lowest);
+        max-width: calc(100% - 1px); //force refresh chart width on sidenav expand/minimize
+        padding: 1rem;
+        max-height: fit-content;
+    }
+    
+}
+@container main-container (inline-size < 1000px){
+    .results, .filters, .charts {
+        grid-template-columns: 1fr
+    }
 }
