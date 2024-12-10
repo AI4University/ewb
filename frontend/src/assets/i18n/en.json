@@ -967,7 +967,7 @@
                 "EXIT-FULLSCREEN": "Exit fullscreen"
             },
 			"TOPIC-RELEVANCE": {
-				"SHOW-RELEVANT-TOPICS": "Show relevant topics",
+				"SHOW-FAVORITE-TOPICS": "Show favorite topics",
 				"TOPICS": "Topics"
 			},
 			"MODEL-OVERVIEW-COMPONENT": {
@@ -993,7 +993,11 @@
 						"WORDS": "Words"
 					},
                     "RESEARCHER": "Researcher",
-                    "RESEARCH-GROUP": "Research group"
+                    "RESEARCH-GROUP": "Research group",
+                    "ACTIONS": {
+                        "ADD-TO-FAVORITES": "Add topic to favorites",
+                        "REMOVE-FAVORITE": "Remove topic from favorites"
+                    }
 				},
                 "LIST-VIEW": {
                     "TITLE": "Projects"

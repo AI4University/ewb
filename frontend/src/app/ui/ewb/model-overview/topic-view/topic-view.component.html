@@ -4,15 +4,13 @@
         <h4 class="m-0 pt-1">
             <span>{{ topicName }}</span>
         </h4>
-        @if(isRelevant){
-            <button mat-icon-button matTooltip="Remove Topic from Relevants"(click)="removeRelevant()">
-                <mat-icon>remove</mat-icon>
-            </button>
-        }@else{
-            <button mat-icon-button matTooltip="Add Topic to Relevants" (click)="addRelevant()">
-                <mat-icon>add_circle_outline</mat-icon>
-            </button>
-        }
+        <button 
+            mat-icon-button 
+            matTooltip="{{(isRelevant ? 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.ACTIONS.REMOVE-FAVORITE' : 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.ACTIONS.ADD-TO-FAVORITES') | translate}}"
+            (click)="isRelevant ? removeRelevant() : addRelevant()"
+        >
+            <mat-icon class="material-icons-outlined">{{isRelevant ? 'star' : 'star_outline'}}</mat-icon>
+        </button>
         <div class="ml-auto">
             <button mat-icon-button mat-dialog-close>
                 <mat-icon>close</mat-icon>

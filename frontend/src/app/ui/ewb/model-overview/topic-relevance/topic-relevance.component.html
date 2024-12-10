@@ -1,6 +1,6 @@
 <div class="topic-relevance">
     <mat-slide-toggle labelPosition="before" [(ngModel)]="showRelevantTopics" (change)="refreshTopics()">
-        {{'APP.EWB-COMPONENT.TOPIC-RELEVANCE.SHOW-RELEVANT-TOPICS' | translate}}
+        {{'APP.EWB-COMPONENT.TOPIC-RELEVANCE.SHOW-FAVORITE-TOPICS' | translate}}
     </mat-slide-toggle>
 	@if(showRelevantTopics){
 		<button [disabled]="!relevantTopics?.length" mat-stroked-button [matMenuTriggerFor]="topicMenu">

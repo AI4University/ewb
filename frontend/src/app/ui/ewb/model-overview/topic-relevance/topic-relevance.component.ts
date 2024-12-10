@@ -79,6 +79,8 @@ export class TopicRelevanceComponent extends BaseComponent implements OnDestroy{
         .pipe(takeUntil(this._destroyed))
         .subscribe(() => {
             this.topicRelevanceService.removeTopic(topic.id);
+            const idx = this.relevantTopics.findIndex((x) => x.id === topic.id);
+            if(idx >= 0){ this.relevantTopics.splice(idx, 1); }
         });
     }
 

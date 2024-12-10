@@ -542,7 +542,7 @@
                 "LIST": "List"
             },
             "TOPIC-RELEVANCE": {
-				"SHOW-RELEVANT-TOPICS": "Show relevant topics",
+				"SHOW-FAVORITE-TOPICS": "Show favorite topics",
 				"TOPICS": "Topics"
 			},
 			"MODEL-OVERVIEW-COMPONENT": {
