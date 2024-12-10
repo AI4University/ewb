@@ -10,7 +10,7 @@
                 </button>
             </div>
         </div>
-        <div class="statistics-grid mt-3">
+        <div class="table-grid mt-3 grid-container">
             @if(selectedMetadata.id){
                 <div class="grid-label">Id</div>
                 <div class="grid-value">{{selectedMetadata.id}} </div>
@@ -24,16 +24,13 @@
                     <div class="grid-label">{{prettifyCamelCase(field.key)}}</div>
                     <div class="grid-value">
                         @if(isArray(field.value)){
-            
+                            <span *ngFor="let subval of field.value; let last = last" class="field-value">
+                                {{subval}}{{!last ? ', ' : ''}}
+                            </span>
                         }@else{
                             <div [innerHTML]="sanitized(field.value)"></div>
                         }
                     </div>
-                    <dl>
-                        <dt *ngFor="let subval of field.value; let last = last" class="field-value">
-                            {{subval}}{{!last ? ', ' : ''}}
-                        </dt>
-                    </dl>
                 }
             }
         </div>

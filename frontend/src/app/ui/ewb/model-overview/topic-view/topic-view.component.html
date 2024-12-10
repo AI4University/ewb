@@ -39,7 +39,7 @@
             <div>
                 <div class="section">
                     <div class="section-header">{{'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.TOPIC-STATISTICS' | translate}}</div>
-                    <div class="statistics-grid">
+                    <div class="table-grid">
                         @for(statistic of topicStatistics | keyvalue; track $index){
                             <div class="grid-label">{{statistic.key}}</div>
                             <div class="grid-value">{{ statistic.value }}</div>

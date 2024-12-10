@@ -181,7 +181,7 @@ mat-spinner {
     cursor: not-allowed !important;
 }
 
-.statistics-grid {
+.table-grid {
     display: grid;
     grid-template-columns: auto 1fr;
 
@@ -202,4 +202,7 @@ mat-spinner {
             margin-right: 0.2rem;
         }
     }
+}
+.grid-container {
+    border: 0.5px solid var(--grid-border-color);
 }
