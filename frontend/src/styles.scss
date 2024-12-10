@@ -198,8 +198,7 @@ mat-spinner {
         padding-left: 1rem;
         border: 0.5px solid var(--grid-border-color);
         &>*{
-            flex-grow: 1;
-            margin-right: 0.2rem;
+            margin-right: 0.25rem;
         }
     }
 }
