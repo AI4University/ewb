@@ -10,6 +10,8 @@
         flex-direction: column;
     }
     .navigation-group-item{
+        text-decoration: none;
+        color: var(--mat-sidenav-container-text-color);
         display: flex;
         align-items: center;
         gap: 1rem;
@@ -21,10 +23,8 @@
             background-color: hsl(from var(--sys-inverse-primary) h calc(s - 55) l); 
             padding: 1.125rem;
         }
-    }
 
-    li.selected-route {
-        .navigation-group-item{
+        &.selected-route {
             background-color :hsl(from var(--sys-inverse-primary) h calc(s - 55) calc(l - 6));
             padding: 1rem;
             mat-icon{
@@ -32,4 +32,5 @@
             }
         }
     }
+    
 }

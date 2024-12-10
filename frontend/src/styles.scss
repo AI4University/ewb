@@ -23,6 +23,9 @@
     .mat-mdc-icon-button{
         line-height: 1;
     }
+    .mat-mdc-dialog-panel.square-dialog .mat-mdc-dialog-surface{
+        border-radius: 0 !important;
+    }
 //
 //ngrx datatable overrides 
 .ngx-datatable .progress-bar {

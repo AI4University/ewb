@@ -548,11 +548,11 @@ export class ModelOverviewComponent extends BaseComponent implements OnDestroy{
                 bottom: '0',
                 right: '0'
             },
-            height: '98vh',
+            height: '100vh',
             width: '75vw',
             maxWidth: '95vw',
             minWidth: 'min(70rem, 95vw)',
-            panelClass: 'topic-style',
+            panelClass: 'square-dialog',
             autoFocus: false,
             data: {
                 corpus: this.corpus(),
