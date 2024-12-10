@@ -8,17 +8,21 @@
             </mat-select>
         </mat-form-field>
     </div>
-    <div class="results" *ngIf="selectedAG" [class.no-criteria]="!selectedCriteria?.length">
-        <div class="result-container">
-            <div class="charts">
-                @for(option of chartOptions; track $index){
-                    <div class="chart" [options]="option" echarts></div>
-                }
+    <div class="results row" *ngIf="selectedAG" [class.no-criteria]="!selectedCriteria?.length">
+        <div class="col-lg-6 col-xss-12" [class.col-12]="!selectedCriteria?.length">
+            <div class="result-container">
+                <div class="row">
+                    <div class="col-lg-6 col-xss-12" *ngFor="let option of chartOptions;">
+                        <div  [options]="option" echarts></div>
+                    </div>
+                </div>
+                <app-document-view *ngIf="selectedAG" [selectedDoc]="selectedAG"></app-document-view>
             </div>
-            <app-document-view *ngIf="selectedAG" [selectedDoc]="selectedAG"></app-document-view>
         </div>
-        <div class="result-container research-view" *ngIf="selectedCriteria?.length">
-            <app-research-view  [similarResearchers]="similarResearchers"></app-research-view>
+        <div class="col-lg-6 col-xss-12">
+            <div class="result-container research-view" *ngIf="selectedCriteria?.length">
+                <app-research-view  [similarResearchers]="similarResearchers"></app-research-view>
+            </div>
         </div>
     </div>
 </div> 

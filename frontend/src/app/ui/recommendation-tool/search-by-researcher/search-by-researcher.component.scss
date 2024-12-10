@@ -1,12 +1,12 @@
 .search-by-researcher-view {
-    .filters, .results, .charts {
+    .filters {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 1rem;
     }
-    .results.no-criteria {
-        grid-template-columns: 1fr;
-    }
+    // .results.no-criteria {
+    //     grid-template-columns: 1fr;
+    // }
     
     .result-container {
         background-color: var(--sys-surface-container-lowest);
@@ -19,7 +19,7 @@
     
 }
 @container main-container (inline-size < 1000px){
-    .results, .filters, .charts {
+    .filters {
         grid-template-columns: 1fr
     }
 }
