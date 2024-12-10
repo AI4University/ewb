@@ -1,3 +1,19 @@
 .search-by-text-view {
-    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    .text-input {
+        max-height: fit-content;
+    }
+    .results {
+        background-color: var(--sys-surface-container-lowest);
+        padding: 1rem;
+    }
+}
+
+
+@container main-container (inline-size < 750px){
+    .search-by-text-view {
+        grid-template-columns: 1fr
+    }
 }

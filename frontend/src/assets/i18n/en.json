@@ -1008,6 +1008,7 @@
 		},
 		"RECOMMENDATION-TOOL-COMPONENT": {
             "SEARCH-BY": "Search by",
+            "SEARCH-BY-TEXT": "Search by text",
 			"FUNDING-CALL": "Funding call acronym or title",
 			"TEXT": "Text",
 			"RESEARCHER": "Researcher",

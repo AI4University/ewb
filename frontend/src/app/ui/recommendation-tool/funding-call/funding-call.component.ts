@@ -68,8 +68,9 @@ export class FundingCallComponent extends BaseComponent implements OnInit {
 						trigger: 'item'
 					},
 					legend: {
-						top: '5%',
-						left: 'center'
+                        orient: 'vertical',
+						bottom: '5%',
+						left: '5%'
 					},
 					series: {
 						type: 'pie',
@@ -93,9 +94,14 @@ export class FundingCallComponent extends BaseComponent implements OnInit {
 							}
 							return data;
 						}),
+                        itemStyle: {
+                            borderRadius: 6,
+                            borderColor: '#fff',
+                            borderWidth: 4
+                        },
 						emphasis: {
 							itemStyle: {
-								shadowBlur: 10,
+								shadowBlur: 6,
 								shadowOffsetX: 0,
 								shadowColor: 'rgba(0, 0, 0, 0.5)'
 							}
