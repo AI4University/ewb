@@ -1,4 +1,7 @@
 <style>
+    .content {
+        width: max(500px, 80vw);
+    }
     .container {
         margin: 0px;
         padding: 0px;
@@ -6,54 +9,67 @@
     }
     .question {
         cursor: pointer;
-        border: none;
-        padding: 18px;
-        background-color: gainsboro;
+        padding: 1rem 2rem;
+        font-weight: 600;
     }
 
     .answer {
-        padding: 0 18px;
-        background-color: #f1f1f1;
+        padding: 0.5rem 2rem;
     }
     .faq {
-
+        background-color: #ffffff;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 0px 15px;
+        border-radius: 8px;
     }
     .title {
-        padding: 18px;
-        background-color: lavender;
-        margin: 0px;
+        font-size: 2rem;
+        text-align: center;
+        margin: 2rem 0;
+    }
+    .divider{
+        height: 2px;
+        border-bottom: 1px solid #dcdcdc;
+        margin: 0 2rem;
     }
 </style>
-<h1 class="title">Frequently Asked Questions</h1>
-<div class="faq">
-    <details class="container">
-        <summary class="question">Q: What are the differences among the similarity-based functions provided by the application?</summary>
-        <div class="answer">A: Three different possibilities are available:
-            <ul>
-                <li>Similarity of a document in the corpus to others: can be used when searching for similarities of a document already in the collection, when you know which document you are interested on, and want to search other documents similar to it.</li>
-                <li>Similarity of an inputted document and other in the corpus is similar to the previous, but for documents which are not already in the collection; in this case you need to provide a summary for the search</li>
-                <li>Similarity between pairs of documents in the corpus: will suggest pairs of documents already in the collection which are similar to each other</li>
-            </ul>
-        </div>
-    </details>
-    <details class="container">
-        <summary class="question">Q: What parameters are needed for searching "Similarity between pairs of documents in the corpus?"</summary>
-        <p class="answer">A: The retrieval of every single pair of documents and their associated similarity is not practical and would consume too much resources. For this reason you can impose some limits in the simlarity score and retrieve only pairs of documents whose simlarity is between the lower and upper limits (similarity should be given in the range 0-100), and you should also limit the maximum number of hits. In addition to this, you can constraint your search for documents in a specific year.</p>
-    </details>
-    <details class="container">
-        <summary class="question">Q: How is the percentage of topic representation for a particular document calculated?</summary>
-        <p class="answer">A: A machine learning technique is used in the platform to identify the main themes that characterize the collection: "topic modeling". This technique automatically identifies the leading topics of the collection, and to what extent each document belongs to them. Any document can belong to several topics, but the sum of contributions should be 100%. On a first approximation, you can think that the percentage associated to a specific topic is barely proportional to the number of words in the document that are related to the selected topic.</p>
-    </details>
-    <details class="container">
-        <summary class="question">Q: How are the identified topics characterized</summary>
-        <p class="answer">A: Each topic is characterized by a set of words that are related to it. We use a common trick in machine learning (IDF) to emphasize the words that are more specific to the topic (i.e., that are not relevant for other topics). Word scores are recalculated using the weight of the most important word of the topic as the reference, i.e., the most relevant word is assigned 100% influence, and subsequent words are scaled accordingly.</p>
-    </details>
-    <details class="container">
-        <summary class="question">Q: Is there an easy way to distinguish very specific topics from broader ones?</summary>
-        <p class="answer">A: Yes, in very specific topics the words will be specific as well; futhermore, you will see that the word scores rapidly decrease in importance. On the contrary, broader topics will be characterized by word distributions that decay slower.</p>
-    </details>
-    <details class="container">
-        <summary class="question">Q: How are the topic labels obtain? In my opinion some of them may not be very accurate.</summary>
-        <p class="answer">A: Topic labeling is done automatically using GPT. In general the quality of labels seems to be good but, as this is a fully automatic procedure, you may find some labels not fully accurate.</p>
-    </details>
+<div class="content">
+    <h1 class="title">Frequently Asked Questions</h1>
+    <div class="faq">
+        <details class="container">
+            <summary class="question">What are the differences among the similarity-based functions provided by the application?</summary>
+            <div class="answer">Three different possibilities are available:
+                <ul>
+                    <li>Similarity of a document in the corpus to others: can be used when searching for similarities of a document already in the collection, when you know which document you are interested on, and want to search other documents similar to it.</li>
+                    <li>Similarity of an inputted document and other in the corpus is similar to the previous, but for documents which are not already in the collection; in this case you need to provide a summary for the search</li>
+                    <li>Similarity between pairs of documents in the corpus: will suggest pairs of documents already in the collection which are similar to each other</li>
+                </ul>
+            </div>
+        </details>
+        <div class="divider"></div>
+        <details class="container">
+            <summary class="question">What parameters are needed for searching "Similarity between pairs of documents in the corpus?"</summary>
+            <p class="answer">The retrieval of every single pair of documents and their associated similarity is not practical and would consume too much resources. For this reason you can impose some limits in the simlarity score and retrieve only pairs of documents whose simlarity is between the lower and upper limits (similarity should be given in the range 0-100), and you should also limit the maximum number of hits. In addition to this, you can constraint your search for documents in a specific year.</p>
+        </details>
+        <div class="divider"></div>
+        <details class="container">
+            <summary class="question">How is the percentage of topic representation for a particular document calculated?</summary>
+            <p class="answer">A machine learning technique is used in the platform to identify the main themes that characterize the collection: "topic modeling". This technique automatically identifies the leading topics of the collection, and to what extent each document belongs to them. Any document can belong to several topics, but the sum of contributions should be 100%. On a first approximation, you can think that the percentage associated to a specific topic is barely proportional to the number of words in the document that are related to the selected topic.</p>
+        </details>
+        <div class="divider"></div>
+        <details class="container">
+            <summary class="question">How are the identified topics characterized</summary>
+            <p class="answer">Each topic is characterized by a set of words that are related to it. We use a common trick in machine learning (IDF) to emphasize the words that are more specific to the topic (i.e., that are not relevant for other topics). Word scores are recalculated using the weight of the most important word of the topic as the reference, i.e., the most relevant word is assigned 100% influence, and subsequent words are scaled accordingly.</p>
+        </details>
+        <div class="divider"></div>
+        <details class="container">
+            <summary class="question">Is there an easy way to distinguish very specific topics from broader ones?</summary>
+            <p class="answer">Yes, in very specific topics the words will be specific as well; futhermore, you will see that the word scores rapidly decrease in importance. On the contrary, broader topics will be characterized by word distributions that decay slower.</p>
+        </details>
+        <div class="divider"></div>
+        <details class="container">
+            <summary class="question">How are the topic labels obtain? In my opinion some of them may not be very accurate.</summary>
+            <p class="answer">Topic labeling is done automatically using GPT. In general the quality of labels seems to be good but, as this is a fully automatic procedure, you may find some labels not fully accurate.</p>
+        </details>
+        <div class="divider"></div>
+    </div>
 </div>

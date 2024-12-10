@@ -30,7 +30,7 @@
         </li> -->
         <li *ngIf="authService.hasPermission(appPermission.ViewUserPage)" >
             <a role="link" class="navigation-group-item" routerLink="/users" routerLinkActive="selected-route">
-                <mat-icon class="material-icons-outlined">admin_panel_settings</mat-icon>{{'APP.NAVIGATION.ADMINISTRATION' | translate}}
+                <mat-icon >admin_panel_settings</mat-icon>{{'APP.NAVIGATION.ADMINISTRATION' | translate}}
             </a>
         </li>
         <li *ngIf="authService.hasPermission(appPermission.ViewFaqPage)"  class="mt-auto">
