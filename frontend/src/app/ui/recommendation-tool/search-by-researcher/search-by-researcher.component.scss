@@ -1,9 +1,4 @@
 .search-by-researcher-view {
-    .filters {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 1rem;
-    }
     // .results.no-criteria {
     //     grid-template-columns: 1fr;
     // }
@@ -17,9 +12,4 @@
         max-width: calc(100% - 1px); //force refresh chart width on sidenav expand/minimize
     }
     
-}
-@container main-container (inline-size < 1000px){
-    .filters {
-        grid-template-columns: 1fr
-    }
 }
