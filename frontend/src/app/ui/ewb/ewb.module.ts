@@ -18,6 +18,7 @@ import { DocumentViewComponent } from './modules/document-view/document-view.com
 import { SimilaritiesComponent } from './similarities/similarities.component';
 import { TopicEvolutionChartComponent } from './model-overview/topic-view/topic-evolution-chart/topic-evolution-chart.component';
 import { MetadataAgViewComponent } from './modules/metadata-ag-view/metadata-ag-view.component';
+import { NgDialogAnimationService } from 'ng-dialog-animation';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,9 @@ import { MetadataAgViewComponent } from './modules/metadata-ag-view/metadata-ag-
     }),
     DirectiveModule,
     CorpusModelModule
+  ],
+  providers: [
+    NgDialogAnimationService
   ]
 })
 export class EwbModule { }

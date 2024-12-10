@@ -18,6 +18,7 @@ import { TopicBeta } from '@app/core/model/ewb/topic-beta.model';
 import { TopicRelevanceService } from '@app/core/services/ui/topic-relevance.service';
 import { ModelViewMode } from '../ewb.component';
 import { TopicRelevanceModel } from '@app/core/model/ewb/topic-relevance.model';
+import { NgDialogAnimationService } from 'ng-dialog-animation';
 
 @Component({
   selector: 'app-model-overview',
@@ -50,7 +51,7 @@ export class ModelOverviewComponent extends BaseComponent implements OnDestroy{
 	// private count = 1;
 
 
-  constructor(private ewbService: EwbService, private dialog: MatDialog, private topicRelevanceService: TopicRelevanceService) {
+  constructor(private ewbService: EwbService, private dialog: NgDialogAnimationService, private topicRelevanceService: TopicRelevanceService) {
 	    super();
         effect(() => {
             const model = this.model();
@@ -547,6 +548,9 @@ export class ModelOverviewComponent extends BaseComponent implements OnDestroy{
             position:{
                 bottom: '0',
                 right: '0'
+            },
+            animation:{
+                to: 'left'
             },
             height: '100vh',
             width: '75vw',
