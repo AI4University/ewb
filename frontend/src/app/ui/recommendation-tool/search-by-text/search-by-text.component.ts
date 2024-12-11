@@ -19,14 +19,15 @@ export class SerchByTextComponent extends BaseComponent implements OnInit {
 	textInput: string = null;
 	criteriaList: string[] = [];
 	selectedCriteria: string = '';
+    pageSize =  ListingComponent.MAX_PAGE_SIZE;
     paging: {researchers: ResearchSimilarToTextPaging, researchGroups: ResearchSimilarToTextPaging} = {
         researchers: {
             start: 0,
-            rows: ListingComponent.MAX_PAGE_SIZE
+            rows: this.pageSize
         },
         researchGroups: {
             start: 0,
-            rows: ListingComponent.MAX_PAGE_SIZE
+            rows: this.pageSize
 
         }
     }
@@ -58,11 +59,9 @@ export class SerchByTextComponent extends BaseComponent implements OnInit {
 
     researchersChange(paging?: ResearchSimilarToTextPaging){
         if (!this.textInput?.length || !this.selectedCriteria?.length ) { return; }
-        if(paging){
-            this.paging.researchers = {
-                rows: paging.rows,
-                start: paging.start
-            }
+        this.paging.researchers = {
+            rows: paging?.rows ?? this.pageSize,
+            start: paging?.start ?? 0
         }
         this.ewbService.getResearchersSimilarToText({
             text: this.textInput, 
@@ -78,12 +77,10 @@ export class SerchByTextComponent extends BaseComponent implements OnInit {
 
     researchGroupsChange(paging?: ResearchSimilarToTextPaging){
         if (!this.textInput?.length || !this.selectedCriteria?.length ) { return; }
-        if(paging){
-            this.paging.researchGroups = {
-                rows: paging.rows,
-                start: paging.start
-            }
-        }
+        this.paging.researchGroups = {
+            rows: paging?.rows ?? this.pageSize,
+            start: paging?.start ?? 0
+        }    
         this.ewbService.getResearchGroupsSimilarToText({
             text: this.textInput, 
             similarityMethod:this.selectedCriteria, 

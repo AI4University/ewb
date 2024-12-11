@@ -37,7 +37,7 @@ export class ListingComponent extends BaseComponent implements OnInit, OnChanges
 	@Input() externalPaging = true;
 	@Input() count = 0;
 	@Input() offset = 0;
-	@Input() limit: number = undefined;
+	@Input() limit: number = ListingComponent.MAX_PAGE_SIZE;
 	@Input() treeFromRelation: string;
 	@Input() treeToRelation: string;
 	private _hideFooter: boolean = false;

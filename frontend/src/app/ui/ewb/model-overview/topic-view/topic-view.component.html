@@ -29,7 +29,15 @@
                     <div class="section-header">{{'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.WORDS-USED' | translate}}</div>
                     <div *ngIf="words.length > 0" class="row">
                         <div class="w-100">
-                            <app-listing [rows]="words" [columns]="topWordColumns" [count]="words.length" [selected]="selectedWords" [selectionType]="selectionType.checkbox" (rowSelected)="selectWord($event)" hideFooter></app-listing>
+                            <app-listing 
+                                [rows]="words" 
+                                [columns]="topWordColumns" 
+                                [count]="words.length" 
+                                [selected]="selectedWords" 
+                                [selectionType]="selectionType.checkbox" 
+                                (rowSelected)="selectWord($event)"
+                                hideFooter
+                            ></app-listing>
                         </div>
                     </div>
                 </div>
@@ -53,7 +61,7 @@
                                 [columns]="topResearcherColumns" 
                                 [count]="topResearchers.length" 
                                 (columnSort)="sortResearcherRows($event)" 
-                                hideFooter
+                                (pageLoad)="loadResearchers($event)"
                             ></app-listing>
                         </div>
                     </div>
@@ -67,7 +75,7 @@
                                 [columns]="topResearchGroupColumns" 
                                 [count]="topResearchGroups.length" 
                                 (columnSort)="sortResearchGroupRows($event)" 
-                                hideFooter
+                                (pageLoad)="loadResearchGroups($event)"
                             ></app-listing>
                         </div>
                     </div>

@@ -3,10 +3,12 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { SimilarResearchGroup } from '@app/core/model/ewb/research-group-similar-to-call.model';
 import { SimilarResearcher } from '@app/core/model/ewb/researcher-similar-to-call.model';
 import { Theta } from '@app/core/model/ewb/theta.model';
+import { ResearchSimilarToCallLookup } from '@app/core/query/research-similar-to-call.lookup';
 import { ResearchSimilarToTextPaging } from '@app/core/query/research-similar-to-text.lookup';
 import { EwbService } from '@app/core/services/http/ewb.service';
 import { BaseComponent } from '@common/base/base.component';
 import { QueryResult } from '@common/model/query-result';
+import { ListingComponent } from '@common/modules/listing/listing.component';
 import { takeUntil } from 'rxjs/operators';
 
 
@@ -30,6 +32,8 @@ export class FundingCallComponent extends BaseComponent implements OnInit {
 
 	similarResearchers: SimilarResearcher[] = [];
 	similarResearcherGroups: SimilarResearchGroup[] = [];
+
+    pageSize = ListingComponent.MAX_PAGE_SIZE;
 
 	constructor(
 		private ewbService: EwbService,
@@ -125,11 +129,13 @@ export class FundingCallComponent extends BaseComponent implements OnInit {
 
     researchersChange(paging?: ResearchSimilarToTextPaging){
         if (!this.selectedDoc?.id || !this.selectedCriteria.length){ return; }
-        this.ewbService.getResearchersSimilarToCall({
+        const query: ResearchSimilarToCallLookup = {
             id: this.selectedDoc.id, 
             similarityMethod: this.selectedCriteria,
-            ...paging
-        })
+            rows: paging?.rows ?? this.pageSize,
+            start: paging?.start ?? 0
+        };
+        this.ewbService.getResearchersSimilarToCall(query)
         .pipe(takeUntil(this._destroyed))
         .subscribe((result) => {
             this.similarResearchers = result;
@@ -140,11 +146,13 @@ export class FundingCallComponent extends BaseComponent implements OnInit {
 
     researchGroupsChange(paging?: ResearchSimilarToTextPaging){
         if (!this.selectedDoc?.id || !this.selectedCriteria.length){ return; }
-        this.ewbService.getResearchGroupsSimilarToCall({
+        const query: ResearchSimilarToCallLookup = {
             id: this.selectedDoc.id, 
             similarityMethod: this.selectedCriteria,
-            ...paging
-        })
+            rows: paging?.rows ?? this.pageSize,
+            start: paging?.start ?? 0
+        };
+        this.ewbService.getResearchGroupsSimilarToCall(query)
         .pipe(takeUntil(this._destroyed))
         .subscribe(result => {
             this.similarResearcherGroups = result;

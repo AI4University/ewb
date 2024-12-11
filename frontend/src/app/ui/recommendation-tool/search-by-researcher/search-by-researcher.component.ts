@@ -5,6 +5,7 @@ import { Theta } from '@app/core/model/ewb/theta.model';
 import { ResearchSimilarToTextPaging } from '@app/core/query/research-similar-to-text.lookup';
 import { EwbService } from '@app/core/services/http/ewb.service';
 import { BaseComponent } from '@common/base/base.component';
+import { ListingComponent } from '@common/modules/listing/listing.component';
 import { takeUntil } from 'rxjs/operators';
 
 
@@ -27,6 +28,8 @@ export class SearchByResearcherComponent extends BaseComponent implements OnInit
 	chartOptions: any[] = [];
 
 	similarToResearcher: EWBCallsSimilarToResearcher[] = [];
+
+    pageSize = ListingComponent.MAX_PAGE_SIZE;
 
 	constructor(
 		private ewbService: EwbService,
@@ -124,13 +127,14 @@ export class SearchByResearcherComponent extends BaseComponent implements OnInit
 	}
 
 	selectedCriteriaChange(paging?: ResearchSimilarToTextPaging) {
+        const query = paging ?? {rows: this.pageSize, start: 0}
 		if (this.selectedAG?.id && this.selectedCriteria.length > 0) {
 			// TODO collection name parameter
 			this.ewbService.getCallsSimilarToResearcher({
                 id: this.selectedAG.id, 
                 similarityMethod: this.selectedCriteria, 
                 collectionName: "funding_calls",
-                ...paging
+                ...query
             })
 			.pipe(takeUntil(this._destroyed))
 			.subscribe((result) => {

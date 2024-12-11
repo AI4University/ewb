@@ -6,7 +6,7 @@ import { TopicBeta, TopicMetadata } from '@app/core/model/ewb/topic-metadata.mod
 import { TopDocTopicQuery } from '@app/core/query/top-doc-topic.lookup';
 import { EwbService } from '@app/core/services/http/ewb.service';
 import { BaseComponent } from '@common/base/base.component';
-import { ColumnDefinition } from '@common/modules/listing/listing.component';
+import { ColumnDefinition, ListingComponent, PageLoadEvent } from '@common/modules/listing/listing.component';
 import { takeUntil } from 'rxjs/operators';
 import { nameof } from 'ts-simple-nameof';
 import { SelectionType } from '@swimlane/ngx-datatable';
@@ -27,6 +27,7 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
 	@ViewChild('percentageBar', { static: true }) percentageBar: TemplateRef<any>;
 
 	maxValue = 100;
+    listingPageSize = ListingComponent.MAX_PAGE_SIZE;
 
 	researchers: TopDoc[] = [];
 	researchGroups: TopDoc[] = [];
@@ -69,7 +70,9 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
                 this.topicRelevanceService.kickStartRefresh()
             }
         })
-	 }
+	}
+
+    private topDocTopicQuery: TopDocTopicQuery;
 
   ngOnInit(): void {
 	this.topicName = this.data.topicName;
@@ -80,39 +83,16 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
 		this.topicStatistics = result;
 	});
 
-	const topDocTopicQuery: TopDocTopicQuery = {
+	this.topDocTopicQuery = {
 		corpusCollection: this.data.corpus,
 		modelName: this.data.model,
 		topicId: +this.data.topicId.charAt(1),
 		start: 0,
-		rows: undefined
+		rows: this.listingPageSize
 	};
 
-	this.ewbService.getTopResearchers(topDocTopicQuery)
-	.pipe(takeUntil(this._destroyed))
-	.subscribe(result => {
-		this.researchers = result;
-		this.researchers.forEach(doc => doc.token = 0/*doc.words*/);
-		this.maxValue = this.researchers.reduce((prev, curr) => (prev.topic > curr.topic)? prev : curr).relevance;
-		this.topResearchers = this.researchers.slice(0, 10);
-		this.setupTopDocColumns();
-		if (this.data.word !== null) {
-			this.selectWord([{id: this.data.word}]);
-		}
-	});
-
-	this.ewbService.getTopResearchGroups(topDocTopicQuery)
-	.pipe(takeUntil(this._destroyed))
-	.subscribe(result => {
-		this.researchGroups = result;
-		this.researchGroups.forEach(doc => doc.token = 0/*doc.words*/);
-		this.maxValue = this.researchGroups.reduce((prev, curr) => (prev.topic > curr.topic)? prev : curr).relevance;
-		this.topResearchGroups = this.researchGroups.slice(0, 10);
-		this.setupTopResearchGroupColumns();
-		if (this.data.word !== null) {
-			this.selectWord([{id: this.data.word}]);
-		}
-	});
+    this.loadResearchers();
+    this.loadResearchGroups();
 
 	this.ewbService.getTopicTopWords(this.data.model, this.data.topicId)
 	.pipe(takeUntil(this._destroyed))
@@ -336,6 +316,46 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
         this.isRelevant = false;
         this.relevanceChanged = true;
     });
+  }
+
+  loadResearchers(event?: PageLoadEvent){
+    this.topDocTopicQuery = {
+        ...this.topDocTopicQuery,
+        start: event?.offset ?? 0,
+        rows: event?.pageSize ?? this.listingPageSize
+    }
+	this.ewbService.getTopResearchers(this.topDocTopicQuery)
+	.pipe(takeUntil(this._destroyed))
+	.subscribe(result => {
+		this.researchers = result;
+		this.researchers.forEach(doc => doc.token = 0/*doc.words*/);
+		this.maxValue = this.researchers.reduce((prev, curr) => (prev.topic > curr.topic)? prev : curr).relevance;
+		this.topResearchers = this.researchers.slice(0, 10);
+		this.setupTopDocColumns();
+        // 	if (this.data.word !== null) {
+        // 		this.selectWord([{id: this.data.word}]);
+        // 	}
+	});
+  }
+
+  loadResearchGroups(event?: PageLoadEvent){
+    this.topDocTopicQuery = {
+        ...this.topDocTopicQuery,
+        start: event?.offset ?? 0,
+        rows: event?.pageSize ?? this.listingPageSize
+    }
+    this.ewbService.getTopResearchGroups(this.topDocTopicQuery)
+	.pipe(takeUntil(this._destroyed))
+	.subscribe(result => {
+		this.researchGroups = result;
+		this.researchGroups.forEach(doc => doc.token = 0/*doc.words*/);
+		this.maxValue = this.researchGroups.reduce((prev, curr) => (prev.topic > curr.topic)? prev : curr).relevance;
+		this.topResearchGroups = this.researchGroups.slice(0, 10);
+		this.setupTopResearchGroupColumns();
+        // 	if (this.data.word !== null) {
+        // 		this.selectWord([{id: this.data.word}]);
+        // 	}
+	});
   }
 
 }

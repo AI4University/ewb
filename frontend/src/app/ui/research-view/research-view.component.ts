@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { PercentValuePipe } from '@app/core/formatting/pipes/percentage.pipe';
 import { TopicBeta } from '@app/core/model/ewb/topic-metadata.model';
 import { BaseComponent } from '@common/base/base.component';
-import { ColumnDefinition, ListingComponent } from '@common/modules/listing/listing.component';
+import { ColumnDefinition, ListingComponent, PageLoadEvent } from '@common/modules/listing/listing.component';
 import { nameof } from 'ts-simple-nameof';
 import { SelectionType } from '@swimlane/ngx-datatable';
 import { SimilarResearcher } from '@app/core/model/ewb/researcher-similar-to-call.model';
@@ -26,13 +26,13 @@ export class ResearchViewComponent extends BaseComponent implements OnInit {
 	@Input() similarResearchers: SimilarResearcher[] = [];
 	@Input() similarResearcherGroups: SimilarResearchGroup[] = [];
 	@Input() similarToResearcher: EWBCallsSimilarToResearcher[] = [];
+    @Input() pageSize: number = ListingComponent.MAX_PAGE_SIZE;
 
     @Output() loadResearchers = new EventEmitter<ResearchSimilarToTextPaging>();
     @Output() loadResearchGroups = new EventEmitter<ResearchSimilarToTextPaging>();
     @Output() loadResearcherTopics = new EventEmitter<ResearchSimilarToTextPaging>();
 
 	maxValue = 100;
-    maxPageSize = ListingComponent.MAX_PAGE_SIZE;
 
 	similarResearchersColumns: ColumnDefinition[] = [];
 	similarResearcherGroupColumns: ColumnDefinition[] = [];
@@ -245,17 +245,17 @@ export class ResearchViewComponent extends BaseComponent implements OnInit {
 	// this.sortFieldName = ev.sortDescriptors[0].property;
   }
 
-  protected onResearcherLoad(event){
+  protected onResearcherLoad(event: PageLoadEvent){
     const {pageSize, limit, offset} = event;
     this.loadResearchers.emit({start: offset, rows: pageSize});
   }
 
-  protected onResearchGroupLoad(event){
+  protected onResearchGroupLoad(event: PageLoadEvent){
     const {pageSize, limit, offset} = event;    
     this.loadResearchGroups.emit({start: offset, rows: pageSize});
   }
 
-  protected onResearcherTopicsLoad(event){
+  protected onResearcherTopicsLoad(event: PageLoadEvent){
     const {pageSize, limit, offset} = event;    
     this.loadResearcherTopics.emit({start: offset, rows: pageSize});
   }
