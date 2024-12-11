@@ -66,7 +66,8 @@ export class FundingCallComponent extends BaseComponent implements OnInit {
 				const max = thetas.map(theta => theta.theta).reduce((a, b) => a + b, 0);
 				this.chartOptions = {
 					tooltip: {
-						trigger: 'item'
+						trigger: 'item',
+                        formatter: '{b}: {c}%'
 					},
 					legend: {
                         type: 'scroll',
@@ -88,7 +89,7 @@ export class FundingCallComponent extends BaseComponent implements OnInit {
 							const data = {
 								id: theta.id,
 								name: `${theta.name}`,
-								value: (theta.theta / max) * 100,
+								value: ((theta.theta / max) * 100).toFixed(2),
 								label: {
 									position: 'inner',
 									formatter: `${((theta.theta / max) * 100).toFixed(2)}%`,
