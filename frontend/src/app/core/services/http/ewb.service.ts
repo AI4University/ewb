@@ -29,6 +29,7 @@ import { CallsSimilarToResearcherLookup } from '@app/core/query/calls-similar-to
 import { ThetasResearcherLookup } from '@app/core/query/thetas-researcher.lookup';
 import { ResearchSimilarToCallLookup } from '@app/core/query/research-similar-to-call.lookup';
 import { ResearchSimilarToTextLookup } from '@app/core/query/research-similar-to-text.lookup';
+import { EWBCallsSimilarToResearcher } from '@app/core/model/ewb/calls-similar-to-researcher.model';
 
 @Injectable({
   providedIn: 'root'
@@ -266,8 +267,8 @@ export class EwbService {
     return this.http.post<QueryResult<AGDoc>>(`${this.apiBase}/ag-docs-with-string`, lookup);
   }
 
-  getCallsSimilarToResearcher(lookup: CallsSimilarToResearcherLookup): Observable<QueryResult<SimilarResearcher>> {
-    return this.http.post<QueryResult<SimilarResearcher>>(`${this.apiBase}/calls-similar-to-researcher`, lookup);
+  getCallsSimilarToResearcher(lookup: CallsSimilarToResearcherLookup): Observable<QueryResult<EWBCallsSimilarToResearcher>> {
+    return this.http.post<QueryResult<EWBCallsSimilarToResearcher>>(`${this.apiBase}/calls-similar-to-researcher`, lookup);
   }
 
   getThetasResearcherByID(lookup: ThetasResearcherLookup): Observable<QueryResult<Theta>> {

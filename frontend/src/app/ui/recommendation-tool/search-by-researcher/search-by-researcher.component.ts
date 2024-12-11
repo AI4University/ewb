@@ -1,6 +1,6 @@
 import { CdkScrollable, ScrollDispatcher } from '@angular/cdk/scrolling';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { SimilarResearcher } from '@app/core/model/ewb/researcher-similar-to-call.model';
+import { EWBCallsSimilarToResearcher } from '@app/core/model/ewb/calls-similar-to-researcher.model';
 import { Theta } from '@app/core/model/ewb/theta.model';
 import { ResearchSimilarToTextPaging } from '@app/core/query/research-similar-to-text.lookup';
 import { EwbService } from '@app/core/services/http/ewb.service';
@@ -26,7 +26,7 @@ export class SearchByResearcherComponent extends BaseComponent implements OnInit
 
 	chartOptions: any[] = [];
 
-	similarResearchers: SimilarResearcher[] = [];
+	similarResearchers: EWBCallsSimilarToResearcher[] = [];
 
 	constructor(
 		private ewbService: EwbService,
