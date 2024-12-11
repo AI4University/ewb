@@ -256,8 +256,8 @@ public class EWBController {
     }
 
     @PostMapping("calls-similar-to-researcher")
-    public QueryResult<EWBSimilarResearcher> getCallsSimilarToResearcher(@RequestBody CallsSimilarToResearcherLookup lookup) {
-        List<EWBSimilarResearcher> results = this.service.getCallsSimilarToResearcher(lookup);
+    public QueryResult<EWBCallsSimilarToResearcher> getCallsSimilarToResearcher(@RequestBody CallsSimilarToResearcherLookup lookup) {
+        List<EWBCallsSimilarToResearcher> results = this.service.getCallsSimilarToResearcher(lookup);
         return new QueryResult<>(results, results.size());
     }
 

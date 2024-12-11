@@ -1,20 +1,15 @@
 package gr.cite.intelcomp.evaluationworkbench.model;
 
 
-public class EWBSimilarResearchGroup {
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public class EWBSimilarResearchGroupResponse {
     private String id;
     private Double score;
+    @JsonProperty("Name")
     private String name;
     private Integer nProjects;
     private Integer nPapers;
-
-    public EWBSimilarResearchGroup(String id, Double score, String name, Integer nProjects, Integer nPapers) {
-        this.id = id;
-        this.score = score;
-        this.name = name;
-        this.nProjects = nProjects;
-        this.nPapers = nPapers;
-    }
 
     public String getId() {
         return id;

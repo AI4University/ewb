@@ -661,29 +661,29 @@ public class EWBService {
     public List<EWBSimilarResearcher> getResearchersSimilarToCall(ResearchSimilarToCallLookup lookup) {
 
         return Objects.requireNonNull(ewbTMClient.get().uri("/queries/getResearchersSimilarToCall/", builder -> WebClientUtils.buildParameters(builder, lookup))
-                .exchangeToMono(mono -> mono.bodyToMono(new ParameterizedTypeReference<List<EWBSimilarResearcher>>() {
-                })).block());
+                .exchangeToMono(mono -> mono.bodyToMono(new ParameterizedTypeReference<List<EWBSimilarResearcherResponse>>() {
+                })).block()).stream().map(r -> new EWBSimilarResearcher(r.getId(), r.getScore(), r.getName(), r.getnPI() ,r.getnProjects(), r.getnPapers())).collect(Collectors.toList());
     }
 
     public List<EWBSimilarResearcher> getResearchersSimilarToText(ResearchSimilarToTextLookup lookup) {
 
         return Objects.requireNonNull(ewbTMClient.get().uri("/queries/getResearchersSimilarToText/", builder -> WebClientUtils.buildParameters(builder, lookup))
-                .exchangeToMono(mono -> mono.bodyToMono(new ParameterizedTypeReference<List<EWBSimilarResearcher>>() {
-                })).block());
+                .exchangeToMono(mono -> mono.bodyToMono(new ParameterizedTypeReference<List<EWBSimilarResearcherResponse>>() {
+                })).block()).stream().map(r -> new EWBSimilarResearcher(r.getId(), r.getScore(), r.getName(), r.getnPI() ,r.getnProjects(), r.getnPapers())).collect(Collectors.toList());
     }
 
     public List<EWBSimilarResearchGroup> getResearchGroupsSimilarToCall(ResearchSimilarToCallLookup lookup ) {
 
         return Objects.requireNonNull(ewbTMClient.get().uri("/queries/getResearchGroupsSimilarToCall/", builder -> WebClientUtils.buildParameters(builder, lookup))
-                .exchangeToMono(mono -> mono.bodyToMono(new ParameterizedTypeReference<List<EWBSimilarResearchGroup>>() {
-                })).block());
+                .exchangeToMono(mono -> mono.bodyToMono(new ParameterizedTypeReference<List<EWBSimilarResearchGroupResponse>>() {
+                })).block()).stream().map(rg -> new EWBSimilarResearchGroup(rg.getId(), rg.getScore(), rg.getName(), rg.getnProjects(), rg.getnPapers())).collect(Collectors.toList());
     }
 
     public List<EWBSimilarResearchGroup> getResearchGroupsSimilarToText(ResearchSimilarToTextLookup lookup ) {
 
         return Objects.requireNonNull(ewbTMClient.get().uri("/queries/getResearchGroupsSimilarToText/", builder -> WebClientUtils.buildParameters(builder, lookup))
-                .exchangeToMono(mono -> mono.bodyToMono(new ParameterizedTypeReference<List<EWBSimilarResearchGroup>>() {
-                })).block());
+                .exchangeToMono(mono -> mono.bodyToMono(new ParameterizedTypeReference<List<EWBSimilarResearchGroupResponse>>() {
+                })).block()).stream().map(rg -> new EWBSimilarResearchGroup(rg.getId(), rg.getScore(), rg.getName(), rg.getnProjects(), rg.getnPapers())).collect(Collectors.toList());
     }
 
     public List<EWBDocAG> getAGDocsWithString(AGDocsLookup lookup) {
@@ -693,10 +693,10 @@ public class EWBService {
                 })).block());
     }
 
-    public List<EWBSimilarResearcher> getCallsSimilarToResearcher(CallsSimilarToResearcherLookup lookup) {
+    public List<EWBCallsSimilarToResearcher> getCallsSimilarToResearcher(CallsSimilarToResearcherLookup lookup) {
 
         return Objects.requireNonNull(ewbTMClient.get().uri("/queries/getCallsSimilarToResearcher/", builder -> WebClientUtils.buildParameters(builder, lookup))
-                .exchangeToMono(mono -> mono.bodyToMono(new ParameterizedTypeReference<List<EWBSimilarResearcher>>() {
+                .exchangeToMono(mono -> mono.bodyToMono(new ParameterizedTypeReference<List<EWBCallsSimilarToResearcher>>() {
                 })).block());
     }
 

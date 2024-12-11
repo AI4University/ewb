@@ -12,9 +12,17 @@ public class CallsSimilarToResearcherLookup {
     @ParameterName("collection_name")
     private String collectionName;
 
+    @ParameterName("filtering_options")
+    private String filteringOptions;
+
+    @ParameterName("ranking_options")
+    private String rankingOptions;
+
     private Long start;
 
     private Long rows;
+
+    private String year;
 
     public String getId() {
         return id;
@@ -54,5 +62,29 @@ public class CallsSimilarToResearcherLookup {
 
     public void setRows(Long rows) {
         this.rows = rows;
+    }
+
+    public String getFilteringOptions() {
+        return filteringOptions;
+    }
+
+    public void setFilteringOptions(String filteringOptions) {
+        this.filteringOptions = filteringOptions;
+    }
+
+    public String getRankingOptions() {
+        return rankingOptions;
+    }
+
+    public void setRankingOptions(String rankingOptions) {
+        this.rankingOptions = rankingOptions;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
     }
 }
