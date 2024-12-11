@@ -1026,7 +1026,10 @@
             "ID": "Id",
             "NAME": "Name",
             "SCORE": "Topic relevance",
-            "DEADLINE": "Deadline"
+            "DEADLINE": "Deadline",
+            "N-PI": "# projects as principal investigator",
+            "N-PROJECTS": "# projects",
+            "N-PAPERS": "# papers"
 		},
         "DOCUMENT-VIEW-COMPONENT": {
             "INFORMATION": "Information"

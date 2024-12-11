@@ -67,31 +67,61 @@ export class ResearchViewComponent extends BaseComponent implements OnInit {
 	pipe.maxValue = this.maxValue > 100 ? this.maxValue : 100;
 	this.similarResearchersColumns.push(...[
 		{
-			prop: nameof<SimilarResearcher>(x => x.name),
-			name: nameof<SimilarResearcher>(x => x.name),
+			prop: nameof<SimilarResearchGroup>(x => x.name),
+			name: nameof<SimilarResearchGroup>(x => x.name),
 			sortable: false,
-			resizeable: true,
+			resizeable: false,
 			alwaysShown: true,
 			canAutoResize: true,
-            maxWidth: 250,
+            maxWidth: 200,
 			languageName: 'APP.RESEARCH-LISTING.NAME',
 			cellTemplate: this.textWrapTemplate,
 			headerClass: 'pretty-header'
 		},
 		{
-			prop: nameof<SimilarResearcher>(x => x.score),
-			name: nameof<SimilarResearcher>(x => x.score),
+			prop: nameof<SimilarResearchGroup>(x => x.score),
+			name: nameof<SimilarResearchGroup>(x => x.score),
 			sortable: true,
-			resizeable: true,
+			resizeable: false,
 			alwaysShown: true,
 			isTreeColumn: false,
 			canAutoResize: true,
-			minWidth: 200,
+			minWidth: 150,
 			languageName: 'APP.RESEARCH-LISTING.SCORE',
 			headerClass: 'pretty-header',
 			cellTemplate: this.percentageBar,
 			pipe: pipe
-		}
+		},
+        {
+			prop: nameof<SimilarResearcher>(x => x.nPI),
+			name: nameof<SimilarResearcher>(x => x.nPI),
+			sortable: true,
+			resizeable: true,
+			alwaysShown: false,
+			canAutoResize: true,
+            maxWidth: 100,
+			languageName: 'APP.RESEARCH-LISTING.N-PI',
+		},
+        {
+			prop: nameof<SimilarResearcher>(x => x.nProjects),
+			name: nameof<SimilarResearcher>(x => x.nProjects),
+			sortable: true,
+			resizeable: true,
+			alwaysShown: false,
+			canAutoResize: true,
+            maxWidth: 100,
+			languageName: 'APP.RESEARCH-LISTING.N-PROJECTS',
+		},
+        {
+			prop: nameof<SimilarResearcher>(x => x.nPapers),
+			name: nameof<SimilarResearcher>(x => x.nPapers),
+			sortable: true,
+			resizeable: true,
+			alwaysShown: false,
+			canAutoResize: true,
+            maxWidth: 100,
+			languageName: 'APP.RESEARCH-LISTING.N-PAPERS',
+		},
 	]);
   }
 
@@ -106,7 +136,7 @@ export class ResearchViewComponent extends BaseComponent implements OnInit {
 			resizeable: false,
 			alwaysShown: true,
 			canAutoResize: true,
-            maxWidth: 250,
+            maxWidth: 200,
 			languageName: 'APP.RESEARCH-LISTING.NAME',
 			cellTemplate: this.textWrapTemplate,
 			headerClass: 'pretty-header'
@@ -119,12 +149,32 @@ export class ResearchViewComponent extends BaseComponent implements OnInit {
 			alwaysShown: true,
 			isTreeColumn: false,
 			canAutoResize: true,
-			minWidth: 200,
+			minWidth: 150,
 			languageName: 'APP.RESEARCH-LISTING.SCORE',
 			headerClass: 'pretty-header',
 			cellTemplate: this.percentageBar,
 			pipe: pipe
-		}
+		},
+        {
+			prop: nameof<SimilarResearcher>(x => x.nProjects),
+			name: nameof<SimilarResearcher>(x => x.nProjects),
+			sortable: true,
+			resizeable: true,
+			alwaysShown: false,
+			canAutoResize: true,
+            maxWidth: 100,
+			languageName: 'APP.RESEARCH-LISTING.N-PROJECTS',
+		},
+        {
+			prop: nameof<SimilarResearcher>(x => x.nPapers),
+			name: nameof<SimilarResearcher>(x => x.nPapers),
+			sortable: true,
+			resizeable: true,
+			alwaysShown: false,
+			canAutoResize: true,
+            maxWidth: 100,
+			languageName: 'APP.RESEARCH-LISTING.N-PAPERS',
+		},
 	]);
   }
 
