@@ -5,11 +5,11 @@ public class EWBSimilarResearcher {
     private String id;
     private Double score;
     private String name;
-    private String nPI;
+    private Integer nPI;
     private Integer nProjects;
     private Integer nPapers;
 
-    public EWBSimilarResearcher(String id, Double score, String name, String nPI, Integer nProjects, Integer nPapers) {
+    public EWBSimilarResearcher(String id, Double score, String name, Integer nPI, Integer nProjects, Integer nPapers) {
         this.id = id;
         this.score = score;
         this.name = name;
@@ -42,11 +42,11 @@ public class EWBSimilarResearcher {
         this.name = name;
     }
 
-    public String getnPI() {
+    public Integer getnPI() {
         return nPI;
     }
 
-    public void setnPI(String nPI) {
+    public void setnPI(Integer nPI) {
         this.nPI = nPI;
     }
 

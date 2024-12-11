@@ -8,11 +8,11 @@ public class EWBSimilarResearcherResponse {
     private Double score;
     @JsonProperty("Name")
     private String name;
-    private String nPI;
+    private Integer nPI;
     private Integer nProjects;
     private Integer nPapers;
 
-    public EWBSimilarResearcherResponse(String id, Double score, String name, String nPI, Integer nProjects, Integer nPapers) {
+    public EWBSimilarResearcherResponse(String id, Double score, String name, Integer nPI, Integer nProjects, Integer nPapers) {
         this.id = id;
         this.score = score;
         this.name = name;
@@ -45,11 +45,11 @@ public class EWBSimilarResearcherResponse {
         this.name = name;
     }
 
-    public String getnPI() {
+    public Integer getnPI() {
         return nPI;
     }
 
-    public void setnPI(String nPI) {
+    public void setnPI(Integer nPI) {
         this.nPI = nPI;
     }
 
