@@ -196,7 +196,6 @@ export class ListingComponent extends BaseComponent implements OnInit, OnChanges
 	}
 
 	onSelected(event) {
-		console.log(JSON.stringify(event));
 		if (this.rowSelected && event) {
 			this.rowSelected.emit(
 				event.selected

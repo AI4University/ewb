@@ -26,7 +26,7 @@ export class SearchByResearcherComponent extends BaseComponent implements OnInit
 
 	chartOptions: any[] = [];
 
-	similarResearchers: EWBCallsSimilarToResearcher[] = [];
+	similarToResearcher: EWBCallsSimilarToResearcher[] = [];
 
 	constructor(
 		private ewbService: EwbService,
@@ -134,8 +134,8 @@ export class SearchByResearcherComponent extends BaseComponent implements OnInit
 			.pipe(takeUntil(this._destroyed))
 			.subscribe((result) => {
 				if (result) {
-					this.similarResearchers = result.items;
-					this.similarResearchers = this.similarResearchers.slice(0, 10);
+					this.similarToResearcher = result.items;
+					this.similarToResearcher = this.similarToResearcher.slice(0, 10);
 				}				
 			});
 		}

@@ -26,8 +26,8 @@
         <div class="col-lg-6 col-xss-12">
             <div class="result-container research-view" *ngIf="selectedCriteria?.length">
                 <app-research-view  
-                    [similarResearchers]="similarResearchers"
-                    (loadResearchers)="selectedCriteriaChange($event)" 
+                    [similarToResearcher]="similarToResearcher"
+                    (loadResearcherTopics)="selectedCriteriaChange($event)" 
                 ></app-research-view>
             </div>
         </div>

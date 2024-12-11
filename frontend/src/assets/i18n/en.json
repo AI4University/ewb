@@ -981,6 +981,7 @@
 					"TOPIC-STATISTICS": "Topic statistics",
 					"TOP-DOCUMENTS": "Top documents",
 					"TOP-RESEARCHERS": "Top researchers",
+                    "TOP-RESULTS": "Top results",
 					"TOP-RESEARCHE-GROUPS": "Top research groups",
                     "TOPIC-EVOLUTION": "Topic evolution",
 					"LISTING": {
@@ -994,6 +995,7 @@
 					},
                     "RESEARCHER": "Researcher",
                     "RESEARCH-GROUP": "Research group",
+                    "TOPIC": "Topic",
                     "ACTIONS": {
                         "ADD-TO-FAVORITES": "Add topic to favorites",
                         "REMOVE-FAVORITE": "Remove topic from favorites"
@@ -1020,12 +1022,11 @@
             "STARTING-YEAR": "Starting from year",
             "ANY": "Any"
 		},
-		"RESEARCH-VIEW-COMPONENT": {
-			"LISTING": {
-				"ID": "Id",
-                "NAME": "Name",
-				"SCORE": "Topic relevance"
-			}
+		"RESEARCH-LISTING": {
+            "ID": "Id",
+            "NAME": "Name",
+            "SCORE": "Topic relevance",
+            "DEADLINE": "Deadline"
 		},
         "DOCUMENT-VIEW-COMPONENT": {
             "INFORMATION": "Information"
@@ -1035,6 +1036,12 @@
 			"SUGGESTION": "Expert Suggestion",
 			"COLLECTION": "Expert Collection"
 		},
+        "METADATA-VIEW-COMPONENT": {
+            "ID": "ID",
+            "TITLE": "Title",
+            "NAME": "Name",
+            "DEADLINE": "Deadline"
+        },
 		"CLASSIFICATION-COMPONENT": {
 			"TAXONOMY": "Taxonomy"
 		}

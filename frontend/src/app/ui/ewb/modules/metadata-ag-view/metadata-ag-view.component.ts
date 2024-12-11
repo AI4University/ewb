@@ -12,7 +12,6 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class MetadataAgViewComponent  extends BaseComponent implements OnInit {
 	@Input() selectedMetadata: any = null;
-	private dialogRef: MatDialogRef<MetadataAgViewComponent> = null;
 	private dialogData: any = null;
 	topicMetadata: Map<string, any>;
 
@@ -22,7 +21,6 @@ export class MetadataAgViewComponent  extends BaseComponent implements OnInit {
 	private ewbService: EwbService
   ) {
         super();
-        this.dialogRef = this.injector.get(MatDialogRef, null);
         this.dialogData = this.injector.get(MAT_DIALOG_DATA, null);
         this.selectedMetadata = this.dialogData?.selectedMetadata;
    }

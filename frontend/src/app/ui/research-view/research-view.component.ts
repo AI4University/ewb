@@ -11,6 +11,7 @@ import { SimilarResearchGroup } from '@app/core/model/ewb/research-group-similar
 import { MetadataAgViewComponent } from '../ewb/modules/metadata-ag-view/metadata-ag-view.component';
 import { TranslateService } from '@ngx-translate/core';
 import { ResearchSimilarToTextPaging } from '@app/core/query/research-similar-to-text.lookup';
+import { EWBCallsSimilarToResearcher } from '@app/core/model/ewb/calls-similar-to-researcher.model';
 
 @Component({
   selector: 'app-research-view',
@@ -24,15 +25,18 @@ export class ResearchViewComponent extends BaseComponent implements OnInit {
 
 	@Input() similarResearchers: SimilarResearcher[] = [];
 	@Input() similarResearcherGroups: SimilarResearchGroup[] = [];
+	@Input() similarToResearcher: EWBCallsSimilarToResearcher[] = [];
 
     @Output() loadResearchers = new EventEmitter<ResearchSimilarToTextPaging>();
     @Output() loadResearchGroups = new EventEmitter<ResearchSimilarToTextPaging>();
+    @Output() loadResearcherTopics = new EventEmitter<ResearchSimilarToTextPaging>();
 
 	maxValue = 100;
     maxPageSize = ListingComponent.MAX_PAGE_SIZE;
 
 	similarResearchersColumns: ColumnDefinition[] = [];
 	similarResearcherGroupColumns: ColumnDefinition[] = [];
+    similarToResearcherColumns: ColumnDefinition[] = [];
 
 	words: TopicBeta[] = [];
 	topWordColumns: ColumnDefinition[] = [];
@@ -55,7 +59,7 @@ export class ResearchViewComponent extends BaseComponent implements OnInit {
 
 	this.setupSimilarResearcherColumns();
 	this.setupSimilarResearchGroupColumns();
-
+    this.setUpSimilarToResearchersColumns();
   }
 
   private setupSimilarResearcherColumns() {
@@ -70,7 +74,7 @@ export class ResearchViewComponent extends BaseComponent implements OnInit {
 			alwaysShown: true,
 			canAutoResize: true,
             maxWidth: 250,
-			languageName: 'APP.RESEARCH-VIEW-COMPONENT.LISTING.NAME',
+			languageName: 'APP.RESEARCH-LISTING.NAME',
 			cellTemplate: this.textWrapTemplate,
 			headerClass: 'pretty-header'
 		},
@@ -83,7 +87,7 @@ export class ResearchViewComponent extends BaseComponent implements OnInit {
 			isTreeColumn: false,
 			canAutoResize: true,
 			minWidth: 200,
-			languageName: 'APP.RESEARCH-VIEW-COMPONENT.LISTING.SCORE',
+			languageName: 'APP.RESEARCH-LISTING.SCORE',
 			headerClass: 'pretty-header',
 			cellTemplate: this.percentageBar,
 			pipe: pipe
@@ -103,7 +107,7 @@ export class ResearchViewComponent extends BaseComponent implements OnInit {
 			alwaysShown: true,
 			canAutoResize: true,
             maxWidth: 250,
-			languageName: 'APP.RESEARCH-VIEW-COMPONENT.LISTING.NAME',
+			languageName: 'APP.RESEARCH-LISTING.NAME',
 			cellTemplate: this.textWrapTemplate,
 			headerClass: 'pretty-header'
 		},
@@ -116,12 +120,53 @@ export class ResearchViewComponent extends BaseComponent implements OnInit {
 			isTreeColumn: false,
 			canAutoResize: true,
 			minWidth: 200,
-			languageName: 'APP.RESEARCH-VIEW-COMPONENT.LISTING.SCORE',
+			languageName: 'APP.RESEARCH-LISTING.SCORE',
 			headerClass: 'pretty-header',
 			cellTemplate: this.percentageBar,
 			pipe: pipe
 		}
 	]);
+  }
+
+  private setUpSimilarToResearchersColumns(){
+    this.similarToResearcherColumns.push(...[
+        {
+            prop: nameof<EWBCallsSimilarToResearcher>(x => x.name),
+            name: nameof<EWBCallsSimilarToResearcher>(x => x.name),
+            sortable: false,
+            resizeable: true,
+            alwaysShown: true,
+            canAutoResize: true,
+            minWidth: 200,
+            languageName: 'APP.RESEARCH-LISTING.NAME',
+            cellTemplate: this.textWrapTemplate,
+        },
+        {
+            prop: nameof<EWBCallsSimilarToResearcher>(x => x.score),
+            name: nameof<EWBCallsSimilarToResearcher>(x => x.score),
+            sortable: true,
+            resizeable: true,
+            alwaysShown: true,
+            isTreeColumn: false,
+            canAutoResize: true,
+            maxWidth: 200,
+            languageName: 'APP.RESEARCH-LISTING.SCORE',
+            cellTemplate: this.percentageBar,
+            pipe: new PercentValuePipe()
+        },
+        {
+            prop: nameof<EWBCallsSimilarToResearcher>(x => x.deadline),
+            name: nameof<EWBCallsSimilarToResearcher>(x => x.deadline),
+            sortable: true,
+            resizeable: true,
+            alwaysShown: true,
+            isTreeColumn: false,
+            canAutoResize: true,
+            maxWidth: 150,
+            languageName: 'APP.RESEARCH-LISTING.DEADLINE',
+            cellTemplate: this.textWrapTemplate,
+        },
+    ]);
   }
 
   close() {
@@ -146,8 +191,8 @@ export class ResearchViewComponent extends BaseComponent implements OnInit {
   }
 
   sortRows(ev: any) {
-	this.sortOrder = ev.newValue;
-	this.sortFieldName = ev.sortDescriptors[0].property;
+	// this.sortOrder = ev.newValue;
+	// this.sortFieldName = ev.sortDescriptors[0].property;
   }
 
   protected onResearcherLoad(event){
@@ -158,6 +203,11 @@ export class ResearchViewComponent extends BaseComponent implements OnInit {
   protected onResearchGroupLoad(event){
     const {pageSize, limit, offset} = event;    
     this.loadResearchGroups.emit({start: offset, rows: pageSize});
+  }
+
+  protected onResearcherTopicsLoad(event){
+    const {pageSize, limit, offset} = event;    
+    this.loadResearcherTopics.emit({start: offset, rows: pageSize});
   }
 
 }

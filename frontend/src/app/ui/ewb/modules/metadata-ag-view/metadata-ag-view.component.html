@@ -12,19 +12,27 @@
         </div>
         <div class="table-grid mt-3 grid-container">
             @if(selectedMetadata.id){
-                <div class="grid-label">Id</div>
+                <div class="grid-label">{{'APP.METADATA-VIEW-COMPONENT.ID' | translate}}</div>
                 <div class="grid-value">{{selectedMetadata.id}} </div>
             }
+            @if(selectedMetadata.name){
+                <div class="grid-label">{{'APP.METADATA-VIEW-COMPONENT.NAME' | translate}}</div>
+                <div class="grid-value  wrap-text">{{selectedMetadata.name}} </div>
+            }
             @if(selectedMetadata.title){
-                <div class="grid-label">Title</div>
-                <div class="grid-value">{{selectedMetadata.title}} </div>
+                <div class="grid-label">{{'APP.METADATA-VIEW-COMPONENT.TITLE' | translate}}</div>
+                <div class="grid-value  wrap-text">{{selectedMetadata.title}} </div>
+            }
+            @if(selectedMetadata.deadline){
+                <div class="grid-label">{{'APP.METADATA-VIEW-COMPONENT.DEADLINE' | translate}}</div>
+                <div class="grid-value">{{selectedMetadata.deadline}} </div>
             }
             @for(field of topicMetadata | keyvalue; track $index){
                 @if(field.key !== 'id' && field.key !== 'title'){
                     <div class="grid-label">{{prettifyCamelCase(field.key)}}</div>
                     <div class="grid-value">
                         @if(isArray(field.value)){
-                            <span *ngFor="let subval of field.value; let last = last" class="field-value">
+                            <span *ngFor="let subval of field.value; let last = last" class="field-value wrap-text">
                                 {{subval}}{{!last ? ', ' : ''}}
                             </span>
                         }@else{

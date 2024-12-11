@@ -1,6 +1,6 @@
 <ngx-datatable #dataTable
 	class="material listing-component"
-	[class.listing-component-row-cursor]="rowActivated?.observers?.length > 0"
+	[class.listing-component-row-cursor]="rowActivated?.observers?.length > 0 || rowSelected?.observers?.length > 0"
 	[columnMode]="columnMode"
 	[columns]="internalColumns"
 	[rows]="rows"
@@ -25,7 +25,7 @@
 	[footerHeight]="hideFooter ? 0: footerHeight"
 	(select)="onSelected($event)"
 	rowHeight="auto"
-	[rowClass]="getRowClass">
+	[rowClass]="rowClass">
 
     
     <ngx-datatable-footer *ngIf="!hideFooter" style="overflow: hidden">

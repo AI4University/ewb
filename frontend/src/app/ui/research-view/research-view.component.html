@@ -34,6 +34,24 @@
             </div>
         </div>
     }
+
+    @if(similarToResearcher.length > 0){
+        <div class="section mt-3">
+            <div class="section-header">{{'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.TOP-RESULTS' | translate}}</div>
+            <div class="w-100">
+                <app-listing 
+                    [rows]="similarToResearcher" 
+                    [columns]="similarToResearcherColumns" 
+                    [count]="similarToResearcher.length" 
+                    [selectionType]="selectionType.single" 
+                    (columnSort)="sortRows($event)" 
+                    (rowSelected)="showMetadata($event, 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.TOPIC')" 
+                    [limit]="maxPageSize"
+                    (pageLoad)="onResearcherTopicsLoad($event)"
+                ></app-listing>
+            </div>
+        </div>
+    }
 </div>
 
 <ng-template #textWrapTemplate ngx-datatable-cell-template let-row="row" let-value="value" let-column="column">
