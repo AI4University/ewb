@@ -23,10 +23,6 @@
                 <div class="grid-label">{{'APP.METADATA-VIEW-COMPONENT.TITLE' | translate}}</div>
                 <div class="grid-value  wrap-text">{{selectedMetadata.title}} </div>
             }
-            @if(selectedMetadata.deadline){
-                <div class="grid-label">{{'APP.METADATA-VIEW-COMPONENT.DEADLINE' | translate}}</div>
-                <div class="grid-value">{{selectedMetadata.deadline}} </div>
-            }
             @for(field of topicMetadata | keyvalue; track $index){
                 @if(field.key !== 'id' && field.key !== 'title'){
                     <div class="grid-label">{{prettifyCamelCase(field.key)}}</div>
