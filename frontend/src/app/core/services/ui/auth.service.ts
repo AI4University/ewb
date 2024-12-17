@@ -211,7 +211,7 @@ export class AuthService extends BaseService {
 
 	public authenticate(returnUrl: string) {
 		const isLoggedIn = this.keycloakService.isLoggedIn();
-		console.debug('isLoggedIn -> ', isLoggedIn);
+		// console.debug('isLoggedIn -> ', isLoggedIn);
 		if (!isLoggedIn) {
 			this.keycloakService.login({}).then(() => {
 				console.debug('Keycloak Login');
@@ -225,7 +225,7 @@ export class AuthService extends BaseService {
 				this.onAuthenticateSuccess(returnUrl);
 			}).catch((error) => this.onAuthenticateError(error));
 		} else {
-			this.router.navigate(['/login/post']);
+			this.router.navigate([returnUrl]);
 			//this.prepareAuthRequest(from(this.keycloakService.getToken()), {}).pipe(takeUntil(this._destroyed)).subscribe(() => this.onAuthenticateSuccess(returnUrl), (error) => this.onAuthenticateError(error));
 		}
 	}

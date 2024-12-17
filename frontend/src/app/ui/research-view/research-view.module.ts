@@ -3,6 +3,7 @@ import { CommonUiModule } from '@common/ui/common-ui.module';
 import { FormsModule } from '@angular/forms';
 import { ResearchViewComponent } from './research-view.component';
 import { ListingModule } from '@common/modules/listing/listing.module';
+import { NullifyValuePipe } from '@common/modules/hybrid-listing/pipes/nullify-value.pipe';
 
 
 @NgModule({
@@ -13,6 +14,7 @@ import { ListingModule } from '@common/modules/listing/listing.module';
     CommonUiModule,
     FormsModule,
     ListingModule,
+    NullifyValuePipe
   ],
   exports: [
 		ResearchViewComponent

@@ -17,7 +17,8 @@ import { FormattingModule } from '@app/core/formatting/formatting.module';
         FormsModule,
         FormattingModule,
         NgxDatatableModule,
-        MatPaginatorModule
+        MatPaginatorModule,
+        NullifyValuePipe
     ],
     declarations: [
         HybridListingComponent,
@@ -25,7 +26,6 @@ import { FormattingModule } from '@app/core/formatting/formatting.module';
         UserFilterSettingsDirective,
         HybridListingFiltersDirective,
         DownloadListingReportDirective,
-        NullifyValuePipe
     ],
     exports: [
         HybridListingComponent,
@@ -33,7 +33,6 @@ import { FormattingModule } from '@app/core/formatting/formatting.module';
         UserFilterSettingsDirective,
         HybridListingFiltersDirective,
         DownloadListingReportDirective,
-        NullifyValuePipe
     ],
 	providers:[
 	]

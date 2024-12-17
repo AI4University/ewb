@@ -22,6 +22,7 @@ export class ResearchViewComponent extends BaseComponent implements OnInit {
 
 	@ViewChild('textWrapTemplate', { static: true }) textWrapTemplate: TemplateRef<any>;
 	@ViewChild('percentageBar', { static: true }) percentageBar: TemplateRef<any>;
+	@ViewChild('dateTemplate', { static: true }) dateTemplate: TemplateRef<any>;
 
 	@Input() similarResearchers: SimilarResearcher[] = [];
 	@Input() similarResearcherGroups: SimilarResearchGroup[] = [];
@@ -214,7 +215,7 @@ export class ResearchViewComponent extends BaseComponent implements OnInit {
             canAutoResize: true,
             maxWidth: 150,
             languageName: 'APP.RESEARCH-LISTING.DEADLINE',
-            cellTemplate: this.textWrapTemplate,
+            cellTemplate: this.dateTemplate,
         },
     ]);
   }

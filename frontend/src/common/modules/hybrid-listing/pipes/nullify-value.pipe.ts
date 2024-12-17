@@ -5,7 +5,8 @@ const nullSet = new Set([null, undefined]);
 
 
 @Pipe({
-  name: 'nullifyValue'
+  name: 'nullifyValue',
+  standalone: true
 })
 export class NullifyValuePipe implements PipeTransform {
 
