@@ -70,3 +70,7 @@
 		<span class="progress-value" *ngIf="value <= 25">{{value | number: '1.0-2' }}%</span>
 	</div>
 </ng-template>
+
+<ng-template #dateTemplate ngx-datatable-cell-template let-row="row" let-value="value" let-column="column">
+    {{value | date : 'shortDate' | nullifyValue}}
+</ng-template>
