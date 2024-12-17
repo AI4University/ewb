@@ -981,7 +981,7 @@
 					"TOPIC-STATISTICS": "Topic statistics",
 					"TOP-DOCUMENTS": "Top documents",
 					"TOP-RESEARCHERS": "Top researchers",
-                    "TOP-RESULTS": "Top results",
+                    "TOP-CALLS": "Top calls",
 					"TOP-RESEARCHE-GROUPS": "Top research groups",
                     "TOPIC-EVOLUTION": "Topic evolution",
 					"LISTING": {
@@ -995,7 +995,7 @@
 					},
                     "RESEARCHER": "Researcher",
                     "RESEARCH-GROUP": "Research group",
-                    "TOPIC": "Topic",
+                    "CALL": "Call",
                     "ACTIONS": {
                         "ADD-TO-FAVORITES": "Add topic to favorites",
                         "REMOVE-FAVORITE": "Remove topic from favorites"

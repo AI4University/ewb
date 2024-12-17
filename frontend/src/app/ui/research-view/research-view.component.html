@@ -37,7 +37,7 @@
 
     @if(similarToResearcher.length > 0){
         <div class="section mt-3">
-            <div class="section-header">{{'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.TOP-RESULTS' | translate}}</div>
+            <div class="section-header">{{'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.TOP-CALLS' | translate}}</div>
             <div class="w-100">
                 <app-listing 
                     [rows]="similarToResearcher" 
@@ -45,7 +45,7 @@
                     [count]="similarToResearcher.length" 
                     [selectionType]="selectionType.single" 
                     (columnSort)="sortRows($event)" 
-                    (rowSelected)="showMetadata($event, 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.TOPIC')" 
+                    (rowSelected)="showMetadata($event, 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.CALL')" 
                     [limit]="pageSize"
                     (pageLoad)="onResearcherTopicsLoad($event)"
                 ></app-listing>
