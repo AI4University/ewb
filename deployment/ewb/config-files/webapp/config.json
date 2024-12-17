@@ -11,10 +11,10 @@
 		"enabled": true,
 		"address": "http://host.docker.internal:52000",
 		"realm": "EWB",		
-		"flow": "hybrid",
+		"flow": "standard",
 		"clientId": "ewb_frontend",
 		"redirectUri": "http://host.docker.internal:45000/login/post",
-		"scope": "openid profile email address phone"
+		"scope": "openid profile email address phone ewb_web"
 	},
 	"notification_service": {
 		"enabled": false

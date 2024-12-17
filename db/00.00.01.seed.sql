@@ -3,9 +3,9 @@
 --
 
 -- Dumped from database version 16.4
--- Dumped by pg_dump version 16.2
+-- Dumped by pg_dump version 17.0
 
--- Started on 2024-10-01 13:24:15
+-- Started on 2024-12-17 12:26:40
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -18,16 +18,45 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+SET default_tablespace = '';
+
 SET default_table_access_method = heap;
 
 --
--- TOC entry 215 (class 1259 OID 18032)
+-- TOC entry 219 (class 1259 OID 16440)
+-- Name: UserContactInfo; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public."UserContactInfo" (
+    id uuid NOT NULL,
+    "user" uuid NOT NULL,
+    ordinal integer DEFAULT 0 NOT NULL,
+    type smallint NOT NULL,
+    value character varying(512) NOT NULL,
+    created_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- TOC entry 218 (class 1259 OID 16428)
+-- Name: UserRole; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public."UserRole" (
+    id uuid NOT NULL,
+    "user" uuid NOT NULL,
+    role character varying(512) NOT NULL,
+    created_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- TOC entry 215 (class 1259 OID 16385)
 -- Name: execution; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.execution (
     id uuid NOT NULL,
-    type character varying(100) NOT NULL,
     command character varying(200) NOT NULL,
     result text,
     status character varying(100) NOT NULL,
@@ -35,12 +64,13 @@ CREATE TABLE public.execution (
     updated_at timestamp without time zone NOT NULL,
     executed_at timestamp without time zone,
     finished_at timestamp without time zone,
-    user_id uuid NOT NULL
+    user_id uuid NOT NULL,
+    type smallint NOT NULL
 );
 
 
 --
--- TOC entry 216 (class 1259 OID 18095)
+-- TOC entry 216 (class 1259 OID 16390)
 -- Name: user; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -50,16 +80,16 @@ CREATE TABLE public."user" (
     last_name character varying(200) NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    is_active character varying(100) NOT NULL,
     timezone character varying(200) NOT NULL,
     culture character varying(200) NOT NULL,
     language character varying(200) NOT NULL,
-    subject_id character varying(150) NOT NULL
+    subject_id character varying(150) NOT NULL,
+    is_active smallint NOT NULL
 );
 
 
 --
--- TOC entry 217 (class 1259 OID 18120)
+-- TOC entry 217 (class 1259 OID 16395)
 -- Name: version_info; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -73,30 +103,25 @@ CREATE TABLE public.version_info (
 
 
 --
--- TOC entry 3405 (class 0 OID 18032)
--- Dependencies: 215
--- Data for Name: execution; Type: TABLE DATA; Schema: public; Owner: -
+-- TOC entry 3273 (class 2606 OID 16447)
+-- Name: UserContactInfo UserContactInfo_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-
-
---
--- TOC entry 3406 (class 0 OID 18095)
--- Dependencies: 216
--- Data for Name: user; Type: TABLE DATA; Schema: public; Owner: -
---
+ALTER TABLE ONLY public."UserContactInfo"
+    ADD CONSTRAINT "UserContactInfo_pkey" PRIMARY KEY (id);
 
 
 --
--- TOC entry 3407 (class 0 OID 18120)
--- Dependencies: 217
--- Data for Name: version_info; Type: TABLE DATA; Schema: public; Owner: -
+-- TOC entry 3271 (class 2606 OID 16434)
+-- Name: UserRole UserRole_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY public."UserRole"
+    ADD CONSTRAINT "UserRole_pkey" PRIMARY KEY (id);
 
 
 --
--- TOC entry 3254 (class 2606 OID 18136)
+-- TOC entry 3263 (class 2606 OID 16401)
 -- Name: execution execution_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -105,7 +130,7 @@ ALTER TABLE ONLY public.execution
 
 
 --
--- TOC entry 3256 (class 2606 OID 18170)
+-- TOC entry 3265 (class 2606 OID 16403)
 -- Name: user user_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -114,7 +139,7 @@ ALTER TABLE ONLY public."user"
 
 
 --
--- TOC entry 3258 (class 2606 OID 18174)
+-- TOC entry 3267 (class 2606 OID 16405)
 -- Name: user user_subject_id_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -123,7 +148,7 @@ ALTER TABLE ONLY public."user"
 
 
 --
--- TOC entry 3260 (class 2606 OID 18176)
+-- TOC entry 3269 (class 2606 OID 16407)
 -- Name: version_info version_info_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -132,7 +157,25 @@ ALTER TABLE ONLY public.version_info
 
 
 --
--- TOC entry 3261 (class 2606 OID 18202)
+-- TOC entry 3276 (class 2606 OID 16448)
+-- Name: UserContactInfo UserContactInfo_user_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public."UserContactInfo"
+    ADD CONSTRAINT "UserContactInfo_user_fkey" FOREIGN KEY ("user") REFERENCES public."user"(id);
+
+
+--
+-- TOC entry 3275 (class 2606 OID 16435)
+-- Name: UserRole UserRole_user_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public."UserRole"
+    ADD CONSTRAINT "UserRole_user_fkey" FOREIGN KEY ("user") REFERENCES public."user"(id);
+
+
+--
+-- TOC entry 3274 (class 2606 OID 16408)
 -- Name: execution fk_execution; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -140,7 +183,7 @@ ALTER TABLE ONLY public.execution
     ADD CONSTRAINT fk_execution FOREIGN KEY (user_id) REFERENCES public."user"(id);
 
 
--- Completed on 2024-10-01 13:24:22
+-- Completed on 2024-12-17 12:26:41
 
 --
 -- PostgreSQL database dump complete
