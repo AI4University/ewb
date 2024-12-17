@@ -70,20 +70,23 @@ psql -d ewb -U your_username -f db/00.00.01.seed.sql
    - *Front channel logout*: `On`
 7. Click **Save**.
 8. Click the **Roles** tab inside `ewb_web` client.
+   - Use **Create role** and create two roles called `Admin` and `User` respectively.
 9. Click the **Credentials** tab inside `ewb_web` client.
-10. Copy **Client Secret** as it will be used for `backend` configuration.
-11. Use **Create role** and create two roles called `Admin` and `User` respectively.
-12. Inside the EWB realm, go to **Groups** and create three new roles: `role-admin`, `role-user`, `rest-api-users`.
+   - Copy **Client Secret** as it will be used for `backend` configuration.
+10. Inside the EWB realm, go to **Groups** and create three new roles: `role-admin`, `role-user`, `rest-api-users`.
    - Click `role-admin` role, navigate to *Role mapping* tab and assign `ewb_web` `Admin` role.
    - Click `role-user` role, navigate to *Role mapping* tab and assign `ewb_web` `User` role.
    - Click `rest-api-users` role, navigate to *Role mapping* tab and assign `realm-management` `realm-admin` role. 
-13. Inside the EWB realm, go to **Users** and create a select `Add user`.
+   - For groups `role-admin` and `role-user` copy their id as it will be used for `backend` configuration. Id can be found after clicking the group at the last part of the URL. 
+11. Inside the EWB realm, go to **Users** and create a select `Add user`.
    - *Username*: `ewb-api`
    - *Email verified*: `On`
    - *Groups*: Select `rest-api-users`
    - Click **Create**.
    - Navigate to *Credentials* tab and set a password for this user. `Temporary` option should be `Off`. Copy **Password** as it will be used for `backend` configuration.
-14. Configure the realm, client, and roles according to your authentication needs.
+12. Inside the EWB realm, go to **Realm Settings** and navigate to `User registration` tab.
+   - Navigate to *Default groups* internal tab and add `role-user` group to the list.
+13. Configure the realm, client, and roles according to your authentication needs.
 
 ### Running the Backend
 

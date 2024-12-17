@@ -95,8 +95,38 @@ First you need to pull the current folder locally..
    WORKBENCH_TAG=1.0.0                # The Version of EWB
    PROFILE=test                       # The environment used for this deployment 
 ```
+3. **Edit the `config-files/api/config/app.env` file:**
+Set the following options with the appropriate from the Keycloak configuration.
+```txt
+  ...
+   IDP_APIKEY_CLIENT_SECRET=<ewb_web_client_secret>
+   KEYCLOAK_API_PASSWORD=<ewb_api_user_password>
+   KEYCLOAK_API_CLIENT_SECRET=<ewb_web_client_secret>
+  ...
 
-3. **Start the services:**
+```
+
+4. **Edit the `config-files/api/config/keycloak-*.yml` file:**
+Set the following options with the appropriate from the Keycloak configuration.
+```txt
+keycloak-resources:
+  authorities:
+    user:
+      groupId: <user_group_keycloak_id>
+    admin:
+      groupId: <admin_group_keycloak_id>
+```
+
+5. **Edit the `config-files/webapp/config.json` file:**
+Set the following options.
+```txt
+...
+   "flow": "standard",
+   "scope": "openid profile email address phone ewb_web"
+...
+```
+
+6. **Start the services:**
 - Run the following command to start all services defined in the Docker Compose file:
 ```bash
    docker-compose up -d
@@ -104,7 +134,7 @@ First you need to pull the current folder locally..
 
    This command will start both the backend and frontend services as defined in the Docker Compose configurations. Ensure that Docker is running on your machine before executing this command.
 
-4. **Access URLs:**
+7. **Access URLs:**
 - EWB: http://host.docker.internal:45000/
 - Keycloak: http://host.docker.internal:52000/
 
