@@ -141,6 +141,15 @@ export class InstallationConfigurationService extends BaseComponent {
 		return this._inAppNotificationsCountInterval || 3200;
 	}
 
+	private _corpus: string;
+	get corpus(): string {
+		return this._corpus;
+	}
+
+	private _model: string;
+	get model(): string {
+		return this._model;
+	}
 
 	loadInstallationConfiguration(): Promise<any> {
 		return new Promise((r, e) => {
@@ -214,5 +223,8 @@ export class InstallationConfigurationService extends BaseComponent {
 		this._globalErrorHandlingAppName = config.globalErrorHandling.appName;
 
 		this._userSettingsVersion = config.userSettingsVersion;
+
+		this._corpus = config.recommendationTool.corpus;
+		this._model = config.recommendationTool.model;
 	}
 }

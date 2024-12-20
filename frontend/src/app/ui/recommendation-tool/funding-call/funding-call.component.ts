@@ -7,6 +7,7 @@ import { ResearchSimilarToCallLookup } from '@app/core/query/research-similar-to
 import { ResearchSimilarToTextPaging } from '@app/core/query/research-similar-to-text.lookup';
 import { EwbService } from '@app/core/services/http/ewb.service';
 import { BaseComponent } from '@common/base/base.component';
+import { InstallationConfigurationService } from '@common/installation-configuration/installation-configuration.service';
 import { QueryResult } from '@common/model/query-result';
 import { ListingComponent } from '@common/modules/listing/listing.component';
 import { takeUntil } from 'rxjs/operators';
@@ -21,8 +22,8 @@ export class FundingCallComponent extends BaseComponent implements OnInit {
 
 	docs: any[] = [];
 	selectedDoc: any;
-	corpus: string = "hfri";
-	model: string = "hfri-30";
+	corpus: string;
+	model: string;
 	searchInput: string = null;
 
 	criteriaList: string[] = [];
@@ -37,9 +38,11 @@ export class FundingCallComponent extends BaseComponent implements OnInit {
 
 	constructor(
 		private ewbService: EwbService,
-		private scrollDispatch: ScrollDispatcher,
+		private installationConfigurationService: InstallationConfigurationService,
 	) {
 		super();
+		this.corpus = this.installationConfigurationService.corpus;
+		this.model = this.installationConfigurationService.model;
 	}
 	// ngAfterViewInit(): void {
 	// 	this.scrollDispatch.scrolled().subscribe((data: CdkScrollable) => {

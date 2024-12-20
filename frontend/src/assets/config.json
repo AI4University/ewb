@@ -41,5 +41,9 @@
 		"facebook":"#",
 		"termsOfUse":"#",
 		"privacyPolicy":"#"
+	},
+	"recommendationTool": {
+		"corpus": "",
+		"model":""
 	}
 }
