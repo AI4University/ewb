@@ -10,7 +10,7 @@ import { ColumnDefinition, ListingComponent, PageLoadEvent } from '@common/modul
 import { takeUntil } from 'rxjs/operators';
 import { nameof } from 'ts-simple-nameof';
 import { SelectionType } from '@swimlane/ngx-datatable';
-import { MetadataAgViewComponent } from '../../modules/metadata-ag-view/metadata-ag-view.component';
+import { MetadataViewComponent } from '../../modules/metadata-view/metadata-view.component';
 import { TranslateService } from '@ngx-translate/core';
 import { TopicRelevanceService } from '@app/core/services/ui/topic-relevance.service';
 
@@ -242,7 +242,7 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
 
 
   showMetadata(row: any, title: string, aggregatedCollectionName: string) {
-	this.dialog.open(MetadataAgViewComponent, {
+	this.dialog.open(MetadataViewComponent, {
 		minWidth: '30vw',
 		minHeight: '20vh',
 		maxWidth: '80vw',

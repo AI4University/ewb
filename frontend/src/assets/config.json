@@ -43,7 +43,9 @@
 		"privacyPolicy":"#"
 	},
 	"recommendationTool": {
-		"corpus": "",
-		"model":""
+		"fundingCallCorpus": "",
+		"fundingCallModel":"",
+		"getCallsSimilarToResearcherCollectionName": "",
+		"getMetdataDocByIdCorpusCollection": ""
 	}
 }

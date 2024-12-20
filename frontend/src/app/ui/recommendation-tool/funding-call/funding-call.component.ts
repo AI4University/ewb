@@ -41,8 +41,8 @@ export class FundingCallComponent extends BaseComponent implements OnInit {
 		private installationConfigurationService: InstallationConfigurationService,
 	) {
 		super();
-		this.corpus = this.installationConfigurationService.corpus;
-		this.model = this.installationConfigurationService.model;
+		this.corpus = this.installationConfigurationService.fundingCallCorpus;
+		this.model = this.installationConfigurationService.fundingCallModel;
 	}
 	// ngAfterViewInit(): void {
 	// 	this.scrollDispatch.scrolled().subscribe((data: CdkScrollable) => {

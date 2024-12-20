@@ -1,10 +1,10 @@
-import { CdkScrollable, ScrollDispatcher } from '@angular/cdk/scrolling';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { EWBCallsSimilarToResearcher } from '@app/core/model/ewb/calls-similar-to-researcher.model';
 import { Theta } from '@app/core/model/ewb/theta.model';
 import { ResearchSimilarToTextPaging } from '@app/core/query/research-similar-to-text.lookup';
 import { EwbService } from '@app/core/services/http/ewb.service';
 import { BaseComponent } from '@common/base/base.component';
+import { InstallationConfigurationService } from '@common/installation-configuration/installation-configuration.service';
 import { ListingComponent } from '@common/modules/listing/listing.component';
 import { takeUntil } from 'rxjs/operators';
 
@@ -31,15 +31,10 @@ export class SearchByResearcherComponent extends BaseComponent implements OnInit
 
 	constructor(
 		private ewbService: EwbService,
-		private scrollDispatch: ScrollDispatcher,
+		private installationConfigurationService: InstallationConfigurationService,
 	) {
 		super();
 	}
-	// ngAfterViewInit(): void {
-	// 	this.scrollDispatch.scrolled().subscribe((data: CdkScrollable) => {
-	// 		console.log(JSON.stringify(data));
-	// 	});
-	// }
 
 	ngOnInit(): void {
 		this.ewbService.getSimiliarityCriteriaList()
@@ -127,11 +122,10 @@ export class SearchByResearcherComponent extends BaseComponent implements OnInit
 	selectedCriteriaChange(paging?: ResearchSimilarToTextPaging) {
         const query = paging ?? {rows: this.pageSize, start: 0}
 		if (this.selectedAG?.id && this.selectedCriteria.length > 0) {
-			// TODO collection name parameter
 			this.ewbService.getCallsSimilarToResearcher({
                 id: this.selectedAG.id, 
                 similarityMethod: this.selectedCriteria, 
-                collectionName: "funding_calls",
+                collectionName: this.installationConfigurationService.getCallsSimilarToResearcherCollectionName,
                 ...query
             })
 			.pipe(takeUntil(this._destroyed))

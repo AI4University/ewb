@@ -141,14 +141,24 @@ export class InstallationConfigurationService extends BaseComponent {
 		return this._inAppNotificationsCountInterval || 3200;
 	}
 
-	private _corpus: string;
-	get corpus(): string {
-		return this._corpus;
+	private _fundingCallCorpus: string;
+	get fundingCallCorpus(): string {
+		return this._fundingCallCorpus;
 	}
 
-	private _model: string;
-	get model(): string {
-		return this._model;
+	private _fundingCallModel: string;
+	get fundingCallModel(): string {
+		return this._fundingCallModel;
+	}
+
+	private _getCallsSimilarToResearcherCollectionName: string;
+	get getCallsSimilarToResearcherCollectionName(): string {
+		return this._getCallsSimilarToResearcherCollectionName;
+	}
+
+	private _getMetdataDocByIdCorpusCollection: string;
+	get getMetdataDocByIdCorpusCollection(): string {
+		return this._getMetdataDocByIdCorpusCollection;
 	}
 
 	loadInstallationConfiguration(): Promise<any> {
@@ -224,7 +234,9 @@ export class InstallationConfigurationService extends BaseComponent {
 
 		this._userSettingsVersion = config.userSettingsVersion;
 
-		this._corpus = config.recommendationTool.corpus;
-		this._model = config.recommendationTool.model;
+		this._fundingCallCorpus = config.recommendationTool.fundingCallCorpus;
+		this._fundingCallModel = config.recommendationTool.fundingCallModel;
+		this._getCallsSimilarToResearcherCollectionName = config.recommendationTool.getCallsSimilarToResearcherCollectionName;
+		this._getMetdataDocByIdCorpusCollection = config.recommendationTool.getMetdataDocByIdCorpusCollection;
 	}
 }

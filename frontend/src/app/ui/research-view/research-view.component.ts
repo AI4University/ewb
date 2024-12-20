@@ -8,10 +8,11 @@ import { nameof } from 'ts-simple-nameof';
 import { SelectionType } from '@swimlane/ngx-datatable';
 import { SimilarResearcher } from '@app/core/model/ewb/researcher-similar-to-call.model';
 import { SimilarResearchGroup } from '@app/core/model/ewb/research-group-similar-to-call.model';
-import { MetadataAgViewComponent } from '../ewb/modules/metadata-ag-view/metadata-ag-view.component';
+import { MetadataViewComponent } from '../ewb/modules/metadata-view/metadata-view.component';
 import { TranslateService } from '@ngx-translate/core';
 import { ResearchSimilarToTextPaging } from '@app/core/query/research-similar-to-text.lookup';
 import { EWBCallsSimilarToResearcher } from '@app/core/model/ewb/calls-similar-to-researcher.model';
+import { InstallationConfigurationService } from '@common/installation-configuration/installation-configuration.service';
 
 @Component({
   selector: 'app-research-view',
@@ -51,7 +52,8 @@ export class ResearchViewComponent extends BaseComponent implements OnInit {
 
   constructor(
 	private dialog: MatDialog,
-    private language: TranslateService
+    private language: TranslateService,
+	public installationConfigurationService: InstallationConfigurationService
 	) {
 		super();
 	 }
@@ -227,8 +229,8 @@ export class ResearchViewComponent extends BaseComponent implements OnInit {
 	return 100 - value;
   }
 
-  showMetadata(event: any, title: string, aggregatedCollectionName: string) {
-	this.dialog.open(MetadataAgViewComponent, {
+  showMetadata(event: any, title: string, aggregatedCollectionName: string, corpusCollection: string) {
+	this.dialog.open(MetadataViewComponent, {
 		minWidth: '30vw',
 		minHeight: '20vh',
 		maxWidth: '80vw',
@@ -237,7 +239,8 @@ export class ResearchViewComponent extends BaseComponent implements OnInit {
 		data: {
 			selectedMetadata: event[0],
             title: this.language.instant(title),
-			aggregatedCollectionName: aggregatedCollectionName
+			aggregatedCollectionName: aggregatedCollectionName,
+			corpusCollection: corpusCollection
 		}
 	});
   }

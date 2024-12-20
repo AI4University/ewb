@@ -6,13 +6,14 @@ import { BaseComponent } from '@common/base/base.component';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-metadata-ag-view',
-  templateUrl: './metadata-ag-view.component.html',
-  styleUrls: ['./metadata-ag-view.component.scss']
+  selector: 'app-metadata-view',
+  templateUrl: './metadata-view.component.html',
+  styleUrls: ['./metadata-view.component.scss']
 })
-export class MetadataAgViewComponent  extends BaseComponent implements OnInit {
+export class MetadataViewComponent  extends BaseComponent implements OnInit {
 	@Input() selectedMetadata: any = null;
 	@Input() aggregatedCollectionName: any = null;
+	@Input() corpusCollection: any = null;
 
 	private dialogData: any = null;
 	topicMetadata: Map<string, any>;
@@ -26,15 +27,22 @@ export class MetadataAgViewComponent  extends BaseComponent implements OnInit {
         this.dialogData = this.injector.get(MAT_DIALOG_DATA, null);
         this.selectedMetadata = this.dialogData?.selectedMetadata;
 		this.aggregatedCollectionName = this.dialogData?.aggregatedCollectionName;
+		this.corpusCollection = this.dialogData?.corpusCollection;
    }
 
   ngOnInit(): void {
-	if (this.selectedMetadata != null) {
-		// TODO add 2nd parameter
+	if (this.selectedMetadata != null &&  this.aggregatedCollectionName != null) {
 		this.ewbService.getMetadataAGByID(this.selectedMetadata.id, this.aggregatedCollectionName)
 		.pipe(takeUntil(this._destroyed))
 		.subscribe((result) => {
 			this.topicMetadata = result;
+		});
+	}
+	if (this.selectedMetadata != null &&  this.corpusCollection != null) {
+		this.ewbService.getDocument(this.corpusCollection, this.selectedMetadata.id)
+			.pipe(takeUntil(this._destroyed))
+			.subscribe(result => {
+				this.topicMetadata = result;
 		});
 	}
 	

@@ -17,7 +17,7 @@ import { DocumentSearchComponent } from './modules/document-search/document-sear
 import { DocumentViewComponent } from './modules/document-view/document-view.component';
 import { SimilaritiesComponent } from './similarities/similarities.component';
 import { TopicEvolutionChartComponent } from './model-overview/topic-view/topic-evolution-chart/topic-evolution-chart.component';
-import { MetadataAgViewComponent } from './modules/metadata-ag-view/metadata-ag-view.component';
+import { MetadataViewComponent } from './modules/metadata-view/metadata-view.component';
 import { NgDialogAnimationService } from 'ng-dialog-animation';
 
 @NgModule({
@@ -31,7 +31,7 @@ import { NgDialogAnimationService } from 'ng-dialog-animation';
     SimilaritiesComponent,
     DocumentViewComponent,
     TopicRelevanceComponent,
-    MetadataAgViewComponent
+    MetadataViewComponent
   ],
   imports: [
     CommonUiModule,
