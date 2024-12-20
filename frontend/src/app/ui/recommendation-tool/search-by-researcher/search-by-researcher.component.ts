@@ -18,8 +18,6 @@ export class SearchByResearcherComponent extends BaseComponent implements OnInit
 
 	agDocs: any[] = [];
 	selectedAG: any;
-	corpus: string = "cordis";
-	model: string = "mallet-30";
 	searchInput: string = null;
 
 	criteriaList: string[] = [];

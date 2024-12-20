@@ -241,7 +241,7 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
   }
 
 
-  showMetadata(row: any, title: string ) {
+  showMetadata(row: any, title: string, aggregatedCollectionName: string) {
 	this.dialog.open(MetadataAgViewComponent, {
 		minWidth: '30vw',
 		minHeight: '20vh',
@@ -250,7 +250,8 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
 		panelClass: 'topic-style',
 		data: {
 			selectedMetadata: row,
-            title: this.language.instant(title)
+            title: this.language.instant(title),
+			aggregatedCollectionName: aggregatedCollectionName
 		}
 	});
   }

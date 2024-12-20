@@ -21,8 +21,8 @@ export class FundingCallComponent extends BaseComponent implements OnInit {
 
 	docs: any[] = [];
 	selectedDoc: any;
-	corpus: string = "cordis";
-	model: string = "mallet-30";
+	corpus: string = "hfri";
+	model: string = "hfri-30";
 	searchInput: string = null;
 
 	criteriaList: string[] = [];

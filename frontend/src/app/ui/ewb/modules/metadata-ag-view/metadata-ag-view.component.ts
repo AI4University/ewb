@@ -12,6 +12,8 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class MetadataAgViewComponent  extends BaseComponent implements OnInit {
 	@Input() selectedMetadata: any = null;
+	@Input() aggregatedCollectionName: any = null;
+
 	private dialogData: any = null;
 	topicMetadata: Map<string, any>;
 
@@ -23,12 +25,13 @@ export class MetadataAgViewComponent  extends BaseComponent implements OnInit {
         super();
         this.dialogData = this.injector.get(MAT_DIALOG_DATA, null);
         this.selectedMetadata = this.dialogData?.selectedMetadata;
+		this.aggregatedCollectionName = this.dialogData?.aggregatedCollectionName;
    }
 
   ngOnInit(): void {
 	if (this.selectedMetadata != null) {
 		// TODO add 2nd parameter
-		this.ewbService.getMetadataAGByID(this.selectedMetadata.id, null)
+		this.ewbService.getMetadataAGByID(this.selectedMetadata.id, this.aggregatedCollectionName)
 		.pipe(takeUntil(this._destroyed))
 		.subscribe((result) => {
 			this.topicMetadata = result;

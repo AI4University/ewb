@@ -9,7 +9,7 @@
                     [count]="similarResearchers.length" 
                     [selectionType]="selectionType.single" 
                     (columnSort)="sortRows($event)" 
-                    (rowSelected)="showMetadata($event, 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.RESEARCHER')"
+                    (rowSelected)="showMetadata($event, 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.RESEARCHER', 'uc3m_researchers')"
                     [count]="similarResearchers?.length" 
                     [limit]="pageSize"
                     (pageLoad)="onResearcherLoad($event)"
@@ -27,7 +27,7 @@
                     [count]="similarResearcherGroups.length" 
                     [selectionType]="selectionType.single" 
                     (columnSort)="sortRows($event)" 
-                    (rowSelected)="showMetadata($event, 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.TOP-RESEARCHE-GROUPS')" 
+                    (rowSelected)="showMetadata($event, 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.TOP-RESEARCHE-GROUPS', 'uc3m_research_groups')" 
                     [limit]="pageSize"
                     (pageLoad)="onResearchGroupLoad($event)"
                 ></app-listing>
@@ -45,7 +45,7 @@
                     [count]="similarToResearcher.length" 
                     [selectionType]="selectionType.single" 
                     (columnSort)="sortRows($event)" 
-                    (rowSelected)="showMetadata($event, 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.CALL')" 
+                    (rowSelected)="showMetadata($event, 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.CALL', null)" 
                     [limit]="pageSize"
                     (pageLoad)="onResearcherTopicsLoad($event)"
                 ></app-listing>

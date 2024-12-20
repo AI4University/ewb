@@ -227,7 +227,7 @@ export class ResearchViewComponent extends BaseComponent implements OnInit {
 	return 100 - value;
   }
 
-  showMetadata(event: any, title: string) {
+  showMetadata(event: any, title: string, aggregatedCollectionName: string) {
 	this.dialog.open(MetadataAgViewComponent, {
 		minWidth: '30vw',
 		minHeight: '20vh',
@@ -236,7 +236,8 @@ export class ResearchViewComponent extends BaseComponent implements OnInit {
 		panelClass: 'topic-style',
 		data: {
 			selectedMetadata: event[0],
-            title: this.language.instant(title)
+            title: this.language.instant(title),
+			aggregatedCollectionName: aggregatedCollectionName
 		}
 	});
   }
