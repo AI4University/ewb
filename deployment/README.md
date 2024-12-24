@@ -92,7 +92,7 @@ First you need to pull the current folder locally..
    DOCKER_REGISTRY=citesa/            # The Docker registry that is used to pull the EWB images
    MAINPATH=.                          # The base location for the EWB mounts
 
-   WORKBENCH_TAG=1.0.0                # The Version of EWB
+   WORKBENCH_TAG=1.0.2                # The Version of EWB
    PROFILE=test                       # The environment used for this deployment 
 ```
 3. **Edit the `config-files/api/config/app.env` file:**

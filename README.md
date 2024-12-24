@@ -74,8 +74,8 @@ psql -d ewb -U your_username -f db/00.00.01.seed.sql
 9. Click the **Credentials** tab inside `ewb_web` client.
    - Copy **Client Secret** as it will be used for `backend` configuration.
 10. Inside the EWB realm, go to **Groups** and create three new roles: `role-admin`, `role-user`, `rest-api-users`.
-   - Click `role-admin` role, navigate to *Role mapping* tab and assign `ewb_web` `Admin` role.
-   - Click `role-user` role, navigate to *Role mapping* tab and assign `ewb_web` `User` role.
+   - Click `role-admin` role, navigate to *Role mapping* tab and assign `ewb_web` `Admin` role. This group gives admin access to the users, and all admin users should be in this group.
+   - Click `role-user` role, navigate to *Role mapping* tab and assign `ewb_web` `User` role. This group gives user access to the users, and all regular users should be in this group, in order to access the functionality of the tool.
    - Click `rest-api-users` role, navigate to *Role mapping* tab and assign `realm-management` `realm-admin` role. 
    - For groups `role-admin` and `role-user` copy their id as it will be used for `backend` configuration. Id can be found after clicking the group at the last part of the URL. 
 11. Inside the EWB realm, go to **Users** and create a select `Add user`.
