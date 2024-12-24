@@ -161,6 +161,16 @@ export class InstallationConfigurationService extends BaseComponent {
 		return this._getMetdataDocByIdCorpusCollection;
 	}
 
+	private _getThetasResearcherByIDForChart1: string;
+	get getThetasResearcherByIDForChart1(): string {
+		return this._getThetasResearcherByIDForChart1;
+	}
+
+	private _getThetasResearcherByIDForChart2: string;
+	get getThetasResearcherByIDForChart2(): string {
+		return this._getThetasResearcherByIDForChart1;
+	}
+
 	loadInstallationConfiguration(): Promise<any> {
 		return new Promise((r, e) => {
 
@@ -238,5 +248,7 @@ export class InstallationConfigurationService extends BaseComponent {
 		this._fundingCallModel = config.recommendationTool.fundingCallModel;
 		this._getCallsSimilarToResearcherCollectionName = config.recommendationTool.getCallsSimilarToResearcherCollectionName;
 		this._getMetdataDocByIdCorpusCollection = config.recommendationTool.getMetdataDocByIdCorpusCollection;
+		this._getThetasResearcherByIDForChart1 = config.recommendationTool.getThetasResearcherByIDForChart1;
+		this._getThetasResearcherByIDForChart2 = config.recommendationTool.getThetasResearcherByIDForChart2;
 	}
 }

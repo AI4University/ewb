@@ -17,7 +17,7 @@
             <div class="result-container">
                 <div class="row">
                     <div class="col-lg-6 col-xss-12" *ngFor="let option of chartOptions;">
-                        <div  [options]="option" echarts></div>
+                        <div *ngIf="option" [options]="option" echarts></div>
                     </div>
                 </div>
                 <app-document-view *ngIf="selectedAG" [selectedDoc]="selectedAG"></app-document-view>

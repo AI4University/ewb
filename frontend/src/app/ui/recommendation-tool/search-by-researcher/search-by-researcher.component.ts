@@ -46,25 +46,25 @@ export class SearchByResearcherComponent extends BaseComponent implements OnInit
 
 	onSelectedAGDoc(ev: any) {
 		this.selectedAG = ev;
-		this.chartOptions = [];
+		this.chartOptions = [null, null];
 
-		this.ewbService.getThetasResearcherByID({ corpusCollection: 'papers', id: this.selectedAG.id})
+		this.ewbService.getThetasResearcherByID({ corpusCollection: this.installationConfigurationService.getThetasResearcherByIDForChart1, id: this.selectedAG.id})
 			.pipe(takeUntil(this._destroyed))
 			.subscribe((result) => {
-				this.setupChartOptions(result.items);
+				this.setupChartOptions(result.items, 0);
 			});
 
-		this.ewbService.getThetasResearcherByID({ corpusCollection: 'corpus', id: this.selectedAG.id})
+		this.ewbService.getThetasResearcherByID({ corpusCollection: this.installationConfigurationService.getThetasResearcherByIDForChart2, id: this.selectedAG.id})
 			.pipe(takeUntil(this._destroyed))
 			.subscribe((result) => {
-				this.setupChartOptions(result.items);
+				this.setupChartOptions(result.items, 1);
 			});
 	}
 
-	private setupChartOptions(thetas: Theta[]) {
+	private setupChartOptions(thetas: Theta[], index: number) {
 		if (thetas?.length > 0) {
 			const max = thetas.map(theta => theta.theta).reduce((a, b) => a + b, 0);
-			this.chartOptions.push({
+			this.chartOptions[index] = {
 				tooltip: {
 					trigger: 'item',
                     formatter: '{b}: {c}%'
@@ -111,7 +111,7 @@ export class SearchByResearcherComponent extends BaseComponent implements OnInit
 						}
 					}
 				}
-			})
+			};
 		}
 		
 	}

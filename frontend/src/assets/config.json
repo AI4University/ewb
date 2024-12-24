@@ -46,6 +46,8 @@
 		"fundingCallCorpus": "",
 		"fundingCallModel":"",
 		"getCallsSimilarToResearcherCollectionName": "",
-		"getMetdataDocByIdCorpusCollection": ""
+		"getMetdataDocByIdCorpusCollection": "",
+		"getThetasResearcherByIDForChart1": "papers",
+		"getThetasResearcherByIDForChart2": "corpus"
 	}
 }
