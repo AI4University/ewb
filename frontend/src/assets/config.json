@@ -43,10 +43,10 @@
 		"privacyPolicy":"#"
 	},
 	"recommendationTool": {
-		"fundingCallCorpus": "",
-		"fundingCallModel":"",
-		"getCallsSimilarToResearcherCollectionName": "",
-		"getMetdataDocByIdCorpusCollection": "",
+		"fundingCallCorpus": "cordis",
+		"fundingCallModel": "mallet-30",
+		"getCallsSimilarToResearcherCollectionName": "cordis",
+		"getMetdataDocByIdCorpusCollection": "cordis",
 		"getThetasResearcherByIDForChart1": "papers",
 		"getThetasResearcherByIDForChart2": "corpus"
 	}
