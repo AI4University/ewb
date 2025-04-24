@@ -44,7 +44,7 @@
 	},
 	"recommendationTool": {
 		"fundingCallCorpus": "cordis",
-		"fundingCallModel": "mallet-30",
+		"fundingCallModel": "cordis_tm_50tpc",
 		"getCallsSimilarToResearcherCollectionName": "cordis",
 		"getMetdataDocByIdCorpusCollection": "cordis",
 		"getThetasResearcherByIDForChart1": "papers",

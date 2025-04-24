@@ -563,7 +563,8 @@
 						"RELEVANCE": "Topic Relevance",
 						"COHERENCE": "Coherence",
 						"LABEL": "Label",
-						"WORDS": "Λέξεις"
+						"WORDS": "Λέξεις",
+						"NAME": "Name"
 					},
                     "RESEARCHER": "Researcher",
                     "RESEARCH-GROUP": "Research group"

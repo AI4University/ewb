@@ -17,24 +17,30 @@
             }
             @if(selectedMetadata.name){
                 <div class="grid-label">{{'APP.METADATA-VIEW-COMPONENT.NAME' | translate}}</div>
-                <div class="grid-value  wrap-text">{{selectedMetadata.name}} </div>
+                <div class="grid-value">
+                    <span class="wrap-text">{{selectedMetadata.name}}</span>
+                </div>
             }
             @if(selectedMetadata.title){
                 <div class="grid-label">{{'APP.METADATA-VIEW-COMPONENT.TITLE' | translate}}</div>
-                <div class="grid-value  wrap-text">{{selectedMetadata.title}} </div>
+                <div class="grid-value">
+                    <span class="wrap-text">{{selectedMetadata.title}}</span>
+                </div>
             }
-            @for(field of topicMetadata | keyvalue; track $index){
-                @if(field.key !== 'id' && field.key !== 'title'){
-                    <div class="grid-label">{{prettifyCamelCase(field.key)}}</div>
-                    <div class="grid-value">
-                        @if(isArray(field.value)){
-                            <span *ngFor="let subval of field.value; let last = last" class="field-value wrap-text">
-                                {{subval}}{{!last ? ', ' : ''}}
-                            </span>
-                        }@else{
-                            <div [innerHTML]="sanitized(field.value)"></div>
-                        }
-                    </div>
+            @if(topicMetadata != null && topicMetadata.length > 0){
+                @for(field of topicMetadata[0] | keyvalue; track $index){
+                    @if(field.key !== 'id' && field.key !== 'Title' && field.key !== 'Name'){
+                        <div class="grid-label">{{prettifyCamelCase(field.key)}}</div>
+                        <div class="grid-value">
+                            @if(isArray(field.value)){
+                                <span *ngFor="let subval of field.value; let last = last" class="field-value wrap-text">
+                                    {{subval}}{{!last ? ', ' : ''}}
+                                </span>
+                            }@else{
+                                <div [innerHTML]="sanitized(field.value)"></div>
+                            }
+                        </div>
+                    }
                 }
             }
         </div>

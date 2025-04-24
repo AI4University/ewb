@@ -39,7 +39,9 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
 	isRelevant: boolean = false;
     relevanceChanged: boolean = false;
 	topResearchers: TopDoc[] = [];
+	topResearcherLimit: number = 0;
 	topResearchGroupColumns: ColumnDefinition[] = [];
+	topResearcherGroupLimit: number = 0;
 	topResearchGroups: TopDoc[] = [];
 	private sortFieldName: string = null;
 	private oldSortFieldName: string = null;
@@ -113,20 +115,21 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
 	pipe.maxValue = this.maxValue > 100 ? this.maxValue : 100;
 	this.topResearcherColumns.push(...[
 		{
-			prop: nameof<TopDoc>(x => x.title),
-			name: nameof<TopDoc>(x => x.title),
+			prop: nameof<TopDoc>(x => x.name),
+			name: nameof<TopDoc>(x => x.name),
 			sortable: false,
-			resizeable: false,
+			resizeable: true,
+			minWidth: 100,
 			alwaysShown: true,
 			canAutoResize: true,
-			languageName: 'Title',
+			languageName: 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.LISTING.NAME',
 			cellTemplate: this.researcherTitleTemplate,
 		},
 		{
 			prop: nameof<TopDoc>(x => x.relevance),
 			name: nameof<TopDoc>(x => x.relevance),
 			sortable: true,
-			resizeable: false,
+			resizeable: true,
 			alwaysShown: true,
 			isTreeColumn: false,
 			canAutoResize: true,
@@ -140,12 +143,11 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
 			prop: nameof<TopDoc>(x => x.token),
 			name: nameof<TopDoc>(x => x.token),
 			sortable: true,
-			resizeable: false,
+			resizeable: true,
 			alwaysShown: true,
 			isTreeColumn: false,
 			canAutoResize: true,
-			maxWidth: 150,
-			minWidth: 100,
+			maxWidth: 100,
 			languageName: 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.LISTING.WORDS',
 		}
 	]);
@@ -156,20 +158,21 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
 	pipe.maxValue = this.maxValue > 100 ? this.maxValue : 100;
 	this.topResearchGroupColumns.push(...[
 		{
-			prop: nameof<TopDoc>(x => x.title),
-			name: nameof<TopDoc>(x => x.title),
+			prop: nameof<TopDoc>(x => x.name),
+			name: nameof<TopDoc>(x => x.name),
 			sortable: false,
-			resizeable: false,
+			resizeable: true,
+			minWidth: 100,
 			alwaysShown: true,
 			canAutoResize: true,
-			languageName: 'Title',
+			languageName: 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.LISTING.NAME',
 			cellTemplate: this.researchGroupTitleTemplate,
 		},
 		{
 			prop: nameof<TopDoc>(x => x.relevance),
 			name: nameof<TopDoc>(x => x.relevance),
 			sortable: true,
-			resizeable: false,
+			resizeable: true,
 			alwaysShown: true,
 			isTreeColumn: false,
 			canAutoResize: true,
@@ -183,12 +186,11 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
 			prop: nameof<TopDoc>(x => x.token),
 			name: nameof<TopDoc>(x => x.token),
 			sortable: true,
-			resizeable: false,
+			resizeable: true,
 			alwaysShown: true,
 			isTreeColumn: false,
 			canAutoResize: true,
-			maxWidth: 150,
-			minWidth: 100,
+			maxWidth: 100,
 			languageName: 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.LISTING.WORDS',
 		}
 	]);
@@ -243,7 +245,7 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
 
   showMetadata(row: any, title: string, aggregatedCollectionName: string) {
 	this.dialog.open(MetadataViewComponent, {
-		minWidth: '30vw',
+		minWidth: 'min(600px, 90vw)',
 		minHeight: '20vh',
 		maxWidth: '80vw',
 		maxHeight: '80vh',
@@ -320,10 +322,11 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
   }
 
   loadResearchers(event?: PageLoadEvent){
+	const start = event?.offset * event?.limit
     this.topDocTopicQuery = {
         ...this.topDocTopicQuery,
-        start: event?.offset ?? 0,
-        rows: event?.pageSize ?? this.listingPageSize
+        start: start > 0 ? start: 0,
+        rows: event?.limit ?? this.listingPageSize
     }
 	this.ewbService.getTopResearchers(this.topDocTopicQuery)
 	.pipe(takeUntil(this._destroyed))
@@ -331,7 +334,8 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
 		this.researchers = result;
 		this.researchers.forEach(doc => doc.token = 0/*doc.words*/);
 		this.maxValue = this.researchers.reduce((prev, curr) => (prev.topic > curr.topic)? prev : curr).relevance;
-		this.topResearchers = this.researchers.slice(0, 10);
+		this.topResearchers = this.researchers;
+		this.topResearcherLimit = event?.limit ?? this.listingPageSize;
 		this.setupTopDocColumns();
         // 	if (this.data.word !== null) {
         // 		this.selectWord([{id: this.data.word}]);
@@ -340,10 +344,12 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
   }
 
   loadResearchGroups(event?: PageLoadEvent){
+	const start = event?.offset * event?.limit;
+
     this.topDocTopicQuery = {
         ...this.topDocTopicQuery,
-        start: event?.offset ?? 0,
-        rows: event?.pageSize ?? this.listingPageSize
+        start: start > 0 ? start: 0,
+        rows: event?.limit ?? this.listingPageSize
     }
     this.ewbService.getTopResearchGroups(this.topDocTopicQuery)
 	.pipe(takeUntil(this._destroyed))
@@ -351,7 +357,8 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
 		this.researchGroups = result;
 		this.researchGroups.forEach(doc => doc.token = 0/*doc.words*/);
 		this.maxValue = this.researchGroups.reduce((prev, curr) => (prev.topic > curr.topic)? prev : curr).relevance;
-		this.topResearchGroups = this.researchGroups.slice(0, 10);
+		this.topResearchGroups = this.researchGroups;
+		this.topResearcherGroupLimit = event?.limit ?? this.listingPageSize;
 		this.setupTopResearchGroupColumns();
         // 	if (this.data.word !== null) {
         // 		this.selectWord([{id: this.data.word}]);

@@ -1,8 +1,13 @@
+::ng-deep .overflow-button .mdc-button__label{
+    width: 100%;
+}
 .topic-view {
 	padding: 1.5rem;
 
 	.title-style {
-		white-space: break-spaces;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
 	}
 
     .info-container {

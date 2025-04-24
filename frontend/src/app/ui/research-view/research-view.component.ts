@@ -35,6 +35,9 @@ export class ResearchViewComponent extends BaseComponent implements OnInit {
     @Output() loadResearcherTopics = new EventEmitter<ResearchSimilarToTextPaging>();
 
 	maxValue = 100;
+	researcherPageSize = this.pageSize;
+	researchGroupPageSize = this.pageSize;
+	researcherTopicPageSize = this.pageSize;
 
 	similarResearchersColumns: ColumnDefinition[] = [];
 	similarResearcherGroupColumns: ColumnDefinition[] = [];
@@ -231,7 +234,7 @@ export class ResearchViewComponent extends BaseComponent implements OnInit {
 
   showMetadata(event: any, title: string, aggregatedCollectionName: string, corpusCollection: string) {
 	this.dialog.open(MetadataViewComponent, {
-		minWidth: '30vw',
+		minWidth: 'min(600px, 90vw)',
 		minHeight: '20vh',
 		maxWidth: '80vw',
 		maxHeight: '80vh',
@@ -252,17 +255,20 @@ export class ResearchViewComponent extends BaseComponent implements OnInit {
 
   protected onResearcherLoad(event: PageLoadEvent){
     const {pageSize, limit, offset} = event;
-    this.loadResearchers.emit({start: offset, rows: pageSize});
+	this.researcherPageSize = limit ?? pageSize;
+    this.loadResearchers.emit({start: offset * limit, rows: pageSize});
   }
 
   protected onResearchGroupLoad(event: PageLoadEvent){
     const {pageSize, limit, offset} = event;    
-    this.loadResearchGroups.emit({start: offset, rows: pageSize});
+	this.researchGroupPageSize = limit ?? pageSize;
+	this.loadResearchGroups.emit({start: offset * limit, rows: pageSize});
   }
 
   protected onResearcherTopicsLoad(event: PageLoadEvent){
     const {pageSize, limit, offset} = event;    
-    this.loadResearcherTopics.emit({start: offset, rows: pageSize});
+    this.researcherTopicPageSize = limit ?? pageSize;
+	this.loadResearcherTopics.emit({start: offset * limit, rows: pageSize});
   }
 
 }

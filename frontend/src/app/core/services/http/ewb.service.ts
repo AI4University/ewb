@@ -223,8 +223,8 @@ export class EwbService {
     return this.http.post<TopDoc[]>(`${this.apiBase}/topics/top-research-groups`, query);
   }
 
-  getMetadataAGByID(id: string, aggregatedCollectionName: string): Observable<Map<string, any>> {
-    return this.http.get<Map<string, any>>(`${this.apiBase}/metadata-ag-by-id`, {
+  getMetadataAGByID(id: string, aggregatedCollectionName: string): Observable<Array<Map<string, any>>> {
+    return this.http.get<Array<Map<string, any>>>(`${this.apiBase}/metadata-ag-by-id`, {
       params: {
         id: id,
         aggregatedCollectionName: aggregatedCollectionName

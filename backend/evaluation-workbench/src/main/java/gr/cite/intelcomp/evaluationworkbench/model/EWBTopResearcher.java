@@ -4,7 +4,7 @@ import java.util.Map;
 
 public class EWBTopResearcher {
     private String id;
-    private String title;
+    private String name;
     private Double topic;
     private Integer words;
     private Integer relevance;
@@ -14,8 +14,9 @@ public class EWBTopResearcher {
         this.id = id;
     }
 
-    public EWBTopResearcher(String id, Double topic, Integer words, Integer relevance, Map<String, Integer> counts) {
+    public EWBTopResearcher(String id, String name, Double topic, Integer words, Integer relevance, Map<String, Integer> counts) {
         this.id = id;
+        this.name = name;
         this.topic = topic;
         this.words = words;
         this.relevance = relevance;
@@ -30,12 +31,12 @@ public class EWBTopResearcher {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Double getTopic() {

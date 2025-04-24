@@ -991,7 +991,8 @@
 						"RELEVANCE": "Topic Relevance",
 						"COHERENCE": "Coherence",
 						"LABEL": "Label",
-						"WORDS": "Words"
+						"WORDS": "Words",
+						"NAME": "Name"
 					},
                     "RESEARCHER": "Researcher",
                     "RESEARCH-GROUP": "Research group",

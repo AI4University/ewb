@@ -220,7 +220,7 @@ public class EWBController {
     }
 
     @GetMapping("metadata-ag-by-id")
-    public Map<String, Object> getMetadataAGByID(@RequestParam String id, @RequestParam String aggregatedCollectionName ) {
+    public List<Map<String, Object>> getMetadataAGByID(@RequestParam String id, @RequestParam String aggregatedCollectionName ) {
         return this.service.getMetadataAGByID(id, aggregatedCollectionName);
     }
 

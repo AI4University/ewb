@@ -600,15 +600,7 @@ public class EWBService {
     public List<EWBTopResearcher> getTopicTopResearcher(TopicTopResearcherLookup lookup) {
         List<EWBTopResearcher> results = Objects.requireNonNull(ewbTMClient.get().uri("/queries/getTopicTopResearchers/", builder -> WebClientUtils.buildParameters(builder, lookup))
                 .exchangeToMono(mono -> mono.bodyToMono(new ParameterizedTypeReference<List<EWBTopResearchersResponse>>() {
-                })).block()).stream().map(researcher -> new EWBTopResearcher(researcher.getId(), researcher.getThetas() != null ? researcher.getThetas().get(0).getTheta() : 0, researcher.getWords(), researcher.getTopicRelevance(), researcher.getCounts())).collect(Collectors.toList());
-        CollectionQuery collectionQuery = new CollectionQuery();
-        collectionQuery.setCollection(lookup.getCorpusCollection());
-        collectionQuery.setQ("id: (" + results.stream().map(EWBTopResearcher::getId).collect(Collectors.joining(" ")) + ")");
-        collectionQuery.setQop("OR");
-        collectionQuery.setFl("id, title");
-        collectionQuery.setRows(results.size());
-        List<Map<String, Object>> collectedData = this.queryCollection(collectionQuery);
-        results.forEach(researcher -> researcher.setTitle(collectedData.stream().filter(cd -> cd.get("id").equals(researcher.getId())).map(cd -> cd.get("title").toString()).findFirst().orElse("N/A")));
+                })).block()).stream().map(researcher -> new EWBTopResearcher(researcher.getId(), researcher.getName(), researcher.getThetas() != null ? researcher.getThetas().get(0).getTheta() : 0, researcher.getWords(), researcher.getTopicRelevance(), researcher.getCounts())).collect(Collectors.toList());
         results.sort(Comparator.comparing((EWBTopResearcher topResearcher) -> topResearcher.getTopic() * topResearcher.getRelevance()).reversed());
         return results;
     }
@@ -616,15 +608,7 @@ public class EWBService {
     public List<EWBTopResearchGroup> getTopicTopResearchGroups(TopicTopResearchGroupLookup lookup) {
         List<EWBTopResearchGroup> results = Objects.requireNonNull(ewbTMClient.get().uri("/queries/getTopicTopRGs/", builder -> WebClientUtils.buildParameters(builder, lookup))
                 .exchangeToMono(mono -> mono.bodyToMono(new ParameterizedTypeReference<List<EWBTopResearchGroupResponse>>() {
-                })).block()).stream().map(rg -> new EWBTopResearchGroup(rg.getId(), rg.getThetas() != null ? rg.getThetas().get(0).getTheta() : 0, rg.getWords(), rg.getTopicRelevance(), rg.getCounts())).collect(Collectors.toList());
-        CollectionQuery collectionQuery = new CollectionQuery();
-        collectionQuery.setCollection(lookup.getCorpusCollection());
-        collectionQuery.setQ("id: (" + results.stream().map(EWBTopResearchGroup::getId).collect(Collectors.joining(" ")) + ")");
-        collectionQuery.setQop("OR");
-        collectionQuery.setFl("id, title");
-        collectionQuery.setRows(results.size());
-        List<Map<String, Object>> collectedData = this.queryCollection(collectionQuery);
-        results.forEach(rg -> rg.setTitle(collectedData.stream().filter(cd -> cd.get("id").equals(rg.getId())).map(cd -> cd.get("title").toString()).findFirst().orElse("N/A")));
+                })).block()).stream().map(rg -> new EWBTopResearchGroup(rg.getId(),rg.getName(), rg.getThetas() != null ? rg.getThetas().get(0).getTheta() : 0, rg.getWords(), rg.getTopicRelevance(), rg.getCounts())).collect(Collectors.toList());
         results.sort(Comparator.comparing((EWBTopResearchGroup topDoc) -> topDoc.getTopic() * topDoc.getRelevance()).reversed());
         return results;
     }
@@ -641,13 +625,13 @@ public class EWBService {
                 .block());
     }
 
-    public  Map<String, Object> getMetadataAGByID(String id, String aggregatedCollectionName) {
+    public List<Map<String, Object>> getMetadataAGByID(String id, String aggregatedCollectionName) {
         return this.ewbTMClient.get().uri(uriBuilder -> uriBuilder.path("/queries/getMetadataAGByID/")
                         .queryParam("id", id)
                         .queryParam("aggregated_collection_name", aggregatedCollectionName)
                         .build())
                 .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {})
+                .bodyToMono(new ParameterizedTypeReference<List<Map<String, Object>>>() {})
                 .block();
     }
 

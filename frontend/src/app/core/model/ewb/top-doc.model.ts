@@ -1,6 +1,6 @@
 export class TopDoc {
 	id: string;
-	title: string;
+	name: string;
 	topic: number;
 	words: number;
 	relevance: number;

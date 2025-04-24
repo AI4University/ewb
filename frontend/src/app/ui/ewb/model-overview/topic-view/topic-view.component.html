@@ -60,6 +60,7 @@
                                 [rows]="topResearchers" 
                                 [columns]="topResearcherColumns" 
                                 [count]="topResearchers.length" 
+                                [limit]=topResearcherLimit
                                 (columnSort)="sortResearcherRows($event)" 
                                 (pageLoad)="loadResearchers($event)"
                             ></app-listing>
@@ -74,6 +75,7 @@
                                 [rows]="topResearchGroups" 
                                 [columns]="topResearchGroupColumns" 
                                 [count]="topResearchGroups.length" 
+                                [limit]=topResearcherGroupLimit
                                 (columnSort)="sortResearchGroupRows($event)" 
                                 (pageLoad)="loadResearchGroups($event)"
                             ></app-listing>
@@ -99,13 +101,13 @@
 </ng-template>
 
 <ng-template #researcherTitleTemplate ngx-datatable-cell-template let-row="row" let-value="value" let-column="column">
-    <button mat-raised-button (click)="showMetadata(row, 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.RESEARCHER', 'uc3m_researchers')">
+    <button class="w-100 overflow-button" mat-raised-button (click)="showMetadata(row, 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.RESEARCHER', 'uc3m_researchers')" [matTooltip]="value">
         <ng-container *ngTemplateOutlet="textWrapTemplate, context : { row, value, column }"></ng-container>
     </button>
 </ng-template>
 
 <ng-template #researchGroupTitleTemplate ngx-datatable-cell-template let-row="row" let-value="value" let-column="column">
-    <button mat-raised-button (click)="showMetadata(row, 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.RESEARCH-GROUP', 'uc3m_research_groups')">
+    <button class="w-100 overflow-button" mat-raised-button (click)="showMetadata(row, 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.RESEARCH-GROUP', 'uc3m_research_groups')" [matTooltip]="value">
         <ng-container *ngTemplateOutlet="textWrapTemplate, context : { row, value, column }"></ng-container>
     </button>
 </ng-template>

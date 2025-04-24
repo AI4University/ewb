@@ -11,7 +11,7 @@
                     (columnSort)="sortRows($event)" 
                     (rowSelected)="showMetadata($event, 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.RESEARCHER', 'uc3m_researchers')"
                     [count]="similarResearchers?.length" 
-                    [limit]="pageSize"
+                    [limit]="researcherPageSize"
                     (pageLoad)="onResearcherLoad($event)"
                 ></app-listing>
             </div>
@@ -28,7 +28,7 @@
                     [selectionType]="selectionType.single" 
                     (columnSort)="sortRows($event)" 
                     (rowSelected)="showMetadata($event, 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.RESEARCH-GROUP', 'uc3m_research_groups')" 
-                    [limit]="pageSize"
+                    [limit]="researchGroupPageSize"
                     (pageLoad)="onResearchGroupLoad($event)"
                 ></app-listing>
             </div>
@@ -46,7 +46,7 @@
                     [selectionType]="selectionType.single" 
                     (columnSort)="sortRows($event)" 
                     (rowSelected)="showMetadata($event, 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.CALL', null, installationConfigurationService.getMetdataDocByIdCorpusCollection)" 
-                    [limit]="pageSize"
+                    [limit]="researcherTopicPageSize"
                     (pageLoad)="onResearcherTopicsLoad($event)"
                 ></app-listing>
             </div>

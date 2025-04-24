@@ -16,7 +16,7 @@ export class MetadataViewComponent  extends BaseComponent implements OnInit {
 	@Input() corpusCollection: any = null;
 
 	private dialogData: any = null;
-	topicMetadata: Map<string, any>;
+	topicMetadata: Array<Map<string, any>>;
 
   constructor(
 	private sanitizer: DomSanitizer,
