@@ -168,7 +168,7 @@ export class InstallationConfigurationService extends BaseComponent {
 
 	private _getThetasResearcherByIDForChart2: string;
 	get getThetasResearcherByIDForChart2(): string {
-		return this._getThetasResearcherByIDForChart1;
+		return this._getThetasResearcherByIDForChart2;
 	}
 
 	loadInstallationConfiguration(): Promise<any> {
