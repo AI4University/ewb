@@ -27,8 +27,6 @@ export class SearchByResearcherComponent extends BaseComponent implements OnInit
 
 	similarToResearcher: EWBCallsSimilarToResearcher[] = [];
 
-    pageSize = ListingComponent.MAX_PAGE_SIZE;
-
 	constructor(
 		private ewbService: EwbService,
 		private installationConfigurationService: InstallationConfigurationService,
@@ -48,13 +46,13 @@ export class SearchByResearcherComponent extends BaseComponent implements OnInit
 		this.selectedAG = ev;
 		this.chartOptions = [null, null];
 
-		this.ewbService.getThetasResearcherByID({ corpusCollection: this.installationConfigurationService.getThetasResearcherByIDForChart1, id: this.selectedAG.id})
+		this.ewbService.getThetasResearcherByID({ corpusCollection: this.installationConfigurationService.getThetasResearcherByIDForChart1, id: this.selectedAG.id, modelName: this.installationConfigurationService.getThetasResearcherByIDForChart1Model})
 			.pipe(takeUntil(this._destroyed))
 			.subscribe((result) => {
 				this.setupChartOptions(result.items, 0);
 			});
 
-		this.ewbService.getThetasResearcherByID({ corpusCollection: this.installationConfigurationService.getThetasResearcherByIDForChart2, id: this.selectedAG.id})
+		this.ewbService.getThetasResearcherByID({ corpusCollection: this.installationConfigurationService.getThetasResearcherByIDForChart2, id: this.selectedAG.id, modelName: this.installationConfigurationService.getThetasResearcherByIDForChart2Model})
 			.pipe(takeUntil(this._destroyed))
 			.subscribe((result) => {
 				this.setupChartOptions(result.items, 1);
@@ -120,7 +118,7 @@ export class SearchByResearcherComponent extends BaseComponent implements OnInit
 	}
 
 	selectedCriteriaChange(paging?: ResearchSimilarToTextPaging) {
-        const query = paging ?? {rows: this.pageSize, start: 0}
+        const query = paging ?? {rows: this.installationConfigurationService.getTotalResearchersDisplayed, start: 0}
 		if (this.selectedAG?.id && this.selectedCriteria.length > 0) {
 			this.ewbService.getCallsSimilarToResearcher({
                 id: this.selectedAG.id, 

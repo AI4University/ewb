@@ -31,7 +31,7 @@ export class AGDocSearchComponent extends BaseComponent implements OnInit {
 
   onChange(event: any) {
 	if (event.target.value.trimEnd() !== '') {
-		this.ewbService.getAGDocsWithString({aggregatedCollectionName: null, like: event.target.value.trimEnd(), rows: 10})
+		this.ewbService.getAGDocsWithString({aggregatedCollectionName: 'uc3m_researchers', like: event.target.value.trimEnd(), rows: 10})
 		.pipe(takeUntil(this._destroyed)).subscribe((queryResult: QueryResult<any>) => {
 			this.searchText = event.target.value;
 			this.AGdocs = queryResult.items;

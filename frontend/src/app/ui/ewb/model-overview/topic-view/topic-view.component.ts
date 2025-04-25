@@ -13,6 +13,7 @@ import { SelectionType } from '@swimlane/ngx-datatable';
 import { MetadataViewComponent } from '../../modules/metadata-view/metadata-view.component';
 import { TranslateService } from '@ngx-translate/core';
 import { TopicRelevanceService } from '@app/core/services/ui/topic-relevance.service';
+import { InstallationConfigurationService } from '@common/installation-configuration/installation-configuration.service';
 
 @Component({
   selector: 'app-topic-view',
@@ -39,9 +40,7 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
 	isRelevant: boolean = false;
     relevanceChanged: boolean = false;
 	topResearchers: TopDoc[] = [];
-	topResearcherLimit: number = 0;
 	topResearchGroupColumns: ColumnDefinition[] = [];
-	topResearcherGroupLimit: number = 0;
 	topResearchGroups: TopDoc[] = [];
 	private sortFieldName: string = null;
 	private oldSortFieldName: string = null;
@@ -58,6 +57,7 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
 	private dialog: MatDialog,
     private language: TranslateService,
     private topicRelevanceService: TopicRelevanceService,
+	public installationConfigurationService: InstallationConfigurationService,
     @Inject(MAT_DIALOG_DATA) public data: {
 		corpus: string,
 		model: string,
@@ -326,7 +326,7 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
     this.topDocTopicQuery = {
         ...this.topDocTopicQuery,
         start: start > 0 ? start: 0,
-        rows: event?.limit ?? this.listingPageSize
+        rows: this.installationConfigurationService.getKnowledgeMapTotalResearchersDisplayed
     }
 	this.ewbService.getTopResearchers(this.topDocTopicQuery)
 	.pipe(takeUntil(this._destroyed))
@@ -335,7 +335,6 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
 		this.researchers.forEach(doc => doc.token = 0/*doc.words*/);
 		this.maxValue = this.researchers.reduce((prev, curr) => (prev.topic > curr.topic)? prev : curr).relevance;
 		this.topResearchers = this.researchers;
-		this.topResearcherLimit = event?.limit ?? this.listingPageSize;
 		this.setupTopDocColumns();
         // 	if (this.data.word !== null) {
         // 		this.selectWord([{id: this.data.word}]);
@@ -349,7 +348,7 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
     this.topDocTopicQuery = {
         ...this.topDocTopicQuery,
         start: start > 0 ? start: 0,
-        rows: event?.limit ?? this.listingPageSize
+        rows: this.installationConfigurationService.getKnowledgeMapTotalRGsDisplayed
     }
     this.ewbService.getTopResearchGroups(this.topDocTopicQuery)
 	.pipe(takeUntil(this._destroyed))
@@ -358,7 +357,6 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
 		this.researchGroups.forEach(doc => doc.token = 0/*doc.words*/);
 		this.maxValue = this.researchGroups.reduce((prev, curr) => (prev.topic > curr.topic)? prev : curr).relevance;
 		this.topResearchGroups = this.researchGroups;
-		this.topResearcherGroupLimit = event?.limit ?? this.listingPageSize;
 		this.setupTopResearchGroupColumns();
         // 	if (this.data.word !== null) {
         // 		this.selectWord([{id: this.data.word}]);

@@ -8,11 +8,10 @@
                     [columns]="similarResearchersColumns" 
                     [count]="similarResearchers.length" 
                     [selectionType]="selectionType.single" 
-                    (columnSort)="sortRows($event)" 
                     (rowSelected)="showMetadata($event, 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.RESEARCHER', 'uc3m_researchers')"
                     [count]="similarResearchers?.length" 
-                    [limit]="researcherPageSize"
-                    (pageLoad)="onResearcherLoad($event)"
+                    [limit]=installationConfigurationService.getResearchersDisplayedPerPage
+                    [externalPaging]=false
                 ></app-listing>
             </div>
         </div>
@@ -26,10 +25,9 @@
                     [columns]="similarResearcherGroupColumns" 
                     [count]="similarResearcherGroups.length" 
                     [selectionType]="selectionType.single" 
-                    (columnSort)="sortRows($event)" 
                     (rowSelected)="showMetadata($event, 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.RESEARCH-GROUP', 'uc3m_research_groups')" 
-                    [limit]="researchGroupPageSize"
-                    (pageLoad)="onResearchGroupLoad($event)"
+                    [limit]=installationConfigurationService.getRGsDisplayedPerPage
+                    [externalPaging]=false
                 ></app-listing>
             </div>
         </div>
@@ -46,8 +44,8 @@
                     [selectionType]="selectionType.single" 
                     (columnSort)="sortRows($event)" 
                     (rowSelected)="showMetadata($event, 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.CALL', null, installationConfigurationService.getMetdataDocByIdCorpusCollection)" 
-                    [limit]="researcherTopicPageSize"
-                    (pageLoad)="onResearcherTopicsLoad($event)"
+                    [limit]=installationConfigurationService.getCallsDisplayedPerPage
+                    [externalPaging]=false
                 ></app-listing>
             </div>
         </div>

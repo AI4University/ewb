@@ -166,9 +166,69 @@ export class InstallationConfigurationService extends BaseComponent {
 		return this._getThetasResearcherByIDForChart1;
 	}
 
+	private _getThetasResearcherByIDForChart1Model: string;
+	get getThetasResearcherByIDForChart1Model(): string {
+		return this._getThetasResearcherByIDForChart1Model;
+	}
+
 	private _getThetasResearcherByIDForChart2: string;
 	get getThetasResearcherByIDForChart2(): string {
 		return this._getThetasResearcherByIDForChart2;
+	}
+
+	private _getThetasResearcherByIDForChart2Model: string;
+	get getThetasResearcherByIDForChart2Model(): string {
+		return this._getThetasResearcherByIDForChart2Model;
+	}
+
+	private _totalResearchersDisplayed: number;
+	get getTotalResearchersDisplayed(): number {
+		return this._totalResearchersDisplayed;
+	}
+
+	private _researchersDisplayedPerPage: number;
+	get getResearchersDisplayedPerPage(): number {
+		return this._researchersDisplayedPerPage;
+	}
+
+	private _totalRGsDisplayed: number;
+	get getTotalRGsDisplayed(): number {
+		return this._totalRGsDisplayed;
+	}
+
+	private _rgsDisplayedPerPage: number;
+	get getRGsDisplayedPerPage(): number {
+		return this._rgsDisplayedPerPage;
+	}
+
+	private _totalCallsDisplayed: number;
+	get getTotalCallsDisplayed(): number {
+		return this._totalCallsDisplayed;
+	}
+
+	private _callsDisplayedPerPage: number;
+	get getCallsDisplayedPerPage(): number {
+		return this._callsDisplayedPerPage;
+	}
+
+	private _knowledgeMapTotalResearchersDisplayed: number;
+	get getKnowledgeMapTotalResearchersDisplayed(): number {
+		return this._knowledgeMapTotalResearchersDisplayed;
+	}
+
+	private _knowledgeMapResearchersDisplayedPerPage: number;
+	get getKnowledgeMapResearchersDisplayedPerPage(): number {
+		return this._knowledgeMapResearchersDisplayedPerPage;
+	}
+
+	private _knowledgeMapTotalRGsDisplayed: number;
+	get getKnowledgeMapTotalRGsDisplayed(): number {
+		return this._knowledgeMapTotalRGsDisplayed;
+	}
+
+	private _knowledgeMapRGsDisplayedPerPage: number;
+	get getKnowledgeMapRGsDisplayedPerPage(): number {
+		return this._knowledgeMapRGsDisplayedPerPage;
 	}
 
 	loadInstallationConfiguration(): Promise<any> {
@@ -244,11 +304,29 @@ export class InstallationConfigurationService extends BaseComponent {
 
 		this._userSettingsVersion = config.userSettingsVersion;
 
-		this._fundingCallCorpus = config.recommendationTool.fundingCallCorpus;
-		this._fundingCallModel = config.recommendationTool.fundingCallModel;
-		this._getCallsSimilarToResearcherCollectionName = config.recommendationTool.getCallsSimilarToResearcherCollectionName;
-		this._getMetdataDocByIdCorpusCollection = config.recommendationTool.getMetdataDocByIdCorpusCollection;
-		this._getThetasResearcherByIDForChart1 = config.recommendationTool.getThetasResearcherByIDForChart1;
-		this._getThetasResearcherByIDForChart2 = config.recommendationTool.getThetasResearcherByIDForChart2;
+		if (config.recommendationTool) {
+			this._fundingCallCorpus = config.recommendationTool.fundingCallCorpus;
+			this._fundingCallModel = config.recommendationTool.fundingCallModel;
+			this._getCallsSimilarToResearcherCollectionName = config.recommendationTool.getCallsSimilarToResearcherCollectionName;
+			this._getMetdataDocByIdCorpusCollection = config.recommendationTool.getMetdataDocByIdCorpusCollection;
+			this._getThetasResearcherByIDForChart1 = config.recommendationTool.getThetasResearcherByIDForChart1;
+			this._getThetasResearcherByIDForChart1Model = config.recommendationTool.getThetasResearcherByIDForChart1Model;
+			this._getThetasResearcherByIDForChart2 = config.recommendationTool.getThetasResearcherByIDForChart2;
+			this._getThetasResearcherByIDForChart2Model = config.recommendationTool.getThetasResearcherByIDForChart2Model;
+			this._totalResearchersDisplayed = config.recommendationTool.totalResearchersDisplayed;
+			this._researchersDisplayedPerPage = config.recommendationTool.researchersDisplayedPerPage;
+			this._totalRGsDisplayed = config.recommendationTool.totalRGsDisplayed;
+			this._rgsDisplayedPerPage = config.recommendationTool.rgsDisplayedPerPage;
+			this._totalCallsDisplayed = config.recommendationTool.totalCallsDisplayed;
+			this._callsDisplayedPerPage = config.recommendationTool.callsDisplayedPerPage;
+		}
+
+		if (config.knowledgeMap) {
+			this._knowledgeMapTotalResearchersDisplayed = config.knowledgeMap.totalResearchersDisplayed;
+			this._knowledgeMapResearchersDisplayedPerPage = config.knowledgeMap.researchersDisplayedPerPage;
+			this._knowledgeMapTotalRGsDisplayed = config.knowledgeMap.totalRGsDisplayed;
+			this._knowledgeMapRGsDisplayedPerPage = config.knowledgeMap.rgsDisplayedPerPage;
+		}
+
 	}
 }

@@ -34,8 +34,6 @@ export class FundingCallComponent extends BaseComponent implements OnInit {
 	similarResearchers: SimilarResearcher[] = [];
 	similarResearcherGroups: SimilarResearchGroup[] = [];
 
-    pageSize = ListingComponent.MAX_PAGE_SIZE;
-
 	constructor(
 		private ewbService: EwbService,
 		private installationConfigurationService: InstallationConfigurationService,
@@ -135,7 +133,7 @@ export class FundingCallComponent extends BaseComponent implements OnInit {
         const query: ResearchSimilarToCallLookup = {
             id: this.selectedDoc.id, 
             similarityMethod: this.selectedCriteria,
-            rows: paging?.rows ?? this.pageSize,
+            rows: this.installationConfigurationService.getTotalResearchersDisplayed,
             start: paging?.start ?? 0
         };
         this.ewbService.getResearchersSimilarToCall(query)
@@ -152,7 +150,7 @@ export class FundingCallComponent extends BaseComponent implements OnInit {
         const query: ResearchSimilarToCallLookup = {
             id: this.selectedDoc.id, 
             similarityMethod: this.selectedCriteria,
-            rows: paging?.rows ?? this.pageSize,
+            rows: this.installationConfigurationService.getTotalRGsDisplayed,
             start: paging?.start ?? 0
         };
         this.ewbService.getResearchGroupsSimilarToCall(query)

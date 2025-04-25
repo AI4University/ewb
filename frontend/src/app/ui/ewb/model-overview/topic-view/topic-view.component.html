@@ -60,9 +60,9 @@
                                 [rows]="topResearchers" 
                                 [columns]="topResearcherColumns" 
                                 [count]="topResearchers.length" 
-                                [limit]=topResearcherLimit
+                                [limit]=installationConfigurationService.getKnowledgeMapResearchersDisplayedPerPage
+                                [externalPaging]=false
                                 (columnSort)="sortResearcherRows($event)" 
-                                (pageLoad)="loadResearchers($event)"
                             ></app-listing>
                         </div>
                     </div>
@@ -75,9 +75,9 @@
                                 [rows]="topResearchGroups" 
                                 [columns]="topResearchGroupColumns" 
                                 [count]="topResearchGroups.length" 
-                                [limit]=topResearcherGroupLimit
+                                [limit]=installationConfigurationService.getKnowledgeMapRGsDisplayedPerPage
+                                [externalPaging]=false
                                 (columnSort)="sortResearchGroupRows($event)" 
-                                (pageLoad)="loadResearchGroups($event)"
                             ></app-listing>
                         </div>
                     </div>

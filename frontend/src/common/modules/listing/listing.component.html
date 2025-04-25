@@ -3,7 +3,7 @@
 	[class.listing-component-row-cursor]="rowActivated?.observers?.length > 0 || rowSelected?.observers?.length > 0"
 	[columnMode]="columnMode"
 	[columns]="internalColumns"
-	[rows]="rows"
+	[rows]="externalPaging ? rows: pagedRows"
 	[headerHeight]="headerHeight"
 	[rowHeight]="rowHeight"
 	[messages]="messages"
@@ -61,7 +61,7 @@
 		[pageSize]="limit"
 		[pageIndex]="offset"
 		(page)="onsomePage($event)"
-		[pageSizeOptions]="pageSizeOptions ?? [5, 10, 25, 50, 100]"
+		[pageSizeOptions]="externalPaging ? pageSizeOptions ?? [5, 10, 25, 50, 100]: null"
 	>
 	</mat-paginator>
 </ng-template>

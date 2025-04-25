@@ -4,6 +4,7 @@ import { SimilarResearcher } from '@app/core/model/ewb/researcher-similar-to-cal
 import { ResearchSimilarToTextPaging } from '@app/core/query/research-similar-to-text.lookup';
 import { EwbService } from '@app/core/services/http/ewb.service';
 import { BaseComponent } from '@common/base/base.component';
+import { InstallationConfigurationService } from '@common/installation-configuration/installation-configuration.service';
 import { ListingComponent } from '@common/modules/listing/listing.component';
 import * as moment from 'moment';
 import { takeUntil } from 'rxjs/operators';
@@ -19,15 +20,14 @@ export class SerchByTextComponent extends BaseComponent implements OnInit {
 	textInput: string = null;
 	criteriaList: string[] = [];
 	selectedCriteria: string = '';
-    pageSize =  ListingComponent.MAX_PAGE_SIZE;
     paging: {researchers: ResearchSimilarToTextPaging, researchGroups: ResearchSimilarToTextPaging} = {
         researchers: {
             start: 0,
-            rows: this.pageSize
+            rows: this.installationConfigurationService.getTotalResearchersDisplayed
         },
         researchGroups: {
             start: 0,
-            rows: this.pageSize
+            rows: this.installationConfigurationService.getTotalRGsDisplayed
 
         }
     }
@@ -37,7 +37,7 @@ export class SerchByTextComponent extends BaseComponent implements OnInit {
     yearOptions: string[] = ['Any'];
     year: string = 'Any';
 	
-	constructor(private ewbService: EwbService) {
+	constructor(private ewbService: EwbService, private installationConfigurationService: InstallationConfigurationService) {
 		super();
         const currentYear = moment().year()
         this.yearOptions.push(...Array.apply(null, Array(50)).map((x, index) => (currentYear - index).toString()))
@@ -60,7 +60,7 @@ export class SerchByTextComponent extends BaseComponent implements OnInit {
     researchersChange(paging?: ResearchSimilarToTextPaging){
         if (!this.textInput?.length || !this.selectedCriteria?.length ) { return; }
         this.paging.researchers = {
-            rows: paging?.rows ?? this.pageSize,
+            rows: this.installationConfigurationService.getTotalResearchersDisplayed,
             start: paging?.start ?? 0
         }
         this.ewbService.getResearchersSimilarToText({
@@ -78,7 +78,7 @@ export class SerchByTextComponent extends BaseComponent implements OnInit {
     researchGroupsChange(paging?: ResearchSimilarToTextPaging){
         if (!this.textInput?.length || !this.selectedCriteria?.length ) { return; }
         this.paging.researchGroups = {
-            rows: paging?.rows ?? this.pageSize,
+            rows: this.installationConfigurationService.getTotalRGsDisplayed,
             start: paging?.start ?? 0
         }    
         this.ewbService.getResearchGroupsSimilarToText({

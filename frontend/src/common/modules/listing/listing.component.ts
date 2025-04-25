@@ -84,6 +84,8 @@ export class ListingComponent extends BaseComponent implements OnInit, OnChanges
 	public internalColumns: TableColumn[];
 	@Input() visibleColumns: TableColumnProp[];
 	private columnSortKeys: Map<TableColumnProp, string[]>;
+	currentPage = 0;
+	pagedRows = [];
 
 	constructor(
 		private collectionUtils: CollectionUtils,
@@ -99,6 +101,7 @@ export class ListingComponent extends BaseComponent implements OnInit, OnChanges
 		if (changes['visibleColumns'] && !changes['visibleColumns'].isFirstChange()) {
 			this.refreshColumnDefinitionData();
 		}
+		if (!this.externalPaging) this.updatePagedRows();
 	}
 
 	ngOnInit() {
@@ -109,18 +112,30 @@ export class ListingComponent extends BaseComponent implements OnInit, OnChanges
 			this.refreshColumnDefinitionData();
 		});
 
+		if (!this.externalPaging) this.updatePagedRows();
 	}
 
     onsomePage(event: PageEvent){
 		if(!event){
 			return;
 		}
-		this.pageLoad.emit({
-			count: event.length,
-			pageSize: event.pageSize,
-			limit: event.pageSize,
-			offset: event.pageIndex,
-		});
+		if (!this.externalPaging) {
+			this.currentPage = event.pageIndex;
+			this.updatePagedRows();
+		} else {
+			this.pageLoad.emit({
+				count: event.length,
+				pageSize: event.pageSize,
+				limit: event.pageSize,
+				offset: event.pageIndex,
+			});
+		}
+	}
+
+	updatePagedRows() {
+		const start = this.currentPage * this.limit;
+ 		const end = start + this.limit;
+		this.pagedRows = this.rows.slice(start, end);
 	}
 
 	private setTableMessages() {
@@ -204,7 +219,7 @@ export class ListingComponent extends BaseComponent implements OnInit, OnChanges
 	}
 
 	onColumnSort(event) {
-		if (this.columnSort && event) {
+		if (this.columnSort && event && this.externalPaging) {
 			const sortDescriptorsCollection: SortDescriptor[][] = event.sorts.map(x => getColumnSortDescriptors(x, this.columnSortKeys.get(x.prop)));
 			const sortEvent = {
 				column: event.column,
@@ -213,6 +228,23 @@ export class ListingComponent extends BaseComponent implements OnInit, OnChanges
 				sortDescriptors: this.collectionUtils.flatten(sortDescriptorsCollection)
 			};
 			this.columnSort.emit(sortEvent);
+		} else if (!this.externalPaging && event?.sorts?.length > 0) {
+			const sort = event.sorts[0];
+			const prop = sort.prop;
+  			const dir = sort.dir;
+
+			this.rows.sort((a, b) => {
+			const valA = a[prop];
+			const valB = b[prop];
+			
+			const comparison = typeof valA === 'string'
+				? valA.localeCompare(valB)
+				: valA < valB ? -1 : valA > valB ? 1 : 0;
+			
+			return dir === 'asc' ? comparison : -comparison;
+			});
+
+			this.updatePagedRows();
 		}
 	}
 

@@ -35,9 +35,6 @@ export class ResearchViewComponent extends BaseComponent implements OnInit {
     @Output() loadResearcherTopics = new EventEmitter<ResearchSimilarToTextPaging>();
 
 	maxValue = 100;
-	researcherPageSize = this.pageSize;
-	researchGroupPageSize = this.pageSize;
-	researcherTopicPageSize = this.pageSize;
 
 	similarResearchersColumns: ColumnDefinition[] = [];
 	similarResearcherGroupColumns: ColumnDefinition[] = [];
@@ -45,9 +42,6 @@ export class ResearchViewComponent extends BaseComponent implements OnInit {
 
 	words: TopicBeta[] = [];
 	topWordColumns: ColumnDefinition[] = [];
-	private sortFieldName: string = null;
-	private oldSortFieldName: string = null;
-	private sortOrder: string = 'desc';
 
 	public selectionType = SelectionType;
 
@@ -246,29 +240,6 @@ export class ResearchViewComponent extends BaseComponent implements OnInit {
 			corpusCollection: corpusCollection
 		}
 	});
-  }
-
-  sortRows(ev: any) {
-	// this.sortOrder = ev.newValue;
-	// this.sortFieldName = ev.sortDescriptors[0].property;
-  }
-
-  protected onResearcherLoad(event: PageLoadEvent){
-    const {pageSize, limit, offset} = event;
-	this.researcherPageSize = limit ?? pageSize;
-    this.loadResearchers.emit({start: offset * limit, rows: pageSize});
-  }
-
-  protected onResearchGroupLoad(event: PageLoadEvent){
-    const {pageSize, limit, offset} = event;    
-	this.researchGroupPageSize = limit ?? pageSize;
-	this.loadResearchGroups.emit({start: offset * limit, rows: pageSize});
-  }
-
-  protected onResearcherTopicsLoad(event: PageLoadEvent){
-    const {pageSize, limit, offset} = event;    
-    this.researcherTopicPageSize = limit ?? pageSize;
-	this.loadResearcherTopics.emit({start: offset * limit, rows: pageSize});
   }
 
 }
