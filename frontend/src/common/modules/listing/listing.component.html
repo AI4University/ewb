@@ -61,6 +61,7 @@
 		[pageSize]="limit"
 		[pageIndex]="offset"
 		(page)="onsomePage($event)"
+		[hidePageSize]="!externalPaging"
 		[pageSizeOptions]="externalPaging ? pageSizeOptions ?? [5, 10, 25, 50, 100]: null"
 	>
 	</mat-paginator>
