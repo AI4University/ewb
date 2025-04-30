@@ -4,10 +4,14 @@
             {{'APP.DOCUMENT-VIEW-COMPONENT.INFORMATION' | translate}}
         </div>
         <div class="table-grid">
-            <div class="grid-label">Id</div>
-			<div class="grid-value">{{selectedDoc.id}} </div>
-            <div class="grid-label">Title</div>
-            <div class="grid-value">{{selectedDoc.title}} </div>
+            @if(selectedDoc.id){
+                <div class="grid-label">{{'APP.DOCUMENT-VIEW-COMPONENT.ID' | translate}}</div>
+                <div class="grid-value">{{selectedDoc.id}} </div>
+            }
+            @if(selectedDoc.title){
+                <div class="grid-label">{{'APP.DOCUMENT-VIEW-COMPONENT.TITLE' | translate}}</div>
+                <div class="grid-value">{{selectedDoc.title}} </div>
+            }
             @for(field of selectedDoc | keyvalue; track $index){
                 @if(field.key !== 'id' && field.key !== 'title'){
                     <div class="grid-label">{{prettifyCamelCase(field.key)}}</div>

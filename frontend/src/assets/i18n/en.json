@@ -1033,7 +1033,9 @@
             "N-PAPERS": "# papers"
 		},
         "DOCUMENT-VIEW-COMPONENT": {
-            "INFORMATION": "Information"
+            "INFORMATION": "Information",
+			"ID": "Id",
+			"TITLE": "Title"
         },
 		"EXPERT-COMPONENT": {
 			"PROFILE": "Expert Profile",
