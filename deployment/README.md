@@ -125,6 +125,34 @@ Set the following options.
    "scope": "openid profile email address phone ewb_web"
 ...
 ```
+Edit the following options for the EWB backend service:
+
+```json
+{
+  	"recommendationTool": {
+  	  	"fundingCallCorpus": "cordis",
+  	  	  	"fundingCallModel": "cordis_tm_50tpc",
+  	  	  	"getCallsSimilarToResearcherCollectionName": "cordis",
+  	  	  	"getMetdataDocByIdCorpusCollection": "cordis",
+  	  	  	"getThetasResearcherByIDForChart1": "papers",
+  	  	  	"getThetasResearcherByIDForChart1Model": "cordis_tm_50tpc",
+  	  	  	"getThetasResearcherByIDForChart2": "corpus",
+  	  	  	"getThetasResearcherByIDForChart2Model": "cordis_tm_50tpc",
+  	  	  	"totalResearchersDisplayed": 30,
+  	  	  	"researchersDisplayedPerPage": 5,
+  	  	  	"totalRGsDisplayed": 10,
+  	  	  	"rgsDisplayedPerPage": 5,
+  	  	  	"totalCallsDisplayed": 10,
+  	  	  	"callsDisplayedPerPage": 5
+    },
+  	"knowledgeMap": {
+  	  	  	"totalResearchersDisplayed": 30,
+  	  	  	"researchersDisplayedPerPage": 5,
+  	  	  	"totalRGsDisplayed": 10,
+  	  	  	"rgsDisplayedPerPage": 5
+  	}
+}
+```
 
 6. **Start the services:**
 - Run the following command to start all services defined in the Docker Compose file:
