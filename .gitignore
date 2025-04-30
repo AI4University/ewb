@@ -3,3 +3,4 @@ target
 *.iml
 logs/
 .vs
+deployment/postgres/storage/

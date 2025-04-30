@@ -141,6 +141,34 @@ EWB_CLASSIFICATION_HOST=http://your-classification-api-host
   }
 }
 ```
+ - Update the options for the EWB backend service:
+
+```json
+{
+  	"recommendationTool": {
+        "fundingCallCorpus": "cordis",
+		"fundingCallModel": "cordis_tm_50tpc",
+        "getCallsSimilarToResearcherCollectionName": "cordis",
+        "getMetdataDocByIdCorpusCollection": "cordis",
+        "getThetasResearcherByIDForChart1": "papers",
+		"getThetasResearcherByIDForChart1Model": "cordis_tm_50tpc",
+        "getThetasResearcherByIDForChart2": "corpus",
+        "getThetasResearcherByIDForChart2Model": "cordis_tm_50tpc",
+        "totalResearchersDisplayed": 30,
+        "researchersDisplayedPerPage": 5,
+          "totalRGsDisplayed": 10,
+          "rgsDisplayedPerPage": 5,
+        "totalCallsDisplayed": 10,
+        "callsDisplayedPerPage": 5
+    },
+    "knowledgeMap": {
+        "totalResearchersDisplayed": 30,
+        "researchersDisplayedPerPage": 5,
+          "totalRGsDisplayed": 10,
+          "rgsDisplayedPerPage": 5
+    }
+}
+```
 
    Replace `"address"`, `"realm"`, and `"clientId"` with the actual Keycloak address, realm name, and client ID.
 
