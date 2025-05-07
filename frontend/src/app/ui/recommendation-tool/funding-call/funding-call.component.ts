@@ -1,5 +1,4 @@
-import { CdkScrollable, ScrollDispatcher } from '@angular/cdk/scrolling';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SimilarResearchGroup } from '@app/core/model/ewb/research-group-similar-to-call.model';
 import { SimilarResearcher } from '@app/core/model/ewb/researcher-similar-to-call.model';
 import { Theta } from '@app/core/model/ewb/theta.model';
@@ -9,7 +8,6 @@ import { EwbService } from '@app/core/services/http/ewb.service';
 import { BaseComponent } from '@common/base/base.component';
 import { InstallationConfigurationService } from '@common/installation-configuration/installation-configuration.service';
 import { QueryResult } from '@common/model/query-result';
-import { ListingComponent } from '@common/modules/listing/listing.component';
 import { takeUntil } from 'rxjs/operators';
 
 
@@ -30,6 +28,7 @@ export class FundingCallComponent extends BaseComponent implements OnInit {
 	selectedCriteria: string = '';
 
 	chartOptions: any = null;
+	chartColors = ['#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de', '#3ba272', '#fc8452', '#9a60b4', '#ea7ccc'];
 
 	similarResearchers: SimilarResearcher[] = [];
 	similarResearcherGroups: SimilarResearchGroup[] = [];
@@ -58,6 +57,8 @@ export class FundingCallComponent extends BaseComponent implements OnInit {
 
 	onSelectedDoc(ev: any) {
 		this.selectedDoc = ev;
+		//reset criteria
+		this.selectedCriteria = '';
 		this.setupChartOptions();
 	}
 
@@ -91,10 +92,12 @@ export class FundingCallComponent extends BaseComponent implements OnInit {
 							disabled: true
 						},
 						data: thetas.map((theta: Theta) => {
+							const idNumber = Number(theta?.id?.split('t')[1]) || 0;
 							const data = {
 								id: theta.id,
 								name: `${theta.name}`,
 								value: ((theta.theta / max) * 100).toFixed(2),
+								itemStyle: { color: this.chartColors[idNumber % 9] ?? this.chartColors[0]},
 								label: {
 									position: 'inner',
 									formatter: `${((theta.theta / max) * 100).toFixed(2)}%`,

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from '@common/base/base.component';
+import { InstallationConfigurationService } from '@common/installation-configuration/installation-configuration.service';
 @Component({
 	selector: 'app-home',
 	templateUrl: './home.component.html',
@@ -16,6 +17,7 @@ export class HomeComponent extends BaseComponent implements OnInit{
 
 
 	constructor(
+		public installationConfiguration: InstallationConfigurationService,
 	) {
 		super();
 	}

@@ -5,7 +5,6 @@ import { ResearchSimilarToTextPaging } from '@app/core/query/research-similar-to
 import { EwbService } from '@app/core/services/http/ewb.service';
 import { BaseComponent } from '@common/base/base.component';
 import { InstallationConfigurationService } from '@common/installation-configuration/installation-configuration.service';
-import { ListingComponent } from '@common/modules/listing/listing.component';
 import { takeUntil } from 'rxjs/operators';
 
 
@@ -24,6 +23,7 @@ export class SearchByResearcherComponent extends BaseComponent implements OnInit
 	selectedCriteria: string = '';
 
 	chartOptions: any[] = [];
+	chartColors = ['#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de', '#3ba272', '#fc8452', '#9a60b4', '#ea7ccc'];
 
 	similarToResearcher: EWBCallsSimilarToResearcher[] = [];
 
@@ -43,19 +43,26 @@ export class SearchByResearcherComponent extends BaseComponent implements OnInit
 	}
 
 	onSelectedAGDoc(ev: any) {
-		this.selectedAG = ev;
 		this.chartOptions = [null, null];
+		//reset criteria
+		this.selectedCriteria = '';
 
-		this.ewbService.getThetasResearcherByID({ corpusCollection: this.installationConfigurationService.getThetasResearcherByIDForChart1, id: this.selectedAG.id, modelName: this.installationConfigurationService.getThetasResearcherByIDForChart1Model})
+		this.ewbService.getThetasResearcherByID({ corpusCollection: this.installationConfigurationService.getThetasResearcherByIDForChart1, id: ev.id, modelName: this.installationConfigurationService.getThetasResearcherByIDForChart1Model})
 			.pipe(takeUntil(this._destroyed))
 			.subscribe((result) => {
 				this.setupChartOptions(result.items, 0);
 			});
 
-		this.ewbService.getThetasResearcherByID({ corpusCollection: this.installationConfigurationService.getThetasResearcherByIDForChart2, id: this.selectedAG.id, modelName: this.installationConfigurationService.getThetasResearcherByIDForChart2Model})
+		this.ewbService.getThetasResearcherByID({ corpusCollection: this.installationConfigurationService.getThetasResearcherByIDForChart2, id: ev.id, modelName: this.installationConfigurationService.getThetasResearcherByIDForChart2Model})
 			.pipe(takeUntil(this._destroyed))
 			.subscribe((result) => {
 				this.setupChartOptions(result.items, 1);
+			});
+
+		this.ewbService.getMetadataAGByID(ev.id, 'uc3m_researchers')
+			.pipe(takeUntil(this._destroyed))
+			.subscribe((result) => {
+				if (result?.length > 0) this.selectedAG = result[0];
 			});
 	}
 
@@ -84,10 +91,12 @@ export class SearchByResearcherComponent extends BaseComponent implements OnInit
 						disabled: true
 					},
 					data: thetas.map((theta: Theta) => {
+						const idNumber = Number(theta?.id?.split('t')[1]) || 0;
 						const data = {
 							id: theta.id,
 							name: `${theta.name}`,
 							value: ((theta.theta / max) * 100).toFixed(2),
+							itemStyle: { color: this.chartColors[idNumber % 9] ?? this.chartColors[0]},
 							label: {
 								position: 'inner',
 								formatter: `${((theta.theta / max) * 100).toFixed(2)}%`,

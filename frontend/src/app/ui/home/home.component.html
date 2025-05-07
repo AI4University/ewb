@@ -5,7 +5,7 @@
     <h2 class="title-div">
         {{'APP.HOME-COMPONENT.APP-NAME' | translate}}
         <span class="version-div ml-2">
-            {{'APP.HOME-COMPONENT.VERSION' | translate}}
+            {{ installationConfiguration.version ?? 'APP.HOME-COMPONENT.VERSION' | translate}}
         </span>
     </h2>
     <div class="subtitle">

@@ -30,6 +30,13 @@
                 <mat-expansion-panel [class.mb-2]="last">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
+                                <button 
+                                    mat-icon-button 
+                                    matTooltip="{{(isRelevant(topic.id) ? 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.ACTIONS.REMOVE-FAVORITE' : 'APP.EWB-COMPONENT.MODEL-OVERVIEW-COMPONENT.TOPIC-VIEWER.ACTIONS.ADD-TO-FAVORITES') | translate}}"
+                                    (click)="$event.stopPropagation(); isRelevant(topic.id) ? removeRelevant(topic.id) : addRelevant(topic)"
+                                >
+                                    <mat-icon class="material-icons-outlined">{{isRelevant(topic.id) ? 'star' : 'star_outline'}}</mat-icon>
+                                </button>
                             <span role="button"(click)="$event.stopPropagation(); openTopicDialog(topic)">
                                 {{topic.tpc_labels}}
                             </span>

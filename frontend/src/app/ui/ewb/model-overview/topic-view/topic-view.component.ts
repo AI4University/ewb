@@ -88,7 +88,7 @@ export class TopicViewComponent extends BaseComponent implements OnInit {
 	this.topDocTopicQuery = {
 		corpusCollection: this.data.corpus,
 		modelName: this.data.model,
-		topicId: +this.data.topicId.charAt(1),
+		topicId: +this.data.topicId?.split('t')[1],
 		start: 0,
 		rows: this.listingPageSize
 	};

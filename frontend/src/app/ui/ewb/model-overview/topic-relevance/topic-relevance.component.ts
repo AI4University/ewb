@@ -47,27 +47,21 @@ export class TopicRelevanceComponent extends BaseComponent implements OnDestroy{
     }
 
     getRelevantTopics(){
-        if(this.relevantTopics){
-            this.topicRelevanceService.pushTopics(this.relevantTopics);
-            return;
-        }
         this.ewbService.getAllRelativeTopics(this.model())
         .pipe(takeUntil(this._destroyed))
         .subscribe(result => {
             this.relevantTopics = result;
+            this.relevantTopics?.sort((a,b) => (a.id > b.id) ? 1 : ((b.id > a.id) ? -1 : 0))
             this.topicRelevanceService.pushTopics(this.relevantTopics);
         });
     }
 
     private getAllTopics() {
-        if(this.allTopics){
-            this.topicRelevanceService.pushTopics(this.allTopics);
-            return;
-        }
         this.ewbService.getAllTopicMetadata(this.model())
         .pipe(takeUntil(this._destroyed))
         .subscribe((result: TopicMetadata[]) => {
             this.allTopics = result;
+            this.allTopics?.sort((a,b) => (a.id > b.id) ? 1 : ((b.id > a.id) ? -1 : 0))
             this.topicRelevanceService.pushTopics(this.allTopics)
         });
     }

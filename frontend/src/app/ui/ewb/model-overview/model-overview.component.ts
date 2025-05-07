@@ -44,6 +44,7 @@ export class ModelOverviewComponent extends BaseComponent implements OnDestroy{
 	chartOptions: EChartsOption = null;
 	private vocabularies: any;
 	private topicSignal = this.topicRelevanceService.topics;
+  relevantTopics: TopicMetadata[] = [];
 	// selectedView: string = '1';
 	// useRelation: string = '1';
 	// private areLoaded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
@@ -56,6 +57,7 @@ export class ModelOverviewComponent extends BaseComponent implements OnDestroy{
         effect(() => {
             const model = this.model();
             if(!model){ return; }
+            this.getRelevantTopics();
             this.ewbService.getVocabularyForTopics(model)
             .pipe(takeUntil(this._destroyed))
             .subscribe(result => {
@@ -66,9 +68,44 @@ export class ModelOverviewComponent extends BaseComponent implements OnDestroy{
         effect(() => {
             this.topics = this.topicSignal();
             if(!this.topics){ return; }
+            this.getRelevantTopics();
             this.setChartOptions();
         })
    }
+
+   addRelevant(topic: TopicMetadata) {
+    this.ewbService.addRelevantTopic(this.model(), topic.id)
+      .pipe(takeUntil(this._destroyed))
+      .subscribe(result => {
+        this.relevantTopics.push(topic);
+    });
+  }
+
+  removeRelevant(topicId: string) {
+    this.ewbService.removeRelevantTopic(this.model(), topicId)
+      .pipe(takeUntil(this._destroyed))
+      .subscribe(() => {
+        const idx = this.relevantTopics.findIndex((x) => x.id === topicId);
+        if(idx >= 0){ this.relevantTopics.splice(idx, 1); }
+
+        setTimeout(() => {
+          this.topicRelevanceService.kickStartRefresh();          
+        },1000);
+
+    });
+  }
+
+  getRelevantTopics() {
+    this.ewbService.getAllRelativeTopics(this.model())
+    .pipe(takeUntil(this._destroyed))
+    .subscribe(result => {
+      this.relevantTopics = result;
+    });
+  }
+
+  isRelevant(topicId: string): boolean {
+      return this.relevantTopics?.filter(x => x.id === topicId)?.length > 0;
+  }
 
   private setChartOptions() {
     if(!this.topics || !this.vocabularies){ return; }
