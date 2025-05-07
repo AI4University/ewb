@@ -1,6 +1,6 @@
 {
 	"production": true,
-	"version": "-dev",
+	"version": "v1.0.4",
 	"defaultTheme": 2,
 	"defaultLanguage": 0,
 	"defaultCulture": "en-US",

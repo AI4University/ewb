@@ -153,6 +153,12 @@ Edit the following options for the EWB backend service:
   	}
 }
 ```
+Replace the version text to be displayed in the application:
+```json
+{
+  	"version": "v1.0.4"
+}
+```
 
 6. **Start the services:**
 - Run the following command to start all services defined in the Docker Compose file:

@@ -169,6 +169,14 @@ EWB_CLASSIFICATION_HOST=http://your-classification-api-host
   	}
 }
 ```
+```
+   - Replace the version text to be displayed in the application:
+
+```json
+{
+  	"version": "v1.0.4"
+}
+```
 
    Replace `"address"`, `"realm"`, and `"clientId"` with the actual Keycloak address, realm name, and client ID.
 
