@@ -174,7 +174,7 @@ EWB_CLASSIFICATION_HOST=http://your-classification-api-host
 
 ```json
 {
-  	"version": "v1.0.4"
+  	"version": "v1.0.5"
 }
 ```
 

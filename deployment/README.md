@@ -156,7 +156,7 @@ Edit the following options for the EWB backend service:
 Replace the version text to be displayed in the application:
 ```json
 {
-  	"version": "v1.0.4"
+  	"version": "v1.0.5"
 }
 ```
 
