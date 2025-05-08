@@ -51,7 +51,6 @@ export class TopicRelevanceComponent extends BaseComponent implements OnDestroy{
         .pipe(takeUntil(this._destroyed))
         .subscribe(result => {
             this.relevantTopics = result;
-            this.relevantTopics?.sort((a,b) => (a.id > b.id) ? 1 : ((b.id > a.id) ? -1 : 0))
             this.topicRelevanceService.pushTopics(this.relevantTopics);
         });
     }
@@ -61,7 +60,6 @@ export class TopicRelevanceComponent extends BaseComponent implements OnDestroy{
         .pipe(takeUntil(this._destroyed))
         .subscribe((result: TopicMetadata[]) => {
             this.allTopics = result;
-            this.allTopics?.sort((a,b) => (a.id > b.id) ? 1 : ((b.id > a.id) ? -1 : 0))
             this.topicRelevanceService.pushTopics(this.allTopics)
         });
     }
